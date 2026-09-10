@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><title>measure</title>
+<style>html,body{margin:0}iframe{border:0}pre{font:12px monospace;white-space:pre-wrap;padding:8px}</style>
+<body>
+<pre id="out">pending</pre>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var w=q.get('w')||'390', p=q.get('p')||'/index.html';
+  var f=document.createElement('iframe');
+  f.src=p; f.width=w; f.height=1200; f.scrolling='no';
+  f.style.position='absolute'; f.style.left='-9999px';
+  document.body.appendChild(f);
+  f.onload=function(){
+    setTimeout(function(){
+      var d=f.contentDocument, cw=f.contentWindow, W=d.documentElement.clientWidth, out=[];
+      out.push('viewport='+W+' scrollWidth='+d.documentElement.scrollWidth);
+      d.querySelectorAll('body *').forEach(function(el){
+        var r=el.getBoundingClientRect();
+        if(r.width>0 && (r.right>W+1||r.left<-1) && cw.getComputedStyle(el).position!=='fixed' && !el.closest('#site-nav') && !el.closest('.wave') && !el.closest('.carousel-track') && !el.closest('.tabs') && !el.closest('.venue-table-wrap') && !el.closest('.chips')){
+          out.push('OVERFLOW '+el.tagName.toLowerCase()+'.'+String(el.className).split(' ').filter(Boolean).slice(0,2).join('.')+' ['+Math.round(r.left)+'..'+Math.round(r.right)+']');
+        }
+      });
+      ['.container','.carousel-track','.quote-card','.work-card','.svc-item','.gal-grid','.client-cell'].forEach(function(sel){
+        var el=d.querySelector(sel);
+        if(el) out.push(sel+' width='+Math.round(el.getBoundingClientRect().width));
+      });
+      document.getElementById('out').textContent=out.join('\n');
+    },2000);
+  };
+})();
+</script>

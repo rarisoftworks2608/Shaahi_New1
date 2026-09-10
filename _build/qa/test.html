@@ -1,0 +1,140 @@
+<!doctype html><meta charset="utf-8"><title>behaviour tests</title>
+<style>html,body{margin:0}iframe{border:0}pre{font:12px monospace;white-space:pre-wrap;padding:8px}</style>
+<body>
+<pre id="out">pending</pre>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var w=q.get('w')||'1280', p=q.get('p')||'/index.html';
+  var f=document.createElement('iframe');
+  f.src=p; f.width=w; f.height=1000; f.scrolling='no';
+  f.style.position='absolute'; f.style.top='0'; f.style.left='0'; f.style.opacity='0.01';
+  document.body.appendChild(f);
+
+  var log=[];
+  function t(name, fn){ try { var r=fn(); log.push((r?'PASS':'FAIL')+' '+name+(typeof r==='string'?' :: '+r:'')); } catch(e){ log.push('ERR  '+name+' :: '+e.message); } }
+  function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+  f.onload=function(){
+    setTimeout(async function(){
+      var d=f.contentDocument, W=f.contentWindow;
+      var $=function(s){return d.querySelector(s);}, $$=function(s){return Array.prototype.slice.call(d.querySelectorAll(s));};
+
+      /* ---- mobile nav ---- */
+      if ($('#nav-toggle')) {
+        var tog=$('#nav-toggle'), nav=$('#site-nav');
+        tog.click(); await wait(120);
+        t('nav opens', function(){ return nav.classList.contains('is-open') && tog.getAttribute('aria-expanded')==='true'; });
+        t('nav scrim shown', function(){ return !$('#nav-scrim').hidden; });
+        var sub=$('.nav-sub-toggle');
+        if (sub) { sub.click(); await wait(60); t('submenu toggles', function(){ return $('.nav-sub').classList.contains('is-open'); }); }
+        tog.click(); await wait(420);
+        t('nav closes', function(){ return !nav.classList.contains('is-open') && $('#nav-scrim').hidden; });
+      }
+
+      /* ---- carousel ---- */
+      var car=$('[data-carousel]');
+      if (car) {
+        var track=car.querySelector('.carousel-track');
+        var next=car.querySelector('[data-next]');
+        var before=track.scrollLeft;
+        t('carousel next enabled', function(){ return !next.disabled ? 'enabled' : 'DISABLED at start'; });
+        t('track is scrollable', function(){ return track.scrollWidth>track.clientWidth+10 ? track.clientWidth+'->'+track.scrollWidth : 'NOT scrollable'; });
+        next.click(); await wait(1200);
+        t('carousel advances (smooth)', function(){ return track.scrollLeft>before ? Math.round(track.scrollLeft)+'px' : 'no movement'; });
+        track.scrollLeft = 250; await wait(60);
+        t('track accepts scrollLeft', function(){ return track.scrollLeft>200 ? Math.round(track.scrollLeft)+'px' : 'rejected'; });
+        track.scrollLeft = 0;
+        track.scrollBy({left: 300, behavior:'auto'}); await wait(60);
+        t('scrollBy auto works', function(){ return track.scrollLeft>200 ? Math.round(track.scrollLeft)+'px' : 'no movement'; });
+      }
+
+      /* ---- gallery filters + load more + lightbox ---- */
+      if ($('[data-filter-group="gal"]')) {
+        var vis=function(){ return $$('[data-filter-pool="gal"] [data-cats]').filter(function(e){return !e.hidden;}).length; };
+        t('gallery paginates to 12', function(){ return vis()===12 ? '12 shown' : vis()+' shown'; });
+        $('[data-load-more="gal"]').click(); await wait(80);
+        t('load more adds a page', function(){ return vis()===24 ? '24 shown' : vis()+' shown'; });
+        var chip=$$('.chip[data-cat]').filter(function(c){return c.getAttribute('data-cat')==='conf';})[0];
+        chip.click(); await wait(80);
+        var confAll=$$('[data-filter-pool="gal"] [data-cats]').filter(function(e){return (e.getAttribute('data-cats')||'').split(' ').indexOf('conf')>-1;}).length;
+        t('filter shows only matches', function(){
+          var shown=$$('[data-filter-pool="gal"] [data-cats]').filter(function(e){return !e.hidden;});
+          var bad=shown.filter(function(e){return (e.getAttribute('data-cats')||'').split(' ').indexOf('conf')===-1;});
+          return bad.length===0 && shown.length>0 ? shown.length+'/'+confAll+' conferences' : 'leaked '+bad.length;
+        });
+        $$('.chip[data-cat="all"]')[0].click(); await wait(80);
+        t('reset to all re-paginates', function(){ return vis()===12 ? '12 shown' : vis()+' shown'; });
+
+        $$('.gal-item')[0].click(); await wait(400);
+        t('lightbox opens', function(){ var lb=d.querySelector('.lightbox'); return lb && !lb.hidden && lb.querySelector('img').getAttribute('src'); });
+        d.querySelector('.lb-next').click(); await wait(120);
+        t('lightbox next works', function(){ return !!d.querySelector('.lightbox img').getAttribute('src'); });
+        d.querySelector('.lb-close').click(); await wait(400);
+        t('lightbox closes', function(){ return d.querySelector('.lightbox').hidden; });
+      }
+
+      /* ---- case study filters ---- */
+      if ($('[data-filter-group="cs"]')) {
+        var csChip=$$('.chip[data-cat="launch"]')[0];
+        csChip.click(); await wait(80);
+        t('case study filter', function(){
+          var shown=$$('[data-filter-pool="cs"] [data-cats]').filter(function(e){return !e.hidden;});
+          var bad=shown.filter(function(e){return e.getAttribute('data-cats')!=='launch';});
+          return bad.length===0 && shown.length>0 ? shown.length+' launches' : 'leaked '+bad.length;
+        });
+      }
+
+      /* ---- destination tabs ---- */
+      if ($('[data-tabs="dest"]')) {
+        t('first tab active', function(){ return $('[data-panel="india-cities"]').hidden===false; });
+        $$('.tab[data-tab]')[2].click(); await wait(80);
+        t('tab switch shows venue partners', function(){
+          return $('[data-panel="venue-partners"]').hidden===false && $('[data-panel="india-cities"]').hidden===true;
+        });
+        t('only one panel visible', function(){
+          return $$('[data-panel]').filter(function(e){return !e.hidden;}).length===1;
+        });
+      }
+
+      /* ---- FAQ ---- */
+      if ($('.faq-item')) {
+        var items=$$('.faq-item');
+        t('first faq open by default', function(){ return items[0].open; });
+        items[1].querySelector('summary').click(); await wait(60);
+        t('faq toggles', function(){ return items[1].open; });
+      }
+
+      /* ---- video modal ---- */
+      if ($('[data-video]')) {
+        $('[data-video]').click(); await wait(120);
+        t('video modal opens', function(){ return !$('#vmodal').hidden; });
+        $('.vmodal-close').click(); await wait(120);
+        t('video modal closes', function(){ return $('#vmodal').hidden; });
+      }
+
+      /* ---- contact form validation ---- */
+      if ($('#enquiry-form')) {
+        var form=$('#enquiry-form');
+        t('form invalid when empty', function(){ return !form.checkValidity(); });
+        $('#f-name').value='Test'; $('#f-company').value='Acme'; $('#f-email').value='a@b.com';
+        $('#f-phone').value='9100037360'; $('#f-type').selectedIndex=1; $('#f-message').value='Hello';
+        $('#f-consent').checked=true;
+        t('form valid when filled', function(){ return form.checkValidity(); });
+        $('#f-email').value='not-an-email';
+        t('email is validated', function(){ return !form.checkValidity(); });
+      }
+
+      /* ---- reveal animations fired ---- */
+      W.scrollTo(0, 400); await wait(500);
+      t('reveal observer runs', function(){
+        var r=$$('.reveal'); var inView=r.filter(function(e){return e.classList.contains('is-in');});
+        return (r.length===0 || inView.length>0) && (inView.length+'/'+r.length+' revealed');
+      });
+
+      /* ---- console errors ---- */
+      document.getElementById('out').textContent=log.join('\n');
+    }, 2200);
+  };
+})();
+</script>
