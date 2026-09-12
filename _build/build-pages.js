@@ -57,7 +57,6 @@ function buildGallery() {
       { name: 'Home', path: 'index.html' },
       { name: 'Our Work', path: 'our-work.html' }
     ]),
-    C.faqSchema(D.faqs.work),
     {
       '@context': 'https://schema.org',
       '@type': 'ImageGallery',
@@ -82,7 +81,6 @@ function buildGallery() {
           data-meta="${C.esc(g.meta)}"
           aria-label="View larger: ${C.esc(C.plain(g.title))}">
           ${C.galleryImg(d, g.img, C.plain(g.title) + ' - ' + C.plain(g.meta), '(max-width: 560px) 92vw, (max-width: 900px) 46vw, 30vw', i < 3)}
-          ${g.overlay ? `<span class="work-overlay">${g.overlay}</span>` : ''}
           <span class="work-body">
             <span class="work-title">${g.title}</span>
             <span class="work-meta">${g.meta}</span>
@@ -142,8 +140,6 @@ ${C.header(d, 'our-work.html')}
     </div>
   </section>
 
-  ${C.faqSection(D.faqs.work, { eyebrow: 'Our work', title: 'About the Work We Do.' })}
-
 </main>
 
 ${C.ctaBand(d)}
@@ -191,8 +187,6 @@ function buildCaseStudiesIndex() {
       (c, i) => `<article class="cs-card reveal" data-cats="${c.cat}">
           <a class="cs-thumb" href="${img(d, 'case-studies/' + c.slug + '.html')}" tabindex="-1" aria-hidden="true">
             ${C.galleryImg(d, c.hero, C.plain(c.title), '(max-width: 640px) 92vw, (max-width: 980px) 46vw, 30vw', i < 3)}
-            <span class="cs-badge">${c.kicker}</span>
-            <span class="cs-thumb-overlay">${c.strap}</span>
           </a>
           <p class="cs-kicker">${c.kicker}</p>
           <h3 class="cs-title"><a href="${img(d, 'case-studies/' + c.slug + '.html')}">${c.title}</a></h3>
@@ -668,7 +662,6 @@ function buildDestinations() {
   const schema = [
     C.organizationSchema(),
     C.breadcrumbSchema([{ name: 'Home', path: 'index.html' }, { name: 'Destinations', path: 'destinations.html' }]),
-    C.faqSchema(D.faqs.destinations),
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
@@ -708,175 +701,137 @@ ${C.header(d, 'destinations.html')}
   ${C.breadcrumbs(d, [{ name: 'Home', path: 'index.html' }, { name: 'Destinations' }])}
 
   <div class="container">
-    <div class="tabs" role="tablist" data-tabs="dest" aria-label="Destination sections">
-      <button class="tab is-active" type="button" role="tab" data-tab="india-cities" aria-selected="true">India Cities</button>
-      <button class="tab" type="button" role="tab" data-tab="destinations" aria-selected="false">Destinations</button>
-      <button class="tab" type="button" role="tab" data-tab="venue-partners" aria-selected="false">Venue Partners</button>
-      <button class="tab" type="button" role="tab" data-tab="our-approach" aria-selected="false">Our Approach</button>
-    </div>
+    <nav class="tabs" aria-label="Destination sections">
+      <a class="tab is-active" href="#india-cities">India Cities</a>
+      <a class="tab" href="#destinations">Destinations</a>
+      <a class="tab" href="#venue-partners">Venue Partners</a>
+      <a class="tab" href="#our-approach">Our Approach</a>
+    </nav>
   </div>
 
-  <!-- ============================ TAB 1: INDIA CITIES ============================ -->
-  <div data-panel="india-cities" data-tabs-for="dest" id="india-cities">
-    <section class="section" aria-labelledby="cities-title">
-      <div class="container">
-        ${C.sectionHead({
-          eyebrow: 'Pan India presence',
-          title: 'In Every Major City.<br>With the Same Commitment.',
-          lede: 'From metros to emerging hubs, we bring local expertise, strong vendor networks and seamless execution across India&rsquo;s key business cities.'
-        }).replace('<h2 class="sec-title">In Every', '<h2 class="sec-title" id="cities-title">In Every')}
-
-        <div class="map-panel">
-          ${indiaMap()}
-          <div class="stat-stack">
+  <!-- ============================ INDIA CITIES ============================ -->
+  <section class="section" id="india-cities" aria-labelledby="cities-title">
+    <div class="container">
+      <div class="map-panel">
+        <div class="map-copy">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Pan India presence</p>
+          <h2 class="sec-title" id="cities-title">In Every Major City.<br>With the Same Commitment.</h2>
+          <p class="sec-lede">From metros to emerging hubs, we bring local expertise, strong vendor networks and seamless execution across India&rsquo;s key business cities.</p>
+          <div class="map-stats">
             <div class="stat"><span class="stat-value">25+</span><span class="stat-label">Cities Across India</span></div>
             <div class="stat"><span class="stat-value">1500+</span><span class="stat-label">Events Executed</span></div>
             <div class="stat"><span class="stat-value">One</span><span class="stat-label">Consistent Standard</span></div>
           </div>
-          <div class="map-note">
-            ${I.pin}
-            <strong>Not just locations.<br>Extended teams on the ground.</strong>
-            <p>Events that move people across India, delivered by people who know the city they are working in.</p>
-          </div>
         </div>
 
-        <div class="grid g-4 mt-3">
-          ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue })}</div>`).join('\n          ')}
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ============================ TAB 2: DESTINATIONS ============================ -->
-  <div data-panel="destinations" data-tabs-for="dest" id="destinations" hidden>
-    <section class="section" aria-labelledby="sig-title">
-      <div class="container">
-        ${C.sectionHead({
-          eyebrow: 'Signature destinations',
-          title: 'Iconic Backdrops.<br>Extraordinary Experiences.',
-          lede: 'From serene beaches to royal palaces and mountain retreats, we craft immersive experiences at India&rsquo;s most inspiring destinations.'
-        }).replace('<h2 class="sec-title">Iconic', '<h2 class="sec-title" id="sig-title">Iconic')}
-
-        <div class="grid g-4">
-          ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue })}</div>`).join('\n          ')}
+        <div class="map-figure">
+          ${indiaMap()}
+          <p class="map-caption">Events<br>that move<br>people<br>across India</p>
         </div>
 
-        <div class="grid g-2 mt-4">
-          ${signature
-            .map(
-              (x) => `<div class="belief"><h3>${x.name}</h3><p>${x.text}</p></div>`
-            )
-            .join('\n          ')}
+        <div class="map-note">
+          ${I.pin}
+          <strong>Not just locations.<br>Extended teams on the ground.</strong>
+          <p>Events that move people across India, delivered by people who know the city they are working in.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section section-alt" aria-labelledby="off-title">
-      <div class="container">
-        ${C.sectionHead({
-          eyebrow: 'Offbeat destinations',
-          title: 'Somewhere Quieter.<br>Somewhere Different.',
-          lede: 'Smaller groups, longer conversations. These are the places we recommend when a leadership programme needs distance from the office.'
-        }).replace('<h2 class="sec-title">Somewhere', '<h2 class="sec-title" id="off-title">Somewhere')}
+      <div class="place-grid mt-3">
+        ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue })}</div>`).join('\n        ')}
+      </div>
+    </div>
+  </section>
 
-        <div class="grid g-3">
+  <!-- ============================ DESTINATIONS ============================ -->
+  <section class="section section-alt" id="destinations" aria-labelledby="sig-title">
+    <div class="container">
+      ${C.sectionHead({
+        eyebrow: 'Signature destinations',
+        title: 'Iconic Backdrops.<br>Extraordinary Experiences.',
+        lede: 'From serene beaches to royal palaces and mountain retreats, we craft immersive experiences at India&rsquo;s most inspiring destinations.',
+        link: { href: 'contact.html', label: 'Enquire about a destination' }
+      }).replace('<h2 class="sec-title">Iconic', '<h2 class="sec-title" id="sig-title">Iconic')}
+
+      <div class="place-grid">
+        ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue })}</div>`).join('\n        ')}
+      </div>
+
+      <div class="mt-4">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>Offbeat destinations</p>
+        <h3 class="sec-title mb-3" style="font-size:var(--fs-h3)">Somewhere Quieter. Somewhere Different.</h3>
+        <div class="place-grid">
           ${offbeat.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue })}</div>`).join('\n          ')}
         </div>
-
-        <div class="grid g-2 mt-4">
-          ${offbeat.map((x) => `<div class="belief"><h3>${x.name}</h3><p>${x.text}</p></div>`).join('\n          ')}
-        </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- ============================ TAB 3: VENUE PARTNERS ============================ -->
-  <div data-panel="venue-partners" data-tabs-for="dest" id="venue-partners" hidden>
-    <section class="section" aria-labelledby="venue-title">
-      <div class="container">
-        ${C.sectionHead({
-          eyebrow: 'Venue partners',
-          title: 'The Right Room<br>For the Right Brief.',
-          lede: 'A working shortlist of the Hyderabad venues we use most often, filtered on production capability rather than availability alone. We hold similar relationships in every city we operate in.'
-        }).replace('<h2 class="sec-title">The Right', '<h2 class="sec-title" id="venue-title">The Right')}
+  <!-- ============================ VENUE PARTNERS ============================ -->
+  <section class="section" id="venue-partners" aria-labelledby="venue-title">
+    <div class="container">
+      ${C.sectionHead({
+        eyebrow: 'Venue partners',
+        title: 'The Right Room<br>For the Right Brief.',
+        lede: 'A working shortlist of the Hyderabad venues we use most often, filtered on production capability rather than availability alone. We hold similar relationships in every city we operate in.'
+      }).replace('<h2 class="sec-title">The Right', '<h2 class="sec-title" id="venue-title">The Right')}
 
-        <div class="venue-table-wrap">
-          <table class="venue-table">
-            <caption>Hyderabad venue partners, ordered by how often we work with them.</caption>
-            <thead>
-              <tr><th scope="col">#</th><th scope="col">Venue</th><th scope="col">Why we use it</th><th scope="col">Links</th></tr>
-            </thead>
-            <tbody>
-              ${D.venues
-                .map(
-                  (v) => `<tr>
-                <td>${String(v.rank).padStart(2, '0')}</td>
-                <td><span class="venue-name">${v.name}</span><span class="venue-area">${v.area}</span></td>
-                <td>${v.desc}</td>
-                <td><div class="venue-links">
-                  <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
-                  <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
-                  <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
-                </div></td>
-              </tr>`
-                )
-                .join('\n              ')}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="venue-cards">
-          ${D.venues
-            .map(
-              (v) => `<article class="venue-card">
-            <span class="venue-name">${v.name}</span>
-            <span class="venue-area">${v.area}</span>
-            <p>${v.desc}</p>
-            <div class="venue-links">
-              <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
-              <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
-              <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
-            </div>
-          </article>`
-            )
-            .join('\n          ')}
-        </div>
+      <div class="venue-table-wrap">
+        <table class="venue-table">
+          <caption>Hyderabad venue partners, ordered by how often we work with them.</caption>
+          <thead>
+            <tr><th scope="col">#</th><th scope="col">Venue</th><th scope="col">Why we use it</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            ${D.venues
+              .map(
+                (v) => `<tr>
+              <td>${String(v.rank).padStart(2, '0')}</td>
+              <td><span class="venue-name">${v.name}</span><span class="venue-area">${v.area}</span></td>
+              <td>${v.desc}</td>
+              <td><div class="venue-links">
+                <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
+                <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
+                <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
+              </div></td>
+            </tr>`
+              )
+              .join('\n            ')}
+          </tbody>
+        </table>
       </div>
-    </section>
-  </div>
 
-  <!-- ============================ TAB 4: OUR APPROACH ============================ -->
-  <div data-panel="our-approach" data-tabs-for="dest" id="our-approach" hidden>
-    <section class="section" aria-labelledby="why-title">
-      <div class="container">
-        ${C.sectionHead({
-          eyebrow: 'Why choose Shaahi for your destination event',
-          title: 'Two Projects.<br>One Team.',
-          lede: 'A destination event is an event and a travel operation running at the same time. We own both, so your team runs neither.'
-        }).replace('<h2 class="sec-title">Two Projects', '<h2 class="sec-title" id="why-title">Two Projects')}
-
-        <div class="approach-grid">
-          <article class="approach-item reveal">${I.route}<h3>End-to-end planning and execution</h3><p>One team from the first site visit to the final departure transfer, with a single point of contact throughout.</p></article>
-          <article class="approach-item reveal reveal-d1">${I.handshake}<h3>Trusted local partnerships</h3><p>Established vendor and venue relationships in every destination, so quality does not depend on distance.</p></article>
-          <article class="approach-item reveal reveal-d2">${I.plane}<h3>Travel, stay and hospitality</h3><p>Flights, transfers, rooming lists and on-ground hospitality managed as part of the event, not alongside it.</p></article>
-          <article class="approach-item reveal reveal-d3">${I.shield}<h3>Seamless experiences, anywhere in India</h3><p>The same production standard, documentation and reporting whether the venue is a city ballroom or a riverside camp.</p></article>
-        </div>
-
-        <div class="mt-4">
-          ${atGlance([
-            ['Cities covered', '25+ across India'],
-            ['Signature destinations', 'Goa, Udaipur, Jaipur, Rishikesh'],
-            ['Offbeat destinations', 'Coorg, Dehradun, Jim Corbett, Kabini, Kerala'],
-            ['International', 'Dealer meets and incentives, including Kathmandu'],
-            ['Included in scope', 'Travel, stay, transfers, rooming, licensing, production'],
-            ['Lead time we recommend', 'Four to six months for destination events']
-          ])}
-        </div>
+      <div class="venue-cards">
+        ${D.venues
+          .map(
+            (v) => `<article class="venue-card">
+          <span class="venue-name">${v.name}</span>
+          <span class="venue-area">${v.area}</span>
+          <p>${v.desc}</p>
+          <div class="venue-links">
+            <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
+            <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
+            <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
+          </div>
+        </article>`
+          )
+          .join('\n        ')}
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  ${C.faqSection(D.faqs.destinations, { eyebrow: 'Destinations', title: 'Planning Away From Home.' })}
+  <!-- ============================ OUR APPROACH ============================ -->
+  <section class="approach-band" id="our-approach" aria-labelledby="why-title">
+    <div class="container approach-inner">
+      <div class="approach-label">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>Why choose Shaahi</p>
+        <h2 class="sec-title" id="why-title">For your<br>destination event?</h2>
+      </div>
+      <article class="approach-item reveal"><span class="exp-icon tone-blue">${I.route}</span><h3>End-to-end planning and execution</h3></article>
+      <article class="approach-item reveal reveal-d1"><span class="exp-icon tone-coral">${I.handshake}</span><h3>Trusted local partnerships</h3></article>
+      <article class="approach-item reveal reveal-d2"><span class="exp-icon tone-pink">${I.plane}</span><h3>Travel, stay and hospitality management</h3></article>
+      <article class="approach-item reveal reveal-d3"><span class="exp-icon tone-gold">${I.shield}</span><h3>Seamless experiences, anywhere in India</h3></article>
+    </div>
+  </section>
 
 </main>
 
@@ -897,7 +852,6 @@ function buildContact() {
   const schema = [
     C.organizationSchema(),
     C.breadcrumbSchema([{ name: 'Home', path: 'index.html' }, { name: 'Contact Us', path: 'contact.html' }]),
-    C.faqSchema(D.faqs.contact),
     {
       '@context': 'https://schema.org',
       '@type': 'ContactPage',
@@ -941,8 +895,8 @@ ${C.header(d, 'contact.html')}
 
         <div class="contact-form-wrap">
           <p class="eyebrow"><span class="eyebrow-rule"></span>Get in touch</p>
-          <h2 class="sec-title" id="contact-title" style="font-size:var(--fs-h3)">Tell Us About Your Event.</h2>
-          <p class="mb-2" style="font-size:var(--fs-sm)">Share a few details and our team will get back to you soon.</p>
+          <h2 class="sec-title contact-h" id="contact-title">Tell Us About Your Event.</h2>
+          <p class="contact-intro">Share a few details and our team will get back to you soon.</p>
 
           <!-- To wire this to a backend, set action to your endpoint (Formspree,
                Netlify Forms, your CRM, etc). Until then it opens a pre-filled email. -->
@@ -964,24 +918,12 @@ ${C.header(d, 'contact.html')}
                 <label for="f-phone">Phone Number <span class="req">*</span></label>
                 <input id="f-phone" name="phone" type="tel" autocomplete="tel" required inputmode="tel" placeholder="+91">
               </div>
-              <div class="field">
+              <div class="field field-full">
                 <label for="f-type">Type of Event <span class="req">*</span></label>
                 <select id="f-type" name="eventType" required>
                   <option value="">Select an option</option>
                   ${site.eventTypes.map((t) => `<option>${t}</option>`).join('\n                  ')}
                 </select>
-              </div>
-              <div class="field">
-                <label for="f-city">City / Destination</label>
-                <input id="f-city" name="city" type="text" placeholder="Hyderabad, Goa, undecided">
-              </div>
-              <div class="field">
-                <label for="f-guests">Approximate Guests</label>
-                <input id="f-guests" name="guests" type="text" inputmode="numeric" placeholder="e.g. 400">
-              </div>
-              <div class="field">
-                <label for="f-date">Preferred Date</label>
-                <input id="f-date" name="eventDate" type="date">
               </div>
               <div class="field field-full">
                 <label for="f-message">Tell Us About Your Event <span class="req">*</span></label>
@@ -990,7 +932,7 @@ ${C.header(d, 'contact.html')}
               <div class="field field-full">
                 <label class="consent" for="f-consent">
                   <input id="f-consent" name="consent" type="checkbox" required>
-                  <span>I agree to be contacted by Shaahi Creations about this enquiry.</span>
+                  <span>I agree to be contacted by Shaahi Creations.</span>
                 </label>
               </div>
             </div>
@@ -1002,8 +944,8 @@ ${C.header(d, 'contact.html')}
 
         <aside class="contact-direct">
           <p class="eyebrow"><span class="eyebrow-rule"></span>Let&rsquo;s talk</p>
-          <h2 class="sec-title mb-2" style="font-size:var(--fs-h3)">Reach Us Directly.</h2>
-          <p class="mb-3" style="font-size:var(--fs-sm)">Prefer a direct conversation? Here are the quickest ways to get in touch.</p>
+          <h2 class="sec-title contact-h">Reach Us Directly.</h2>
+          <p class="contact-intro">Prefer a direct conversation? Here are the quickest ways to get in touch with us.</p>
 
           <div class="contact-list">
             <div class="contact-row">
@@ -1025,29 +967,22 @@ ${C.header(d, 'contact.html')}
               <div>
                 <a href="${headOffice.map}" rel="noopener nofollow" target="_blank">${headOffice.city} (Head Office)</a>
                 <address>${headOffice.street},<br>${headOffice.region} &ndash; ${headOffice.postal}</address>
-                <span class="contact-sub"><a href="${headOffice.map}" rel="noopener nofollow" target="_blank">Open in Google Maps</a></span>
-              </div>
-            </div>
-            <div class="contact-row">
-              <span class="contact-row-icon">${I.clock}</span>
-              <div>
-                <a href="${site.emails[0].href}">${site.hours}</a>
-                <span class="contact-sub">Closed on Sundays and public holidays</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-3">
+          <div class="contact-social">
             <p class="eyebrow"><span class="eyebrow-rule"></span>Follow our journey</p>
-            <h3 style="font-size:var(--fs-h4)">Stay Connected.</h3>
-            <div class="footer-social mt-1">
+            <h3 class="contact-h3">Stay Connected.</h3>
+            <div class="footer-social">
               ${site.social
                 .map(
                   (s) => `<a class="social-link" href="${s.href}" aria-label="${site.name} on ${s.name}" rel="noopener" target="_blank">${I[s.icon]}</a>`
                 )
                 .join('\n              ')}
             </div>
-            <p class="mt-1" style="font-size:var(--fs-xs);color:var(--muted)">Behind the scenes, event stories and the latest updates.</p>
+            <span class="quote-rule" aria-hidden="true"></span>
+            <p class="contact-social-note">Let&rsquo;s be social for the latest updates, behind the scenes and event stories.</p>
           </div>
         </aside>
 
@@ -1058,47 +993,44 @@ ${C.header(d, 'contact.html')}
   <!-- ============================ OFFICES ============================ -->
   <section class="section section-alt" aria-labelledby="offices-title">
     <div class="container">
-      ${C.sectionHead({
-        eyebrow: 'Our offices',
-        title: 'Where You Can Find Us.',
-        lede: 'Our base is in Hyderabad, and we work across India with teams and partners in key cities.'
-      }).replace('<h2 class="sec-title">Where You', '<h2 class="sec-title" id="offices-title">Where You')}
+      <div class="offices-panel">
+        <div class="offices-copy">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Our offices</p>
+          <h2 class="sec-title" id="offices-title">Where You Can Find Us.</h2>
+          <p class="sec-lede">Our base is in Hyderabad, and we work across India with teams and partners in key cities.</p>
 
-      <div class="office-grid">
-        ${site.offices
-          .map(
-            (o) => `<article class="office-card reveal">
-          <span class="office-plate place-${officePlate[o.city] || 'hyderabad'}">
-            <svg class="place-mark" viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 56h112"/><path d="M14 56V34l10-8 10 8v22"/><path d="M24 26V16"/><path d="M44 56V28h14v28"/><path d="M51 28V18l-4-4h8l-4 4"/><path d="M68 56V22l12-10 12 10v34"/><path d="M80 12V4"/><path d="M100 56V38h14v18"/><path d="M74 56V44h12v12"/></svg>
-          </span>
-          <div class="office-body">
-            <h3 class="office-city">${o.city}</h3>
-            <p class="office-role">${o.role}</p>
-            <address class="office-addr">${o.street}${o.region ? ',<br>' + o.region : ''}${o.postal ? ' &ndash; ' + o.postal : ''}</address>
-            <a class="link-arrow" href="${o.map}" rel="noopener nofollow" target="_blank">View on map ${I.arrow}</a>
+          <div class="office-grid mt-3">
+            ${site.offices
+              .map(
+                (o) => `<article class="office-card reveal">
+              <span class="office-plate place-${officePlate[o.city] || 'hyderabad'}">
+                <svg class="place-mark" viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 56h112"/><path d="M14 56V34l10-8 10 8v22"/><path d="M24 26V16"/><path d="M44 56V28h14v28"/><path d="M51 28V18l-4-4h8l-4 4"/><path d="M68 56V22l12-10 12 10v34"/><path d="M80 12V4"/><path d="M100 56V38h14v18"/><path d="M74 56V44h12v12"/></svg>
+              </span>
+              <div class="office-body">
+                <h3 class="office-city">${o.city}</h3>
+                <p class="office-role">${o.role}</p>
+                <span class="quote-rule" aria-hidden="true"></span>
+                <address class="office-addr">${o.street}${o.region ? ',<br>' + o.region : ''}${o.postal ? ' &ndash; ' + o.postal : ''}</address>
+                <a class="link-arrow" href="${o.map}" rel="noopener nofollow" target="_blank">View on map ${I.arrow}</a>
+              </div>
+            </article>`
+              )
+              .join('\n            ')}
           </div>
-        </article>`
-          )
-          .join('\n        ')}
-      </div>
-
-      <div class="map-panel mt-4">
-        ${indiaMap()}
-        <div class="map-note">
-          ${I.globe}
-          <strong>A pan-India presence.</strong>
-          <p>From metros to emerging hubs, we bring local expertise and seamless execution wherever your event needs to happen.</p>
-          <a class="link-arrow" href="${img(d, 'destinations.html')}">View all locations ${I.arrow}</a>
         </div>
-        <div class="stat-stack">
-          <div class="stat"><span class="stat-value">25+</span><span class="stat-label">Cities Across India</span></div>
-          <div class="stat"><span class="stat-value">1500+</span><span class="stat-label">Events Executed</span></div>
+
+        <div class="offices-map">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>A pan-India presence</p>
+          <p class="sec-lede">From metros to emerging hubs, we bring local expertise and seamless execution wherever you are.</p>
+          <div class="map-figure mt-2">
+            ${indiaMap()}
+            <p class="map-caption">Events<br>that move<br>people<br>across India</p>
+          </div>
+          <a class="btn btn-outline mt-2" href="${img(d, 'destinations.html')}">View All Locations ${I.arrow}</a>
         </div>
       </div>
     </div>
   </section>
-
-  ${C.faqSection(D.faqs.contact, { eyebrow: 'Before you write', title: 'Getting Started With Us.' })}
 
 </main>
 

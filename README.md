@@ -60,13 +60,17 @@ Never hand-edit the generated `.html` files in the root — the next build overw
 cards, semantic heading order, descriptive alt text on every image, responsive `srcset`,
 lazy loading below the fold, `fetchpriority` on hero images, XML sitemap, and a robots file.
 
-**Structured data (85 JSON-LD blocks, all validated).** `Organization` / `ProfessionalService`
+**Structured data (80 JSON-LD blocks, all validated).** `Organization` / `ProfessionalService`
 with address, contact points and `sameAs`; `WebSite`; `Service` with an `OfferCatalog`;
 `BreadcrumbList` on every inner page; `ImageGallery`; `CollectionPage` and `ItemList`;
-`Article` per case study; `BlogPosting` per article; `FAQPage` on five pages.
+`Article` per case study; `BlogPosting` per article.
 
-**AEO.** Every major page carries an FAQ block written as direct, self-contained answers,
-mirrored into `FAQPage` schema so it can be lifted verbatim.
+**AEO.** The Canva design has no FAQ section on any page, so the visible FAQ blocks were
+removed to match it, and the `FAQPage` schema went with them (Google requires that markup
+to mirror visible content). The question-and-answer content is still written and still
+served to answer engines through `llms.txt`, and the answers remain in `_build/data.js`
+under `faqs`. If you want that search surface back, the cleanest route is a dedicated FAQ
+page, which is roughly an hour of work.
 
 **GEO.** `llms.txt` gives generative engines a compact, factual brief of the company, its
 services, clients, partnerships, pages and FAQs. `robots.txt` explicitly allows GPTBot,
@@ -116,8 +120,17 @@ These are placeholders. Each is a one-line change in `_build/site.js` or `_build
   events, 25+ cities, 4000 largest audience) rather than the older capability-deck
   figures, and are used consistently across every page.
 - The `What We Do` row on the home page is icons and titles only, per the plan note
-  "What we do — just icons". The full service descriptions are carried on the About page
-  and in the `Service` structured data.
+  "What we do — just icons". The full service descriptions are carried in the `Service`
+  structured data and in `llms.txt`.
+- Every section was matched against the Canva file `Updated Shaahi Website plan`
+  (12 pages, read directly from the shared link). Layouts follow the design; written
+  content follows the plan notes where the two differ. Two such cases: the design mocks
+  four offices including Delhi NCR and Bangalore, while the notes name Hyderabad, Pune and
+  Mumbai, so the site shows those three; and the design's city grid ends with an "Others"
+  card, which now covers Ahmedabad, Chandigarh and Ludhiana.
+- The Destinations tabs are anchor links to sections on one page rather than panels that
+  hide content. That matches the design, which shows every section in a single scroll, and
+  keeps all of it indexable.
 
 ## Deployment weight
 

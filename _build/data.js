@@ -170,36 +170,36 @@ const team = [
     name: 'Snehal Deshpande',
     role: 'Founder &amp; Business Development',
     photo: 'snehal',
-    bio: 'Founded Shaahi Creations with a vision to create a more thoughtful, creative and client-centric approach to events. Today she leads business development and strategic growth across markets.',
+    bio: 'Founded Shaahi Creations with a vision to create a more thoughtful, creative and client-centric approach to events. Today, she leads business development and strategic growth across markets.',
     linkedin: ''
   },
   {
     name: 'Rupesh Patil',
-    role: 'Co-Founder',
+    role: 'Co-Founder<br>Client Servicing &amp; Operations',
     photo: 'rupesh',
-    bio: 'Leads client servicing and operations, ensuring ideas move from concept to flawless delivery. He is the single point of contact many of our longest-standing clients rely on.',
-    linkedin: ''
+    bio: 'Leads client servicing and operations, ensuring ideas translate into seamless experiences. His hospitality background brings a strong focus on relationships, strategy and operational excellence.',
+    linkedin: 'https://www.linkedin.com/in/rupesh-patil-97712a1b/'
   },
   {
-    name: 'Neetu Eluri',
+    name: 'Neetu Elluri',
     role: 'Lead &ndash; BDM &amp; Client Servicing',
-    photo: '',
-    bio: 'Builds new opportunities, nurtures client relationships and ensures every engagement is aligned to what the client actually set out to achieve.',
+    photo: 'neetu',
+    bio: 'Builds new opportunities, nurtures client relationships and ensures every engagement is thoughtful, responsive and aligned to client objectives.',
     linkedin: ''
   },
   {
-    name: 'Mounddid Bhurle',
+    name: 'Mrunalinli Bhurle',
     role: 'Lead &ndash; Operations',
-    photo: '',
+    photo: 'mrunalinli',
     bio: 'Leads planning, coordination and on-ground execution, bringing structure, precision and consistency to every event.',
     linkedin: ''
   },
   {
     name: 'Mukesh Deshmukh',
     role: 'Lead &ndash; Creative Director &amp; Design',
-    photo: '',
-    bio: 'Translates ideas into visual experiences through d&eacute;cor, design and experiential thinking, shaping environments that engage and are remembered.',
-    linkedin: ''
+    photo: 'mukesh',
+    bio: 'Translates ideas into visual experiences through creative direction, design and experiential thinking &ndash; shaping environments that engage and leave an impression.',
+    linkedin: 'https://www.linkedin.com/in/mukesh-deshmukh-11828b17/'
   }
 ];
 
@@ -612,24 +612,22 @@ const cities = [
   { name: 'Pune', note: 'Office &amp; on-ground team', hue: 'pune' },
   { name: 'Kolkata', note: 'Conferences &amp; celebrations', hue: 'kolkata' },
   { name: 'Chennai', note: 'Dealer meets &amp; conferences', hue: 'chennai' },
-  { name: 'Ahmedabad', note: 'Business conferences', hue: 'ahmedabad' },
   { name: 'Jaipur', note: 'Heritage &amp; destination events', hue: 'jaipur' },
   { name: 'Indore', note: 'Regional conferences', hue: 'indore' },
-  { name: 'Chandigarh', note: 'North India events', hue: 'chandigarh' },
-  { name: 'Ludhiana', note: 'Dealer &amp; channel events', hue: 'ludhiana' }
+  { name: 'Others', note: 'Ahmedabad, Chandigarh, Ludhiana &amp; more', hue: 'chandigarh' }
 ];
 
 /* --- Destinations: signature and offbeat --------------------------------- */
 const destinations = [
   { name: 'Goa', tag: 'Sun. Sand. Celebrations.', hue: 'goa', kind: 'Signature', text: 'Beach resorts and villa properties built for offsites, partner connects and celebrations that run into the evening.' },
-  { name: 'Udaipur', tag: 'Royal &amp; Timeless', hue: 'udaipur', kind: 'Signature', text: 'Palace venues and lake-facing properties for leadership offsites and high-visibility annual celebrations.' },
-  { name: 'Jaipur', tag: 'Heritage &amp; Grandeur', hue: 'jaipur', kind: 'Signature', text: 'Heritage havelis and convention-scale hotels, with the pageantry a milestone event sometimes calls for.' },
-  { name: 'Rishikesh', tag: 'Nature &amp; Wellness', hue: 'rishikesh', kind: 'Signature', text: 'Riverside camps and wellness retreats for leadership programmes that need a change of altitude.' },
+  { name: 'Rajasthan', tag: 'Royal &amp; Timeless', hue: 'udaipur', kind: 'Signature', text: 'Palace venues and heritage havelis in Udaipur and Jaipur for leadership offsites and milestone celebrations.' },
+  { name: 'Uttarakhand', tag: 'Nature &amp; Wellness', hue: 'rishikesh', kind: 'Signature', text: 'Riverside camps and wellness retreats around Rishikesh and Dehradun for programmes that need a change of altitude.' },
+  { name: 'Maharashtra', tag: 'Hills &amp; Getaways', hue: 'pune', kind: 'Signature', text: 'Lonavala, Mahabaleshwar and Alibaug properties within easy reach of Mumbai and Pune for short offsites.' },
+  { name: 'South India', tag: 'Heritage &amp; Serenity', hue: 'kerala', kind: 'Signature', text: 'Backwaters, plantations and heritage venues across Kerala, Karnataka and Tamil Nadu for incentive and reward travel.' },
   { name: 'Coorg', tag: 'Coffee Country', hue: 'coorg', kind: 'Offbeat', text: 'Plantation stays and estate venues in Karnataka for small, high-trust leadership groups.' },
   { name: 'Dehradun', tag: 'Foothills &amp; Focus', hue: 'dehradun', kind: 'Offbeat', text: 'Doon Valley properties within easy reach of Delhi NCR, well suited to two-day offsites.' },
   { name: 'Jim Corbett', tag: 'Wild &amp; Unplugged', hue: 'corbett', kind: 'Offbeat', text: 'Forest lodges and riverside resorts for engagement programmes that trade screens for the outdoors.' },
   { name: 'Kabini', tag: 'River &amp; Wilderness', hue: 'kabini', kind: 'Offbeat', text: 'Backwater and wildlife properties in South India for intimate leadership retreats.' },
-  { name: 'Kerala', tag: 'Backwaters &amp; Calm', hue: 'kerala', kind: 'Offbeat', text: 'Backwater resorts and houseboat experiences for incentive travel and reward programmes.' },
   { name: 'Kathmandu', tag: 'Across The Border', hue: 'kathmandu', kind: 'Offbeat', text: 'International dealer meets and incentive programmes, including work delivered at Tiger Palace Resort.' }
 ];
 

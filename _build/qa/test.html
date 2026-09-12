@@ -36,17 +36,34 @@
       var car=$('[data-carousel]');
       if (car) {
         var track=car.querySelector('.carousel-track');
-        var next=car.querySelector('[data-next]');
+        var navName=car.getAttribute('data-nav');
+        var host=navName ? $('[data-nav-for="'+navName+'"]') : car;
+        var next=(host||car).querySelector('[data-next]');
+        if (!next) { t('carousel controls found', function(){ return false; }); next=null; }
         var before=track.scrollLeft;
-        t('carousel next enabled', function(){ return !next.disabled ? 'enabled' : 'DISABLED at start'; });
+        t('carousel next enabled', function(){ return next && !next.disabled ? 'enabled' : 'DISABLED at start'; });
         t('track is scrollable', function(){ return track.scrollWidth>track.clientWidth+10 ? track.clientWidth+'->'+track.scrollWidth : 'NOT scrollable'; });
-        next.click(); await wait(1200);
+        if (next) next.click(); await wait(1200);
         t('carousel advances (smooth)', function(){ return track.scrollLeft>before ? Math.round(track.scrollLeft)+'px' : 'no movement'; });
         track.scrollLeft = 250; await wait(60);
         t('track accepts scrollLeft', function(){ return track.scrollLeft>200 ? Math.round(track.scrollLeft)+'px' : 'rejected'; });
         track.scrollLeft = 0;
         track.scrollBy({left: 300, behavior:'auto'}); await wait(60);
         t('scrollBy auto works', function(){ return track.scrollLeft>200 ? Math.round(track.scrollLeft)+'px' : 'no movement'; });
+      }
+
+      /* ---- carousel driven by controls outside it (testimonials) ---- */
+      var ext=$('[data-carousel][data-nav]');
+      if (ext) {
+        var etrack=ext.querySelector('.carousel-track');
+        var ehost=$('[data-nav-for="'+ext.getAttribute('data-nav')+'"]');
+        t('external nav host found', function(){ return !!ehost; });
+        if (ehost) {
+          var enext=ehost.querySelector('[data-next]');
+          t('external next enabled', function(){ return !enext.disabled ? 'enabled' : 'DISABLED'; });
+          var eb=etrack.scrollLeft; enext.click(); await wait(900);
+          t('external nav scrolls track', function(){ return etrack.scrollLeft>eb ? Math.round(etrack.scrollLeft)+'px' : 'no movement'; });
+        }
       }
 
       /* ---- gallery filters + load more + lightbox ---- */
@@ -85,15 +102,19 @@
         });
       }
 
-      /* ---- destination tabs ---- */
-      if ($('[data-tabs="dest"]')) {
-        t('first tab active', function(){ return $('[data-panel="india-cities"]').hidden===false; });
-        $$('.tab[data-tab]')[2].click(); await wait(80);
-        t('tab switch shows venue partners', function(){
-          return $('[data-panel="venue-partners"]').hidden===false && $('[data-panel="india-cities"]').hidden===true;
+      /* ---- anchor section tabs ---- */
+      var anchorTabs=$$('.tabs a[href^="#"]');
+      if (anchorTabs.length) {
+        t('every tab has a target section', function(){
+          var missing=anchorTabs.filter(function(a){ return !d.getElementById(a.getAttribute('href').slice(1)); });
+          return missing.length===0 ? anchorTabs.length+' tabs' : 'missing '+missing.length;
         });
-        t('only one panel visible', function(){
-          return $$('[data-panel]').filter(function(e){return !e.hidden;}).length===1;
+        t('all sections are visible', function(){
+          var hidden=anchorTabs.filter(function(a){
+            var el=d.getElementById(a.getAttribute('href').slice(1));
+            return el && el.getBoundingClientRect().height===0;
+          });
+          return hidden.length===0 ? 'none hidden' : hidden.length+' hidden';
         });
       }
 

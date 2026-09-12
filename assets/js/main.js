@@ -135,8 +135,11 @@
   (function carousels() {
     $$('[data-carousel]').forEach(function (root) {
       var track = $('.carousel-track', root);
-      var prev = $('[data-prev]', root);
-      var next = $('[data-next]', root);
+      /* Controls may sit outside the carousel (see the testimonials header). */
+      var navName = root.getAttribute('data-nav');
+      var navHost = navName ? $('[data-nav-for="' + navName + '"]') : null;
+      var prev = $('[data-prev]', navHost || root);
+      var next = $('[data-next]', navHost || root);
       if (!track) return;
 
       function step() {
@@ -260,6 +263,32 @@
         : buttons[0].getAttribute('data-tab');
       activate(initial, false);
     });
+  })();
+
+  /* ------------------------------------------------------------------ *
+   * Anchor section tabs: highlight the section currently in view
+   * ------------------------------------------------------------------ */
+  (function sectionTabs() {
+    var links = $$('.tabs a[href^="#"]');
+    if (!links.length || !('IntersectionObserver' in window)) return;
+
+    var targets = links
+      .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+      .filter(Boolean);
+    if (!targets.length) return;
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        var on = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('is-active', on);
+        if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    targets.forEach(function (t) { io.observe(t); });
   })();
 
   /* ------------------------------------------------------------------ *

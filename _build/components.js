@@ -176,6 +176,23 @@ function wave(cls = '', variant = 'a') {
 </div>`;
 }
 
+/* Small brand squiggle that sits under the handwritten note. */
+let swSeq = 0;
+function scriptWave() {
+  const id = `sw${++swSeq}`;
+  return `<svg class="script-wave" viewBox="0 0 220 42" fill="none" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#f6b41e"/><stop offset="22%" stop-color="#ee4b3c"/>
+        <stop offset="45%" stop-color="#e5326e"/><stop offset="66%" stop-color="#6c4fa3"/>
+        <stop offset="84%" stop-color="#1ba0d6"/><stop offset="100%" stop-color="#14a79c"/>
+      </linearGradient>
+    </defs>
+    <path d="M2,28 C34,4 66,4 98,20 C130,36 162,36 194,14 C204,7 212,6 218,9"
+          stroke="url(#${id})" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  </svg>`;
+}
+
 /* --------------------------------------------------------------------------
    Section header: eyebrow + title on the left, lede + link on the right
    -------------------------------------------------------------------------- */
@@ -432,7 +449,7 @@ function breadcrumbs(d, trail) {
 }
 
 module.exports = {
-  R, esc, plain, jsonld, head, logo, header, wave, sectionHead, galleryImg,
+  R, esc, plain, jsonld, head, logo, header, wave, scriptWave, sectionHead, galleryImg,
   placeCard, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
   organizationSchema, websiteSchema, breadcrumbSchema, breadcrumbs, icons, site, nav,
   orgId, siteId

@@ -61,18 +61,18 @@ function statsRow(cls = '') {
 }
 
 function clientWall(d) {
+  /* The design shows one open row of marks, no boxed grid. */
   return `<div class="clients-head">
       <p class="eyebrow"><span class="eyebrow-rule"></span>Some of our clients</p>
     </div>
-    <div class="client-grid reveal">
+    <div class="client-row reveal">
       ${D.clients
         .map(
-          (c) => `<div class="client-cell"><img src="${img(d, 'assets/img/clients/' + c.file + '.webp')}" width="420" height="224" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></div>`
+          (c) => `<span class="client-cell"><img src="${img(d, 'assets/img/clients/' + c.file + '.webp')}" width="420" height="224" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></span>`
         )
         .join('\n      ')}
-      <div class="client-more">&amp; many more</div>
-    </div>
-    <p class="client-text-list">Also trusted by ${D.clientsTextOnly.join(', ')}.</p>`;
+      <span class="client-more">&amp; many more</span>
+    </div>`;
 }
 
 function workCard(d, w, eager = false) {
@@ -88,24 +88,23 @@ function workCard(d, w, eager = false) {
 }
 
 function testimonialCarousel() {
-  return `<div class="carousel" data-carousel>
+  return `<div class="carousel carousel-quotes" data-carousel data-nav="quotes">
       <div class="carousel-track">
         ${D.testimonials
           .map(
             (t) => `<figure class="quote-card reveal">
-          <span class="quote-mark">${I.quote}</span>
-          <blockquote class="quote-text">${t.quote}</blockquote>
-          <figcaption class="quote-by">
-            <span class="quote-name">${t.name}</span>
-            <span class="quote-org">${t.org}</span>
-          </figcaption>
+          <span class="quote-badge" aria-hidden="true">${I.quote}</span>
+          <div class="quote-main">
+            <blockquote class="quote-text">&ldquo;${t.quote}&rdquo;</blockquote>
+            <span class="quote-rule" aria-hidden="true"></span>
+            <figcaption class="quote-by">
+              <span class="quote-name">${t.name}</span>
+              <span class="quote-org">${t.org}</span>
+            </figcaption>
+          </div>
         </figure>`
           )
           .join('\n        ')}
-      </div>
-      <div class="carousel-nav">
-        <button class="cbtn" type="button" data-prev aria-label="Previous testimonials">${I.chevronLeft}</button>
-        <button class="cbtn" type="button" data-next aria-label="Next testimonials">${I.chevronRight}</button>
       </div>
     </div>`;
 }
@@ -139,7 +138,6 @@ function buildHome() {
   const schema = [
     C.organizationSchema(),
     C.websiteSchema(),
-    C.faqSchema(D.faqs.home),
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
@@ -196,7 +194,8 @@ ${C.header(d, 'index.html')}
       <div class="hero-copy">
         <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>Corporate Events &amp; Experiences</p>
         <h1 class="hero-title" id="hero-title">
-          <span>Ideas. People.</span>
+          <span>Ideas.</span>
+          <span>People.</span>
           <span>Experiences.</span>
           <span class="accent">Together.</span>
         </h1>
@@ -240,10 +239,10 @@ ${C.header(d, 'index.html')}
       })
         .replace('<h2 class="sec-title">Ideas in Action', '<h2 class="sec-title" id="featured-title">Ideas in Action')
         .replace('class="link-arrow"', 'class="link-arrow link-arrow-light"')}
-      <div class="carousel carousel-side" data-carousel>
+      <div class="carousel carousel-side carousel-work" data-carousel>
         <button class="cbtn cbtn-light" type="button" data-prev aria-label="Previous projects">${I.chevronLeft}</button>
         <div class="carousel-track">
-          ${D.featured.map((f, i) => workCard(d, f, i < 3)).join('\n          ')}
+          ${D.featured.map((f, i) => workCard(d, f, i < 4)).join('\n          ')}
         </div>
         <button class="cbtn cbtn-light" type="button" data-next aria-label="Next projects">${I.chevronRight}</button>
       </div>
@@ -267,37 +266,48 @@ ${C.header(d, 'index.html')}
   </section>
 
   <!-- ============================ WHO WE ARE ============================ -->
-  <section class="section section-alt" aria-labelledby="who-title">
-    <div class="container">
-      <div class="split split-wide">
-        <div class="split-media reveal">
-          <img src="${img(d, 'assets/img/gallery/g07.webp')}" srcset="${img(d, 'assets/img/gallery/g07-t.webp')} 820w, ${img(d, 'assets/img/gallery/g07.webp')} 1207w" sizes="(max-width: 860px) 92vw, 46vw" width="1207" height="817" alt="Employees and their families celebrating together at a corporate annual day by Shaahi Creations" loading="lazy" decoding="async">
-          <span class="split-words" aria-hidden="true">
-            <span>People</span><span>Ideas</span><span>Relationships</span><span>Lasting Impact</span>
-          </span>
+  <section class="who-band" aria-labelledby="who-title">
+    <div class="who-grid">
+      <div class="who-media reveal">
+        <img src="${img(d, 'assets/img/gallery/g07.webp')}" srcset="${img(d, 'assets/img/gallery/g07-t.webp')} 820w, ${img(d, 'assets/img/gallery/g07.webp')} 1207w" sizes="(max-width: 980px) 100vw, 34vw" width="1207" height="817" alt="Employees and their families celebrating together at a corporate annual day by Shaahi Creations" loading="lazy" decoding="async">
+        <span class="who-words" aria-hidden="true">
+          <span>People</span><span>Ideas</span><span>Relationships</span><span>Lasting Impact</span>
+        </span>
+      </div>
+
+      <div class="who-body reveal reveal-d1">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>Who we are</p>
+        <h2 class="sec-title" id="who-title">Built on Passion.<br>Driven by People.</h2>
+        <p class="lede">Founded in 2018, Shaahi Creations is a Hyderabad-based corporate event management company with offices in Pune and Mumbai. We bring together strategic thinking, creative design and hospitality excellence to create experiences that align with business objectives and inspire people.</p>
+        <p class="lede">We work as an extension of our clients&rsquo; teams, from defining the objective to the last detail on the night.</p>
+        <div class="split-actions">
+          <a class="btn btn-outline" href="${img(d, 'about.html')}">Our Story ${I.arrow}</a>
         </div>
-        <div class="split-body reveal reveal-d1">
-          <p class="eyebrow"><span class="eyebrow-rule"></span>Who we are</p>
-          <h2 class="sec-title" id="who-title">Built on Passion.<br>Driven by People.</h2>
-          <p class="lede">Founded in 2018, Shaahi Creations is a Hyderabad-based corporate event management company with offices in Pune and Mumbai. We bring together strategic thinking, creative design and hospitality excellence to create experiences that align with business objectives and inspire people.</p>
-          <p class="lede">We work as an extension of our clients&rsquo; teams, from defining the objective to the last detail on the night.</p>
-          <div class="split-actions">
-            <a class="btn btn-outline" href="${img(d, 'about.html')}">Our Story ${I.arrow}</a>
-          </div>
-          <p class="script-note">Events that move businesses forward.</p>
-        </div>
+      </div>
+
+      <div class="who-note reveal reveal-d2">
+        <p class="script-note">Events<br>that move<br>businesses<br>forward.</p>
+        ${C.scriptWave()}
       </div>
     </div>
   </section>
 
   <!-- ============================ TESTIMONIALS ============================ -->
-  <section class="section" aria-labelledby="quotes-title">
+  <section class="section section-dark section-quotes" aria-labelledby="quotes-title">
     <div class="container">
-      ${C.sectionHead({
-        eyebrow: 'Client testimonials',
-        title: 'Words That Inspire Us.',
-        lede: 'Our clients&rsquo; success stories are a reflection of the trust, collaboration and impact we strive to create in every engagement.'
-      }).replace('<h2 class="sec-title">Words', '<h2 class="sec-title" id="quotes-title">Words')}
+      <div class="sec-head sec-head-quotes">
+        <div class="sec-head-left">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Client testimonials</p>
+          <h2 class="sec-title" id="quotes-title">Words That Inspire Us.</h2>
+        </div>
+        <div class="sec-head-right">
+          <p class="sec-lede">Our clients&rsquo; success stories are a reflection of the trust, collaboration and impact we strive to create in every engagement.</p>
+          <div class="carousel-nav" data-nav-for="quotes">
+            <button class="cbtn cbtn-light" type="button" data-prev aria-label="Previous testimonials">${I.chevronLeft}</button>
+            <button class="cbtn cbtn-light" type="button" data-next aria-label="Next testimonials">${I.chevronRight}</button>
+          </div>
+        </div>
+      </div>
       ${testimonialCarousel()}
     </div>
   </section>
@@ -319,13 +329,6 @@ ${C.header(d, 'index.html')}
     </div>
   </section>
 
-  <!-- ============================ AT A GLANCE + FAQ ============================ -->
-  <section class="section section-tight" aria-label="Company facts">
-    <div class="container">${atGlance(glanceRows)}</div>
-  </section>
-
-  ${C.faqSection(D.faqs.home)}
-
 </main>
 
 ${C.ctaBand(d)}
@@ -341,10 +344,17 @@ ${C.foot(d)}`;
    ========================================================================== */
 function buildAbout() {
   const d = 0;
+  /* Only reference a headshot when the file is really there. */
+  const PEOPLE = new Set(
+    fs.existsSync(path.join(ROOT, 'assets/img/people'))
+      ? fs.readdirSync(path.join(ROOT, 'assets/img/people'))
+          .filter((f) => f.endsWith('.webp'))
+          .map((f) => f.replace(/\.webp$/, ''))
+      : []
+  );
   const schema = [
     C.organizationSchema(),
     C.breadcrumbSchema([{ name: 'Home', path: 'index.html' }, { name: 'About', path: 'about.html' }]),
-    C.faqSchema(D.faqs.about),
     {
       '@context': 'https://schema.org',
       '@type': 'AboutPage',
@@ -409,8 +419,8 @@ ${C.header(d, 'about.html')}
   <!-- ============================ OUR STORY ============================ -->
   <section class="section" id="story" aria-labelledby="story-title">
     <div class="container">
-      <div class="split split-wide">
-        <div class="split-body reveal">
+      <div class="story-grid">
+        <div class="story-copy reveal">
           <p class="eyebrow"><span class="eyebrow-rule"></span>Our story</p>
           <h2 class="sec-title" id="story-title">Built on Passion.<br>Driven by People.</h2>
           <p class="lede">Founded in 2018, Shaahi Creations began with a simple belief: every event should do more than happen. It should inspire people, create meaningful connections and leave a lasting impact.</p>
@@ -419,23 +429,23 @@ ${C.header(d, 'about.html')}
             <a class="btn btn-outline" href="#how-we-think">Our Journey ${I.arrow}</a>
           </div>
         </div>
-        <div class="reveal reveal-d1">
-          <div class="split-media split-media-tall mb-3">
-            <img src="${img(d, 'assets/img/gallery/g27.webp')}" srcset="${img(d, 'assets/img/gallery/g27-t.webp')} 820w, ${img(d, 'assets/img/gallery/g27.webp')} 1207w" sizes="(max-width: 860px) 92vw, 46vw" width="1207" height="817" alt="A themed stage design created by Shaahi Creations for a corporate celebration" loading="lazy" decoding="async">
-            <span class="split-words" aria-hidden="true">
-              <span>Good Ideas</span><span>People</span><span>Extraordinary Experiences</span>
-            </span>
-          </div>
-          <div class="story-stats">
-            ${storyStats.map(([v, l]) => `<div class="stat"><span class="stat-value">${v}</span><span class="stat-label">${l}</span></div>`).join('\n            ')}
-          </div>
+
+        <div class="story-media reveal reveal-d1">
+          <img src="${img(d, 'assets/img/gallery/g27.webp')}" srcset="${img(d, 'assets/img/gallery/g27-t.webp')} 820w, ${img(d, 'assets/img/gallery/g27.webp')} 1207w" sizes="(max-width: 980px) 92vw, 30vw" width="1207" height="817" alt="A themed stage design created by Shaahi Creations for a corporate celebration" loading="lazy" decoding="async">
+          <span class="split-words" aria-hidden="true">
+            <span>Good Ideas</span><span>People</span><span>Extraordinary Experiences</span>
+          </span>
+        </div>
+
+        <div class="story-stats reveal reveal-d2">
+          ${storyStats.map(([v, l]) => `<div class="stat"><span class="stat-value">${v}</span><span class="stat-label">${l}</span></div>`).join('\n          ')}
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================ WHAT WE BELIEVE ============================ -->
-  <section class="section section-alt" id="beliefs" aria-labelledby="believe-title">
+  <section class="section section-dark" id="beliefs" aria-labelledby="believe-title">
     <div class="container">
       ${C.sectionHead({
         eyebrow: 'What we believe',
@@ -459,44 +469,60 @@ ${C.header(d, 'about.html')}
   <!-- ============================ TEAM ============================ -->
   <section class="section" id="team" aria-labelledby="team-title">
     <div class="container">
-      ${C.sectionHead({
-        eyebrow: 'The people behind the experiences',
-        title: 'A Team That Brings Ideas to Life.',
-        lede: 'Behind every experience is a team that brings together business thinking, client relationships, operational precision and creative imagination.'
-      }).replace('<h2 class="sec-title">A Team', '<h2 class="sec-title" id="team-title">A Team')}
-      <div class="team-grid">
+      <div class="sec-head sec-head-quotes">
+        <div class="sec-head-left">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>The people behind the experiences</p>
+          <h2 class="sec-title" id="team-title">A Team That Brings Ideas to Life.</h2>
+        </div>
+        <div class="sec-head-right">
+          <p class="sec-lede">Behind every experience is a team that brings together business thinking, client relationships, operational precision and creative imagination.</p>
+          <div class="carousel-nav" data-nav-for="team">
+            <button class="cbtn" type="button" data-prev aria-label="Previous team members">${I.chevronLeft}</button>
+            <button class="cbtn" type="button" data-next aria-label="Next team members">${I.chevronRight}</button>
+          </div>
+        </div>
+      </div>
+      <div class="carousel carousel-team" data-carousel data-nav="team">
+        <div class="carousel-track team-grid">
         ${D.team
           .map((m) => {
             const initials = C.plain(m.name).split(' ').map((w) => w[0]).join('').slice(0, 2);
-            const photo = m.photo
-              ? `<img src="${img(d, 'assets/img/people/' + m.photo + '.webp')}" width="900" height="1257" alt="${C.plain(m.name)}, ${C.plain(m.role)} at Shaahi Creations" loading="lazy" decoding="async">`
+            const photo = m.photo && PEOPLE.has(m.photo)
+              ? `<img src="${img(d, 'assets/img/people/' + m.photo + '.webp')}" width="900" height="900" alt="${C.plain(m.name)}, ${C.plain(m.role)} at Shaahi Creations" loading="lazy" decoding="async">`
               : `<span class="team-initials" aria-hidden="true">${initials}</span>`;
             return `<article class="team-card reveal">
           <div class="team-photo">${photo}</div>
-          <h3 class="team-name">${m.name}</h3>
-          <p class="team-role">${m.role}</p>
-          <p class="team-bio">${m.bio}</p>
-          ${m.linkedin ? `<a class="team-social" href="${m.linkedin}" rel="noopener" target="_blank">${I.linkedin} View LinkedIn</a>` : ''}
+          <div class="team-body">
+            <h3 class="team-name">${m.name}</h3>
+            <p class="team-role">${m.role}</p>
+            <p class="team-bio">${m.bio}</p>
+            ${m.linkedin ? `<a class="team-social" href="${m.linkedin}" rel="noopener" target="_blank" aria-label="${C.plain(m.name)} on LinkedIn"><span class="li-badge">${I.linkedin}</span><span>View LinkedIn</span>${I.arrow}</a>` : ''}
+          </div>
         </article>`;
           })
           .join('\n        ')}
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============================ HOW WE THINK ============================ -->
-  <section class="section section-alt" id="how-we-think" aria-labelledby="think-title">
-    <div class="container">
-      ${C.sectionHead({
-        eyebrow: 'How we think',
-        title: 'From Insight to Impact.',
-        lede: 'Every event starts with a business objective. We take the time to understand your audience, purpose and desired outcome before crafting an experience that delivers real impact.'
-      }).replace('<h2 class="sec-title">From Insight', '<h2 class="sec-title" id="think-title">From Insight')}
-      <div class="step-grid">
+  <section class="think-band" id="how-we-think" aria-labelledby="think-title">
+    <div class="think-grid">
+      <div class="think-panel reveal">
+        <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>How we think</p>
+        <h2 class="sec-title" id="think-title">From Insight to Impact.</h2>
+        <p class="lede on-dark">Every event starts with a business objective. We take the time to understand your audience, purpose and desired outcome before crafting an experience that delivers real impact.</p>
+        <div class="split-actions">
+          <a class="btn btn-ghost-light" href="${img(d, 'case-studies.html')}">Our Approach ${I.arrow}</a>
+        </div>
+      </div>
+
+      <div class="think-steps reveal reveal-d1">
         ${D.process
           .map(
-            (p, i) => `<article class="step reveal">
-          <span class="step-num" data-n="${String(i + 1).padStart(2, '0')}">${I[p.icon]}</span>
+            (p, i) => `<article class="think-step">
+          <span class="think-icon tone-${['coral','gold','teal','purple','blue','pink'][i % ['coral','gold','teal','purple','blue','pink'].length]}">${I[p.icon]}</span>
           <h3>${p.title}</h3>
           <p>${p.text}</p>
         </article>`
@@ -515,13 +541,12 @@ ${C.header(d, 'about.html')}
         lede: 'Our multidisciplinary capabilities allow us to take on an event from strategy to production, hospitality and on-ground execution.',
         link: { href: 'case-studies.html', label: 'Explore our work' }
       }).replace('<h2 class="sec-title">End-to-End', '<h2 class="sec-title" id="exp-title">End-to-End')}
-      <div class="exp-grid">
+      <div class="exp-row">
         ${D.expertise
           .map(
-            (e) => `<article class="exp-item">
-          ${I[e.icon]}
+            (e, i) => `<article class="exp-item reveal">
+          <span class="exp-icon tone-${['coral','pink','purple','blue','teal','gold','coral','pink','purple'][i % ['coral','pink','purple','blue','teal','gold','coral','pink','purple'].length]}">${I[e.icon]}</span>
           <h3>${e.title}</h3>
-          <p>${e.text}</p>
         </article>`
           )
           .join('\n        ')}
@@ -550,19 +575,6 @@ ${C.header(d, 'about.html')}
       </div>
     </div>
   </section>
-
-  <!-- ============================ INDUSTRIES ============================ -->
-  <section class="section section-tight section-alt" aria-labelledby="ind-title">
-    <div class="container">
-      <p class="eyebrow"><span class="eyebrow-rule"></span>Industries we serve</p>
-      <h2 class="sec-title mb-3" id="ind-title">Diverse Industries. One Commitment.</h2>
-      <div class="pill-row">
-        ${D.industries.map((i) => `<span class="pill">${i}</span>`).join('\n        ')}
-      </div>
-    </div>
-  </section>
-
-  ${C.faqSection(D.faqs.about, { title: 'About Shaahi Creations.', lede: 'The questions organisations most often ask before appointing an event partner.' })}
 
 </main>
 
