@@ -149,6 +149,26 @@ ${C.foot(d)}`;
   write('our-work.html', html);
 }
 
+/* Deck crops vary in shape, so they sit in justified rows at their own aspect
+   ratio instead of being cropped to 4:3, and never grow past native width. */
+function csStrip(d, c) {
+  const alt = C.plain(c.title) + ' produced by Shaahi Creations';
+  if (!c.images.every((g) => D.csPhotos[g])) {
+    return `<div class="cs-strip">
+        ${c.images.map((g) => C.csImg(d, g, { alt, sizes: '(max-width: 700px) 92vw, 30vw' })).join('\n        ')}
+      </div>`;
+  }
+  return `<div class="cs-strip cs-strip-fit">
+        ${c.images
+          .map((g) => {
+            const p = C.csPhoto(g);
+            const ar = p.w / p.h;
+            return `<figure style="flex:${Math.round(ar * 100)} 1 ${Math.round(ar * 200)}px;max-width:${p.w}px">${C.csImg(d, g, { alt })}</figure>`;
+          })
+          .join('\n        ')}
+      </div>`;
+}
+
 /* ==========================================================================
    Our Work - Case studies index
    ========================================================================== */
@@ -186,7 +206,7 @@ function buildCaseStudiesIndex() {
     .map(
       (c, i) => `<article class="cs-card reveal" data-cats="${c.cat}">
           <a class="cs-thumb" href="${img(d, 'case-studies/' + c.slug + '.html')}" tabindex="-1" aria-hidden="true">
-            ${C.galleryImg(d, c.hero, C.plain(c.title), '(max-width: 640px) 92vw, (max-width: 980px) 46vw, 30vw', i < 3)}
+            ${C.csImg(d, c.hero, { cls: 'ph-img', alt: C.plain(c.title), sizes: '(max-width: 640px) 92vw, (max-width: 980px) 46vw, 30vw', eager: i < 3 })}
           </a>
           <p class="cs-kicker">${c.kicker}</p>
           <h3 class="cs-title"><a href="${img(d, 'case-studies/' + c.slug + '.html')}">${c.title}</a></h3>
@@ -203,7 +223,7 @@ function buildCaseStudiesIndex() {
     page: 'case-studies',
     title: 'Corporate Event Case Studies | Shaahi Creations',
     description:
-      'Twelve corporate event case studies from Shaahi Creations, covering leadership summits for Microsoft, destination partner events for Marriott Bonvoy, annual days, product launches, dealer meets and government programmes.',
+      D.caseStudies.length + ' corporate event case studies from Shaahi Creations, covering leadership summits for Microsoft, hospitality conferences for Marriott Bonvoy, annual days, product launches, dealer meets and government programmes.',
     keywords: 'corporate event case studies, event management case study India, conference case study, product launch case study, annual day case study',
     ogImage: 'assets/img/gallery/g04.webp',
     schema
@@ -285,7 +305,7 @@ function buildCaseStudyPages() {
         '@type': 'Article',
         headline: C.plain(c.title) + ' - ' + C.plain(c.strap),
         description: C.plain(c.summary),
-        image: site.origin + '/assets/img/gallery/' + c.hero + '.webp',
+        image: site.origin + '/' + C.csPhoto(c.hero).src,
         author: { '@id': C.orgId },
         publisher: { '@id': C.orgId },
         mainEntityOfPage: site.origin + '/case-studies/' + c.slug + '.html',
@@ -303,7 +323,7 @@ function buildCaseStudyPages() {
       description: C.plain(c.summary + ' ' + c.result),
       keywords: C.plain(c.kicker + ', ' + c.client + ' event, corporate event case study, ' + c.title),
       ogType: 'article',
-      ogImage: 'assets/img/gallery/' + c.hero + '.webp',
+      ogImage: C.csPhoto(c.hero).src,
       schema
     })}
 ${C.header(d, 'case-studies.html')}
@@ -312,7 +332,7 @@ ${C.header(d, 'case-studies.html')}
 
   <section class="phero" aria-labelledby="cs-hero-title">
     <div class="phero-media">
-      <img src="${img(d, 'assets/img/gallery/' + c.hero + '.webp')}" srcset="${img(d, 'assets/img/gallery/' + c.hero + '-t.webp')} 820w, ${img(d, 'assets/img/gallery/' + c.hero + '.webp')} 1207w" sizes="100vw" width="1207" height="817" alt="${C.esc(C.plain(c.title))}" fetchpriority="high" decoding="async">
+      ${C.csImg(d, c.hero, { alt: C.plain(c.title), sizes: '100vw', priority: true })}
     </div>
     ${C.wave('wave-hero-page', 'b')}
     <div class="container phero-inner" style="display:block">
@@ -366,13 +386,7 @@ ${C.header(d, 'case-studies.html')}
 
   <section class="section section-tight section-alt" aria-label="Event photographs">
     <div class="container">
-      <div class="cs-strip">
-        ${c.images
-          .map(
-            (g) => `<img src="${img(d, 'assets/img/gallery/' + g + '.webp')}" srcset="${img(d, 'assets/img/gallery/' + g + '-t.webp')} 820w, ${img(d, 'assets/img/gallery/' + g + '.webp')} 1207w" sizes="(max-width: 700px) 92vw, 30vw" width="1207" height="817" alt="${C.esc(C.plain(c.title))} produced by Shaahi Creations" loading="lazy" decoding="async">`
-          )
-          .join('\n        ')}
-      </div>
+      ${csStrip(d, c)}
     </div>
   </section>
 
@@ -1278,7 +1292,7 @@ ${[
   ['Home', 'index.html', 'Overview of services, featured work, clients and testimonials'],
   ['About', 'about.html', 'Company story, beliefs, leadership team, process and nine capabilities'],
   ['Our Work - Gallery', 'our-work.html', 'Photographs from 39 corporate events, filterable by event type'],
-  ['Our Work - Case Studies', 'case-studies.html', '12 detailed case studies with objectives, approach and outcomes'],
+  ['Our Work - Case Studies', 'case-studies.html', D.caseStudies.length + ' detailed case studies with objectives, approach and outcomes'],
   ['Our Work - Blogs', 'blog.html', 'Practical writing on corporate event planning'],
   ['Destinations', 'destinations.html', 'Cities, signature and offbeat destinations, Hyderabad venue partners'],
   ['Contact', 'contact.html', 'Enquiry form, phone, email and office locations']

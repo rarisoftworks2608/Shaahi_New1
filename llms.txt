@@ -91,7 +91,7 @@
 - [Home](https://www.shaahicreations.com/index.html): Overview of services, featured work, clients and testimonials
 - [About](https://www.shaahicreations.com/about.html): Company story, beliefs, leadership team, process and nine capabilities
 - [Our Work - Gallery](https://www.shaahicreations.com/our-work.html): Photographs from 39 corporate events, filterable by event type
-- [Our Work - Case Studies](https://www.shaahicreations.com/case-studies.html): 12 detailed case studies with objectives, approach and outcomes
+- [Our Work - Case Studies](https://www.shaahicreations.com/case-studies.html): 15 detailed case studies with objectives, approach and outcomes
 - [Our Work - Blogs](https://www.shaahicreations.com/blog.html): Practical writing on corporate event planning
 - [Destinations](https://www.shaahicreations.com/destinations.html): Cities, signature and offbeat destinations, Hyderabad venue partners
 - [Contact](https://www.shaahicreations.com/contact.html): Enquiry form, phone, email and office locations
@@ -100,16 +100,19 @@
 
 - [Microsoft Leadership Summit](https://www.shaahicreations.com/case-studies/microsoft-leadership-summit.html): A multi-city leadership summit designed to inspire alignment and drive the next phase of growth.
 - [ZEST Annual Day & Family Day](https://www.shaahicreations.com/case-studies/zest-annual-family-day.html): Two large-scale celebrations every year for a healthcare technology organisation, delivered as their extended event team.
-- [Marriott Bonvoy Partner Connect – Goa](https://www.shaahicreations.com/case-studies/marriott-bonvoy-partner-connect-goa.html): An immersive partner engagement experience combining meaningful conversations with memorable Goan hospitality.
-- [Porsche 911 Drive Launch](https://www.shaahicreations.com/case-studies/porsche-911-drive-launch.html): An end-to-end launch experience creating high impact, brand visibility and audience engagement.
-- [NVIDIA Annual Employee Event](https://www.shaahicreations.com/case-studies/nvidia-annual-employee-event.html): A 600+ employee annual day delivered end to end, from venue booking to artist management and production.
-- [WHO Global Virtual Conference](https://www.shaahicreations.com/case-studies/who-virtual-conference.html): A multi-location virtual conference for 1000+ international delegates and stakeholders.
-- [Pharma Annual Day Celebration](https://www.shaahicreations.com/case-studies/pharma-annual-day.html): A vibrant annual celebration bringing together employees and families for a day of connection, fun and shared memories.
-- [Leadership Retreat – Rishikesh](https://www.shaahicreations.com/case-studies/leadership-retreat-rishikesh.html): A two-day leadership offsite designed to refresh perspectives, strengthen relationships and build a stronger, more connected team.
+- [Marriott Bonvoy – Strategic Hospitality Partner](https://www.shaahicreations.com/case-studies/marriott-bonvoy-hospitality-partnership.html): Leadership conferences, the PEAK Leadership Summit and C-level Marriott Bonvoy experiences, delivered PAN India across a six-year partnership.
 - [Shaadi by Marriott](https://www.shaahicreations.com/case-studies/shaadi-by-marriott.html): Associate event partner for a fashion and hospitality showcase featuring designer collections and celebrity presentations.
 - [Welspun Flooring Dealer Meet & Launch](https://www.shaahicreations.com/case-studies/welspun-dealer-meet.html): Four-plus years of dealer meets, leadership conferences and product launches delivered across PAN India locations.
-- [GM Switches Brand Launch](https://www.shaahicreations.com/case-studies/gm-switches-brand-launch.html): A celebrity-led brand launch at Marriott Convention Centre, Hyderabad, produced end to end.
+- [NVIDIA Annual Employee Event](https://www.shaahicreations.com/case-studies/nvidia-annual-employee-event.html): A 600+ employee annual day delivered end to end, from venue booking to artist management and production.
+- [WHO Global Virtual Conference](https://www.shaahicreations.com/case-studies/who-virtual-conference.html): A multi-location virtual conference for 1000+ international delegates and stakeholders.
+- [Turkish Cargo Sales Conference](https://www.shaahicreations.com/case-studies/turkish-cargo-sales-conference.html): A 600+ attendee sales conference at Trident, Hyderabad, bringing together the PAN India leadership and sales team.
 - [Government & Diplomatic Event](https://www.shaahicreations.com/case-studies/government-diplomatic-event.html): Event and artist management partner for an international Government of India programme hosted under the National Security Council Secretariat, Hyderabad.
+- [ANBAI Annual Event – Yashoda](https://www.shaahicreations.com/case-studies/anbai-annual-event-yashoda.html): An 800+ guest VIP event at Marriott Convention Centre, Hyderabad, with former Vice President of India Venkaiah Naidu as chief guest.
+- [BEL Leadership Conference](https://www.shaahicreations.com/case-studies/bel-leadership-conference.html): A two-day leadership conference for 500+ participants from Bharat Electronics, combining leadership sessions, knowledge sharing and cultural activities.
+- [GM Switches Brand Launch](https://www.shaahicreations.com/case-studies/gm-switches-brand-launch.html): A celebrity-led brand launch at Marriott Convention Centre, Hyderabad, produced end to end.
+- [Tiger Palace Resort Dealer Meet](https://www.shaahicreations.com/case-studies/tiger-palace-resort-dealer-meet.html): An 800+ guest dealer meet for HNI dealers from Hyderabad, with Bollywood actress Elnaaz Norouzi, at Marriott Convention Centre.
+- [Porsche 911 Drive Launch](https://www.shaahicreations.com/case-studies/porsche-911-drive-launch.html): An end-to-end launch experience creating high impact, brand visibility and audience engagement.
+- [Leadership Retreat – Rishikesh](https://www.shaahicreations.com/case-studies/leadership-retreat-rishikesh.html): A two-day leadership offsite designed to refresh perspectives, strengthen relationships and build a stronger, more connected team.
 
 ## Articles
 

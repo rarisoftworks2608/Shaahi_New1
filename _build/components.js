@@ -1,8 +1,11 @@
 /* ==========================================================================
    Shared markup components
    ========================================================================== */
+const fs = require('fs');
+const path = require('path');
 const { site, nav } = require('./site.js');
 const icons = require('./icons.js');
+const D = require('./data.js');
 
 /* Relative-path helper: depth 0 = site root, 1 = /case-studies/ etc. */
 const R = (d) => (d ? '../'.repeat(d) : '');
@@ -35,6 +38,17 @@ function head(o) {
   const preload = (o.preload || [])
     .map((p) => `<link rel="preload" as="image" href="${r}${p}" fetchpriority="high">`)
     .join('\n  ');
+
+  /* Headings use Reross Quadratic. Only declare it when the file is actually
+     present, so a missing font never costs every visitor a 404. */
+  const rerossFile = path.join(__dirname, '..', 'assets', 'fonts', 'reross-quadratic.woff2');
+  const hasReross = fs.existsSync(rerossFile);
+  const displayFontPreload = hasReross
+    ? `\n  <link rel="preload" as="font" type="font/woff2" href="${r}assets/fonts/reross-quadratic.woff2" crossorigin>`
+    : '';
+  const displayFontFace = hasReross
+    ? `\n  <style>@font-face{font-family:'Reross Quadratic';src:url('${r}assets/fonts/reross-quadratic.woff2') format('woff2');font-weight:400 700;font-style:normal;font-display:swap}</style>`
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="en-IN">
@@ -72,10 +86,9 @@ function head(o) {
 
   <script>document.documentElement.className += ' js';</script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="${r}assets/css/style.css">
+  <link rel="preload" as="font" type="font/woff2" href="${r}assets/fonts/poppins-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="${r}assets/fonts/poppins-600.woff2" crossorigin>${displayFontPreload}
+  <link rel="stylesheet" href="${r}assets/css/style.css">${displayFontFace}
   ${preload}
   ${(o.schema || []).map(jsonld).join('\n  ')}
 </head>
@@ -219,6 +232,22 @@ function sectionHead(o) {
 function galleryImg(d, id, alt, sizes = '(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 30vw', eager = false) {
   const r = R(d);
   return `<img class="ph-img" src="${r}assets/img/gallery/${id}.webp" srcset="${r}assets/img/gallery/${id}-t.webp 820w, ${r}assets/img/gallery/${id}.webp 1207w" sizes="${sizes}" width="1207" height="817" alt="${esc(alt)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${eager ? ' fetchpriority="high"' : ''}>`;
+}
+
+/* Case study photos: deck crops (D.csPhotos) are served at their native size;
+   anything else is a gallery id with the standard two-size srcset. */
+function csPhoto(id) {
+  const dims = D.csPhotos[id];
+  return dims
+    ? { src: 'assets/img/case-studies/' + id + '.webp', w: dims[0], h: dims[1] }
+    : { src: 'assets/img/gallery/' + id + '.webp', thumb: 'assets/img/gallery/' + id + '-t.webp', w: 1207, h: 817 };
+}
+
+function csImg(d, id, o) {
+  const p = csPhoto(id);
+  const srcset = p.thumb ? ` srcset="${R(d)}${p.thumb} 820w, ${R(d)}${p.src} 1207w" sizes="${o.sizes}"` : '';
+  const load = o.priority ? ' fetchpriority="high"' : ` loading="${o.eager ? 'eager' : 'lazy'}"`;
+  return `<img${o.cls ? ` class="${o.cls}"` : ''} src="${R(d)}${p.src}"${srcset} width="${p.w}" height="${p.h}" alt="${esc(o.alt)}"${load} decoding="async">`;
 }
 
 /* --------------------------------------------------------------------------
@@ -449,7 +478,7 @@ function breadcrumbs(d, trail) {
 }
 
 module.exports = {
-  R, esc, plain, jsonld, head, logo, header, wave, scriptWave, sectionHead, galleryImg,
+  R, esc, plain, jsonld, head, logo, header, wave, scriptWave, sectionHead, galleryImg, csPhoto, csImg,
   placeCard, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
   organizationSchema, websiteSchema, breadcrumbSchema, breadcrumbs, icons, site, nav,
   orgId, siteId

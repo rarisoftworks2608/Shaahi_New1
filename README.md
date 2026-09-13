@@ -45,7 +45,7 @@ Never hand-edit the generated `.html` files in the root — the next build overw
 | Home | `index.html` |
 | About | `about.html` |
 | Our Work — Gallery | `our-work.html` |
-| Our Work — Case Studies | `case-studies.html` (+ 12 detail pages in `case-studies/`) |
+| Our Work — Case Studies | `case-studies.html` (+ 15 detail pages in `case-studies/`) |
 | Our Work — Blogs | `blog.html` (+ 6 articles in `blog/`) |
 | Destinations | `destinations.html` (4 tabs: cities, destinations, venue partners, approach) |
 | Contact | `contact.html` |
@@ -78,6 +78,20 @@ OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and
 Applebot-Extended. An "at a glance" definition list on the home and destinations pages
 states the core facts in a form that is easy to cite.
 
+## Typography
+
+Per the brand type sheet: **Reross Quadratic** for headings, **Poppins** for
+sub-headings and body copy. Both are self-hosted, so there is no Google Fonts
+request and no third-party dependency.
+
+Poppins is in place, converted from the supplied zip to WOFF2 and subset to
+Latin: five weights totalling about 50 KB. **Reross Quadratic was not in the
+supplied font folder**, so headings currently fall back to Poppins. Drop
+`assets/fonts/reross-quadratic.woff2` in and rebuild, and the build wires it up
+on its own. Full detail in `assets/fonts/README.txt`.
+
+Make sure the production host serves `.woff2` as `font/woff2`.
+
 ## Responsive and accessibility
 
 Verified with no horizontal overflow at 360, 768 and 1440 px on every page. Fluid type via
@@ -97,17 +111,22 @@ These are placeholders. Each is a one-line change in `_build/site.js` or `_build
    The plan says these will follow.
 3. **Social media URLs.** `_build/site.js` → `social`. Sensible defaults are in place;
    confirm the real handles before go-live.
-4. **Team photographs and LinkedIn URLs** for Neetu Eluri, Mounddid Bhurle and
-   Mukesh Deshmukh. Drop `.webp` files into `assets/img/people/` and set `photo` and
-   `linkedin` in `_build/data.js` → `team`. Until then those three render as branded
-   monogram tiles.
+4. **Team photographs.** Save them into `assets/img/people/` using the exact filenames
+   listed in `assets/img/people/README.txt`, then rebuild. `neetu.webp`, `mrunalinli.webp`
+   and `mukesh.webp` are missing, and `snehal.webp` and `rupesh.webp` are still stock
+   placeholders that should be replaced with the real headshots. Any missing file renders
+   as a branded monogram tile, and `node _build/build.js` prints the list of what is still
+   missing on every run.
+   **LinkedIn URLs** are set for Rupesh Patil, Neetu Elluri and Mukesh Deshmukh. Still
+   needed for Snehal Deshpande and Mrunalinli Bhurle, in `_build/data.js` → `team`.
 5. **City and destination photography.** The city and destination cards currently use a
    branded gradient with a landmark line illustration. `placeCard` already accepts an
    `img` value, so adding photos is a data change only.
 6. **Contact form endpoint.** `contact.html` currently validates and then opens a
    pre-filled email. Point the form `action` at Formspree, Netlify Forms or the client CRM
    and it will submit natively. On success, redirect to `thank-you.html`.
-7. **Production domain.** `_build/site.js` → `origin` is set to
+7. **Reross Quadratic font file**, for headings. See `assets/fonts/README.txt`.
+8. **Production domain.** `_build/site.js` → `origin` is set to
    `https://www.shaahicreations.com`. Change it if the live domain differs, then rebuild
    so canonicals, Open Graph URLs and the sitemap update.
 
@@ -131,6 +150,12 @@ These are placeholders. Each is a one-line change in `_build/site.js` or `_build
 - The Destinations tabs are anchor links to sections on one page rather than panels that
   hide content. That matches the design, which shows every section in a single scroll, and
   keeps all of it indexable.
+
+- Case study photography is cropped from the capability deck at its native resolution into
+  `assets/img/case-studies/`, with sizes listed in `_build/data.js` under `csPhotos`. The deck
+  is compressed, so these images are only 370 to 840 px wide. Replacing them with the original
+  photographs under the same filenames (and updating `csPhotos`) will sharpen every case study.
+  Porsche and the Rishikesh retreat are not in the deck and still use gallery images.
 
 ## Deployment weight
 

@@ -60,24 +60,38 @@ function statsRow(cls = '') {
     </div>`;
 }
 
+/* Logos are sized to equal area rather than equal height, so a wide wordmark
+   and a square crest carry the same visual weight. `--lw` is the base width in
+   px, capped at 44px tall; the CSS --logo-scale shrinks both per breakpoint. */
 function clientWall(d) {
-  /* The design shows one open row of marks, no boxed grid. */
+  /* The design shows open rows of marks, no boxed grid. */
   return `<div class="clients-head">
       <p class="eyebrow"><span class="eyebrow-rule"></span>Some of our clients</p>
     </div>
     <div class="client-row reveal">
       ${D.clients
-        .map(
-          (c) => `<span class="client-cell"><img src="${img(d, 'assets/img/clients/' + c.file + '.webp')}" width="420" height="224" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></span>`
-        )
+        .map((c) => {
+          const ar = c.w / c.h;
+          const lw = Math.round(Math.min(50 * Math.sqrt(ar), 44 * ar));
+          return `<span class="client-cell"><img src="${img(d, 'assets/img/clients/marks/' + c.file + '.webp')}" width="${c.w}" height="${c.h}" style="--lw:${lw}" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></span>`;
+        })
         .join('\n      ')}
       <span class="client-more">&amp; many more</span>
     </div>`;
 }
 
+/* Featured cards resolve against the case study they point at. */
+function featuredWork() {
+  return D.featured.map((f) => {
+    const c = D.caseStudies.find((x) => x.slug === f.slug);
+    if (!c) throw new Error('Featured work: no case study with slug ' + f.slug);
+    return { title: c.title, meta: c.kicker, img: f.img || c.hero, overlay: f.overlay, href: 'case-studies/' + c.slug + '.html' };
+  });
+}
+
 function workCard(d, w, eager = false) {
   return `<a class="work-card reveal" href="${img(d, w.href)}">
-        ${C.galleryImg(d, w.img, C.plain(w.title) + ' by Shaahi Creations', '(max-width: 720px) 84vw, (max-width: 1100px) 46vw, 30vw', eager)}
+        ${C.csImg(d, w.img, { cls: 'ph-img', alt: C.plain(w.title) + ' by Shaahi Creations', sizes: '(max-width: 720px) 84vw, (max-width: 1100px) 46vw, 30vw', eager })}
         ${w.overlay ? `<span class="work-overlay">${w.overlay}</span>` : ''}
         <span class="work-body">
           <span class="work-title">${w.title}</span>
@@ -142,7 +156,7 @@ function buildHome() {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: 'Featured corporate events by Shaahi Creations',
-      itemListElement: D.featured.map((f, i) => ({
+      itemListElement: featuredWork().map((f, i) => ({
         '@type': 'ListItem',
         position: i + 1,
         name: C.plain(f.title),
@@ -242,7 +256,7 @@ ${C.header(d, 'index.html')}
       <div class="carousel carousel-side carousel-work" data-carousel>
         <button class="cbtn cbtn-light" type="button" data-prev aria-label="Previous projects">${I.chevronLeft}</button>
         <div class="carousel-track">
-          ${D.featured.map((f, i) => workCard(d, f, i < 4)).join('\n          ')}
+          ${featuredWork().map((f, i) => workCard(d, f, i < 4)).join('\n          ')}
         </div>
         <button class="cbtn cbtn-light" type="button" data-next aria-label="Next projects">${I.chevronRight}</button>
       </div>
@@ -431,10 +445,7 @@ ${C.header(d, 'about.html')}
         </div>
 
         <div class="story-media reveal reveal-d1">
-          <img src="${img(d, 'assets/img/gallery/g27.webp')}" srcset="${img(d, 'assets/img/gallery/g27-t.webp')} 820w, ${img(d, 'assets/img/gallery/g27.webp')} 1207w" sizes="(max-width: 980px) 92vw, 30vw" width="1207" height="817" alt="A themed stage design created by Shaahi Creations for a corporate celebration" loading="lazy" decoding="async">
-          <span class="split-words" aria-hidden="true">
-            <span>Good Ideas</span><span>People</span><span>Extraordinary Experiences</span>
-          </span>
+          <img src="${img(d, 'assets/img/our-story.webp')}" srcset="${img(d, 'assets/img/our-story.webp')} 760w, ${img(d, 'assets/img/our-story-lg.webp')} 1159w" sizes="(max-width: 780px) 92vw, (max-width: 1080px) 40vw, 28vw" width="1159" height="1159" alt="The Shaahi Creations welcome wall at a corporate event, reading Good Ideas, People, Extraordinary Experiences, with guests networking beyond it" loading="lazy" decoding="async">
         </div>
 
         <div class="story-stats reveal reveal-d2">
@@ -555,22 +566,19 @@ ${C.header(d, 'about.html')}
   </section>
 
   <!-- ============================ TECHNOLOGY ============================ -->
-  <section class="section section-dark" id="technology" aria-labelledby="tech-title">
+  <section class="section tech-band" id="technology" aria-labelledby="tech-title">
     <div class="container">
-      <div class="split split-wide">
-        <div class="split-body reveal">
-          <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>Creativity meets technology</p>
+      <div class="tech-grid">
+        <div class="tech-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Creativity meets technology</p>
           <h2 class="sec-title" id="tech-title">Experiences That Go Further.</h2>
-          <p class="lede on-dark">From immersive environments and experiential design to event apps, RFID, AI-powered solutions, AR and VR, LED and live streaming, we use technology in ways that make the experience smarter, more engaging and more impactful.</p>
-          <ul class="tech-list">
-            ${D.techStack.map((t) => `<li>${t}</li>`).join('\n            ')}
-          </ul>
+          <p class="lede">From immersive environments and experiential design to event apps, RFID, AI-powered solutions, AR/VR, LED and live streaming, we use technology where it makes the experience smarter, more engaging and more impactful.</p>
+          <div class="split-actions">
+            <a class="btn btn-outline" href="${img(d, 'case-studies.html')}">Discover More ${I.arrow}</a>
+          </div>
         </div>
-        <div class="split-media reveal reveal-d1">
-          <img src="${img(d, 'assets/img/gallery/g18.webp')}" srcset="${img(d, 'assets/img/gallery/g18-t.webp')} 820w, ${img(d, 'assets/img/gallery/g18.webp')} 1207w" sizes="(max-width: 860px) 92vw, 46vw" width="1207" height="817" alt="LED production and stage technology at a corporate event by Shaahi Creations" loading="lazy" decoding="async">
-          <span class="split-words" aria-hidden="true">
-            <span>Immersive</span><span>Engaging</span><span>Smarter</span><span>More Impactful</span>
-          </span>
+        <div class="tech-media reveal reveal-d1">
+          <img src="${img(d, 'assets/img/creativity-tech.webp')}" srcset="${img(d, 'assets/img/creativity-tech.webp')} 1100w, ${img(d, 'assets/img/creativity-tech-lg.webp')} 2170w" sizes="(max-width: 900px) 92vw, 58vw" width="2170" height="725" alt="A speaker on stage before a large LED globe at a technology-led corporate event, beside the words Immersive, Engaging, Smarter, More Impactful" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -594,6 +602,12 @@ if (require.main === module) {
   buildHome();
   buildAbout();
   more.buildAll();
+  const missing = D.team.filter((m) => m.photo && !fs.existsSync(path.join(ROOT, 'assets/img/people', m.photo + '.webp')));
+  if (missing.length) {
+    console.log('\nMissing team headshots (cards fall back to initials):');
+    missing.forEach((m) => console.log('  assets/img/people/' + m.photo + '.webp  <- ' + C.plain(m.name)));
+    console.log('');
+  }
   console.log('Wrote ' + written.length + ' files:');
   written.forEach((f) => console.log('  ' + f));
 }

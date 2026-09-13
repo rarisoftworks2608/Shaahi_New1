@@ -1,6 +1,6 @@
 const http = require('http'), fs = require('fs'), path = require('path'), url = require('url');
 const ROOT = path.resolve(__dirname, '..');
-const MIME = { '.html':'text/html;charset=utf-8', '.css':'text/css;charset=utf-8', '.js':'text/javascript;charset=utf-8', '.webp':'image/webp', '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.xml':'application/xml', '.txt':'text/plain;charset=utf-8', '.json':'application/json', '.webmanifest':'application/manifest+json' };
+const MIME = { '.html':'text/html;charset=utf-8', '.css':'text/css;charset=utf-8', '.js':'text/javascript;charset=utf-8', '.webp':'image/webp', '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.svg':'image/svg+xml', '.mp4':'video/mp4', '.xml':'application/xml', '.txt':'text/plain;charset=utf-8', '.json':'application/json', '.webmanifest':'application/manifest+json', '.woff2':'font/woff2', '.woff':'font/woff', '.ttf':'font/ttf' };
 http.createServer((req,res)=>{
   let p = decodeURIComponent(url.parse(req.url).pathname);
   if (p === '/' ) p = '/index.html';
