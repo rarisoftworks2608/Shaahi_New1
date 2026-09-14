@@ -122,10 +122,10 @@ const featured = [
 
 /* --- Destination highlights (home) --------------------------------------- */
 const destHighlights = [
-  { name: 'Goa', tag: 'Beaches &amp; Beyond', hue: 'goa' },
-  { name: 'Udaipur', tag: 'Royal &amp; Timeless', hue: 'udaipur' },
-  { name: 'Rishikesh', tag: 'Nature &amp; Wellness', hue: 'rishikesh' },
-  { name: 'Jaipur', tag: 'Heritage &amp; Grandeur', hue: 'jaipur' }
+  { name: 'Goa', tag: 'Beaches &amp; Beyond', hue: 'goa', photo: 'goa' },
+  { name: 'Udaipur', tag: 'Royal &amp; Timeless', hue: 'udaipur', photo: 'udaipur' },
+  { name: 'Rishikesh', tag: 'Nature &amp; Wellness', hue: 'rishikesh', photo: 'rishikesh' },
+  { name: 'Jaipur', tag: 'Heritage &amp; Grandeur', hue: 'jaipur', photo: 'jaipur' }
 ];
 
 /* --- About: what we believe ---------------------------------------------- */

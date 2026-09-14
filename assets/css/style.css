@@ -1359,7 +1359,17 @@ h4 { font-size: var(--fs-h4); line-height: 1.32; letter-spacing: -0.012em; }
 }
 .place-mark { width: 62%; max-width: 158px; position: relative; z-index: 1; }
 .place-photo { background: var(--ink); padding-bottom: 0; }
-.place-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
+.place-photo::before { display: none; }
+.place-photo .place-mark { display: none; }
+.place-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.7s var(--ease);
+}
 .place-card:hover .place-photo img { transform: scale(1.05); }
 .place-card:hover .place-plate { transform: none; }
 

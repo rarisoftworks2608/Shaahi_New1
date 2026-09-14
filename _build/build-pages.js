@@ -672,6 +672,7 @@ function buildDestinations() {
   const d = 0;
   const signature = D.destinations.filter((x) => x.kind === 'Signature');
   const offbeat = D.destinations.filter((x) => x.kind === 'Offbeat');
+  const venues = (D.venueCities.find((c) => c.key === 'hyderabad') || { venues: [] }).venues;
 
   const schema = [
     C.organizationSchema(),
@@ -751,7 +752,7 @@ ${C.header(d, 'destinations.html')}
       </div>
 
       <div class="place-grid mt-3">
-        ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue })}</div>`).join('\n        ')}
+        ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue, photo: c.photo })}</div>`).join('\n        ')}
       </div>
     </div>
   </section>
@@ -767,16 +768,17 @@ ${C.header(d, 'destinations.html')}
       }).replace('<h2 class="sec-title">Iconic', '<h2 class="sec-title" id="sig-title">Iconic')}
 
       <div class="place-grid">
-        ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue })}</div>`).join('\n        ')}
+        ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo })}</div>`).join('\n        ')}
       </div>
 
       <div class="mt-4">
         <p class="eyebrow"><span class="eyebrow-rule"></span>Offbeat destinations</p>
         <h3 class="sec-title mb-3" style="font-size:var(--fs-h3)">Somewhere Quieter. Somewhere Different.</h3>
         <div class="place-grid">
-          ${offbeat.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue })}</div>`).join('\n          ')}
+          ${offbeat.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo })}</div>`).join('\n          ')}
         </div>
       </div>
+      ${C.placeCredits(D.cities.concat(D.destinations).map((x) => x.photo))}
     </div>
   </section>
 
@@ -796,7 +798,7 @@ ${C.header(d, 'destinations.html')}
             <tr><th scope="col">#</th><th scope="col">Venue</th><th scope="col">Why we use it</th><th scope="col">Links</th></tr>
           </thead>
           <tbody>
-            ${D.venues
+            ${venues
               .map(
                 (v) => `<tr>
               <td>${String(v.rank).padStart(2, '0')}</td>
@@ -815,7 +817,7 @@ ${C.header(d, 'destinations.html')}
       </div>
 
       <div class="venue-cards">
-        ${D.venues
+        ${venues
           .map(
             (v) => `<article class="venue-card">
           <span class="venue-name">${v.name}</span>

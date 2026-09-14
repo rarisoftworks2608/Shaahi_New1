@@ -340,6 +340,7 @@ ${C.header(d, 'index.html')}
           .map((p) => `<div class="reveal">${C.placeCard({ ...p, href: 'destinations.html#destinations' })}</div>`)
           .join('\n        ')}
       </div>
+      ${C.placeCredits(D.destHighlights.map((p) => p.photo))}
     </div>
   </section>
 

@@ -251,14 +251,28 @@ function csImg(d, id, o) {
 }
 
 /* --------------------------------------------------------------------------
-   Place card (cities / destinations) - gradient plate + landmark mark
+   Place card (cities / destinations) - photo plate, with gradient fallback
    -------------------------------------------------------------------------- */
 const landmark = `<svg class="place-mark" viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 56h112"/><path d="M14 56V34l10-8 10 8v22"/><path d="M24 26V16"/><path d="M44 56V28h14v28"/><path d="M51 28V18l-4-4h8l-4 4"/><path d="M68 56V22l12-10 12 10v34"/><path d="M80 12V4"/><path d="M100 56V38h14v18"/><path d="M74 56V44h12v12"/></svg>`;
 
-/* Renders a photo when `img` is supplied, otherwise a branded gradient plate.
-   Dropping real city/destination photography in later is a data-only change. */
+function placePhotoMeta(key) {
+  return (key && D.placePhotos && D.placePhotos[key]) || null;
+}
+
+function placePhotoImg(d, key, fallbackAlt) {
+  const meta = placePhotoMeta(key);
+  if (!meta) return '';
+  const r = R(d);
+  const alt = esc(meta.alt || fallbackAlt || key);
+  return `<img src="${r}assets/img/places/${key}.webp" srcset="${r}assets/img/places/${key}-sm.webp 640w, ${r}assets/img/places/${key}.webp 1600w" sizes="(max-width: 560px) 46vw, (max-width: 820px) 30vw, (max-width: 1080px) 22vw, 18vw" width="${meta.w}" height="${meta.h}" alt="${alt}" loading="lazy" decoding="async">`;
+}
+
 function placeCard(o) {
-  const plate = o.img
+  const d = o.depth || 0;
+  const photo = placePhotoMeta(o.photo);
+  const plate = photo
+    ? `<span class="place-plate place-photo">${placePhotoImg(d, o.photo, plain(o.name))}</span>`
+    : o.img
     ? `<span class="place-plate place-photo"><img src="${o.img}" width="1207" height="817" alt="${esc(o.imgAlt || plain(o.name))}" loading="lazy" decoding="async"></span>`
     : `<span class="place-plate place-${o.hue || 'goa'}">${landmark}</span>`;
   const inner = `${plate}
@@ -270,6 +284,23 @@ function placeCard(o) {
   return o.href
     ? `<a class="place-card" href="${o.href}">${inner}</a>`
     : `<div class="place-card">${inner}</div>`;
+}
+
+function placeCredits(keys) {
+  const seen = new Set();
+  const items = [];
+  for (const key of keys) {
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    const p = placePhotoMeta(key);
+    if (!p) continue;
+    const licence = p.licenseUrl
+      ? `<a href="${p.licenseUrl}" rel="noopener nofollow" target="_blank">${p.license}</a>`
+      : p.license;
+    items.push(`<a href="${p.source}" rel="noopener nofollow" target="_blank">${p.alt}</a> by ${p.author} (${licence})`);
+  }
+  if (!items.length) return '';
+  return `<div class="photo-credits"><p>Photographs: ${items.join('; ')}.</p></div>`;
 }
 
 /* --------------------------------------------------------------------------
@@ -479,7 +510,7 @@ function breadcrumbs(d, trail) {
 
 module.exports = {
   R, esc, plain, jsonld, head, logo, header, wave, scriptWave, sectionHead, galleryImg, csPhoto, csImg,
-  placeCard, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
+  placeCard, placePhotoMeta, placeCredits, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
   organizationSchema, websiteSchema, breadcrumbSchema, breadcrumbs, icons, site, nav,
   orgId, siteId
 };
