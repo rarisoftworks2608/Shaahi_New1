@@ -120,12 +120,13 @@ const featured = [
   { slug: 'gm-switches-brand-launch', overlay: 'Switch To A Better World' }
 ];
 
-/* --- Destination highlights (home) --------------------------------------- */
+/* --- Destination highlights (home): the four metro cities, in this fixed
+   order, followed by a link to the full signature/offbeat list. ----------- */
 const destHighlights = [
-  { name: 'Goa', tag: 'Beaches &amp; Beyond', hue: 'goa', photo: 'goa' },
-  { name: 'Udaipur', tag: 'Royal &amp; Timeless', hue: 'udaipur', photo: 'udaipur' },
-  { name: 'Rishikesh', tag: 'Nature &amp; Wellness', hue: 'rishikesh', photo: 'rishikesh' },
-  { name: 'Jaipur', tag: 'Heritage &amp; Grandeur', hue: 'jaipur', photo: 'jaipur' }
+  { name: 'Mumbai', tag: 'Business &amp; Glamour', hue: 'mumbai', photo: 'mumbai', venues: 'mumbai' },
+  { name: 'Hyderabad', tag: 'Culture &amp; Cuisine', hue: 'hyderabad', photo: 'hyderabad', venues: 'hyderabad' },
+  { name: 'Bangalore', tag: 'Innovation &amp; Energy', hue: 'bangalore', photo: 'bengaluru', venues: 'bengaluru' },
+  { name: 'Delhi NCR', tag: 'Power &amp; Prestige', hue: 'delhi', photo: 'delhi', venues: 'delhi' }
 ];
 
 /* --- About: what we believe ---------------------------------------------- */
@@ -176,7 +177,7 @@ const team = [
     role: 'Founder &amp; Business Development',
     photo: 'snehal',
     bio: 'Founded Shaahi Creations with a vision to create a more thoughtful, creative and client-centric approach to events. Today, she leads business development and strategic growth across markets.',
-    linkedin: ''
+    linkedin: 'https://www.linkedin.com/in/snehal-deshpande-98b9a340'
   },
   {
     name: 'Rupesh Patil',
@@ -184,6 +185,13 @@ const team = [
     photo: 'rupesh',
     bio: 'Leads client servicing and operations, ensuring ideas translate into seamless experiences. His hospitality background brings a strong focus on relationships, strategy and operational excellence.',
     linkedin: 'https://www.linkedin.com/in/rupesh-patil-97712a1b/'
+  },
+  {
+    name: 'Mukesh Deshmukh',
+    role: 'Lead &ndash; Creative Director &amp; Design',
+    photo: 'mukesh',
+    bio: 'Translates ideas into visual experiences through creative direction, design and experiential thinking &ndash; shaping environments that engage and leave an impression.',
+    linkedin: 'https://www.linkedin.com/in/mukesh-deshmukh-11828b17/'
   },
   {
     name: 'Neetu Elluri',
@@ -197,14 +205,7 @@ const team = [
     role: 'Lead &ndash; Operations',
     photo: 'mrunalinli',
     bio: 'Leads planning, coordination and on-ground execution, bringing structure, precision and consistency to every event.',
-    linkedin: ''
-  },
-  {
-    name: 'Mukesh Deshmukh',
-    role: 'Lead &ndash; Creative Director &amp; Design',
-    photo: 'mukesh',
-    bio: 'Translates ideas into visual experiences through creative direction, design and experiential thinking &ndash; shaping environments that engage and leave an impression.',
-    linkedin: 'https://www.linkedin.com/in/mukesh-deshmukh-11828b17/'
+    linkedin: 'https://www.linkedin.com/in/mrunalini-bhurle-5b227561'
   }
 ];
 
@@ -265,7 +266,15 @@ const gallery = [
   { img: 'g31', title: 'Heritage Theme Stage', meta: 'Government | 800+ Guests', cats: ['annual'], overlay: 'Sunrise Sequence' },
   { img: 'g35', title: 'Bridal Couture Runway', meta: 'Hospitality | 400+ Guests', cats: ['brand'], overlay: 'Shaadi by Marriott' },
   { img: 'g10', title: 'Ceremonial D&eacute;cor', meta: 'Special Event | 500+ Guests', cats: ['other', 'dest'], overlay: 'Craft In Every Corner' },
-  { img: 'g15', title: 'Holiday Party Red Carpet', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other', 'family'], overlay: 'Holiday Party' }
+  { img: 'g15', title: 'Holiday Party Red Carpet', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other', 'family'], overlay: 'Holiday Party' },
+  { img: 'g41', title: 'ZEST Annual Day Solo Feature', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1067, 1600] },
+  { img: 'g42', title: 'ZEST Annual Day Choreography', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'In Full Flight', dims: [1067, 1600] },
+  { img: 'g43', title: 'ZEST Annual Day Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'On Beat', dims: [1067, 1600] },
+  { img: 'g44', title: 'ZEST Annual Day Classical Feature', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Ten Arms, One Story', dims: [1600, 1067] },
+  { img: 'g45', title: 'ZEST Annual Day Ensemble', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Full Company On Stage', dims: [1600, 1067] },
+  { img: 'g46', title: 'ZEST Annual Day Mandala Stage', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Designed To Be Seen', dims: [1600, 1067] },
+  { img: 'g47', title: 'ZEST 26 Stage Design', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Wave After Wave', dims: [1600, 1067] },
+  { img: 'g48', title: 'ZEST 26 Finale', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Sun, Sand, Celebration', dims: [820, 547] }
 ];
 
 /* --- Case study photography ---------------------------------------------- */
@@ -273,7 +282,7 @@ const gallery = [
    assets/img/case-studies/. Values are [width, height] in pixels. Case study
    `hero` and `images` accept these names or a gallery id such as 'g20'. */
 const csPhotos = {
-  'microsoft-ballroom': [800, 187],
+  'microsoft-ballroom': [1600, 374],
   'microsoft-cseo-pm-day': [388, 198],
   'microsoft-gdc-awards': [371, 198],
   'microsoft-keynote': [388, 141],
@@ -286,21 +295,21 @@ const csPhotos = {
   'marriott-bonvoy-team': [420, 264],
   'marriott-dance-floor': [597, 367],
   'marriott-five-years': [465, 209],
-  'marriott-peak-summit': [412, 209],
-  'shaadi-runway': [465, 201],
+  'marriott-peak-summit': [824, 418],
+  'shaadi-runway': [930, 402],
   'shaadi-showcase': [412, 201],
   'welspun-booth': [479, 376],
   'welspun-product-display': [392, 376],
-  'welspun-conference': [479, 350],
+  'welspun-conference': [958, 700],
   'welspun-team': [392, 350],
-  'nvidia-annual-day': [632, 392],
-  'who-virtual-conference': [640, 388],
-  'turkish-cargo-sales-conference': [615, 392],
-  'government-of-india-event': [417, 251],
-  'anbai-annual-event': [623, 385],
-  'bel-leadership-conference': [613, 385],
-  'gm-switches-launch': [622, 386],
-  'tiger-palace-dealer-meet': [604, 409]
+  'nvidia-annual-day': [1264, 784],
+  'who-virtual-conference': [1280, 776],
+  'turkish-cargo-sales-conference': [1230, 784],
+  'government-of-india-event': [834, 502],
+  'anbai-annual-event': [1246, 770],
+  'bel-leadership-conference': [1226, 770],
+  'gm-switches-launch': [1244, 772],
+  'tiger-palace-dealer-meet': [1208, 818]
 };
 
 /* --- Case studies (Our Work, tab 2) -------------------------------------- */
@@ -344,7 +353,7 @@ const caseStudies = [
     title: 'ZEST Annual Day &amp; Family Day',
     strap: 'Four Years. Still Growing.',
     summary: 'Two large-scale celebrations every year for a healthcare technology organisation, delivered as their extended event team.',
-    hero: 'zest-beach-stage',
+    hero: 'g02',
     facts: [
       ['Partnership', '4+ years, still on'],
       ['Annual Day', '1500+ pax'],
@@ -746,7 +755,7 @@ const cities = [
 /* --- Destinations: signature and offbeat --------------------------------- */
 const destinations = [
   { photo: 'goa', venues: 'goa', name: 'Goa', tag: 'Sun. Sand. Celebrations.', hue: 'goa', kind: 'Signature', text: 'Beach resorts and villa properties built for offsites, partner connects and celebrations that run into the evening.' },
-  { photo: 'amer', venues: 'udaipur', name: 'Rajasthan', tag: 'Royal &amp; Timeless', hue: 'udaipur', kind: 'Signature', text: 'Palace venues and heritage havelis in Udaipur and Jaipur for leadership offsites and milestone celebrations.' },
+  { photo: 'udaipur', venues: 'udaipur', name: 'Rajasthan', tag: 'Royal &amp; Timeless', hue: 'udaipur', kind: 'Signature', text: 'Palace venues and heritage havelis in Udaipur and Jaipur for leadership offsites and milestone celebrations.' },
   { photo: 'rishikesh', venues: 'rishikesh', name: 'Uttarakhand', tag: 'Nature &amp; Wellness', hue: 'rishikesh', kind: 'Signature', text: 'Riverside camps and wellness retreats around Rishikesh and Dehradun for programmes that need a change of altitude.' },
   { photo: 'lonavala', name: 'Maharashtra', tag: 'Hills &amp; Getaways', hue: 'pune', kind: 'Signature', text: 'Lonavala, Mahabaleshwar and Alibaug properties within easy reach of Mumbai and Pune for short offsites.' },
   { photo: 'kochi', venues: 'kochi', name: 'South India', tag: 'Heritage &amp; Serenity', hue: 'kerala', kind: 'Signature', text: 'Backwaters, plantations and heritage venues across Kerala, Karnataka and Tamil Nadu for incentive and reward travel.' },
@@ -758,76 +767,31 @@ const destinations = [
 ];
 
 /* --- Destinations: place photography -------------------------------- */
-/* Freely licensed photographs from Wikimedia Commons, resized into
-   assets/img/places/<key>.webp (1600w) and <key>-sm.webp (640w). Their licences
-   require the credit shown on the page, so keep author and licence with each. */
+/* Client-supplied royalty-free photographs, resized into
+   assets/img/places/<key>.webp (1600w) and <key>-sm.webp (640w). No
+   attribution required - own/licensed images, not Wikimedia Commons. */
 const placePhotos = {
-  hyderabad: { w: 1600, h: 1067, alt: 'The Charminar, Hyderabad',
-    author: 'Santosh Kumar Velamala', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:The_Charminar_on_a_cloudy_day.jpg' },
-  bengaluru: { w: 1600, h: 1063, alt: 'The domes of Vidhana Soudha, Bengaluru',
-    author: 'Moheen Reeyad', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Domes,_Vidhana_Soudha_(02).jpg' },
-  mumbai: { w: 1600, h: 1200, alt: 'The Gateway of India, Mumbai',
-    author: 'Kprpiyush', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Gateway_of_india_a.jpg' },
-  delhi: { w: 1600, h: 900, alt: 'India Gate, New Delhi',
-    author: 'Benison', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0',
-    source: 'https://commons.wikimedia.org/wiki/File:India_Gate_from_Rajpath.jpg' },
-  chennai: { w: 1600, h: 1200, alt: 'Aerial view of Marina Beach, Chennai',
-    author: 'SlowPhoton', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Chennai_-_bird%27s-eye_view.jpg' },
-  pune: { w: 1600, h: 1067, alt: 'The gardens of Shaniwar Wada, Pune',
-    author: 'Sharvarism', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Ruins_of_Shaniwar_Wada.jpg' },
-  goa: { w: 1600, h: 900, alt: 'A rocky cove and palm-lined beach in Goa',
-    author: 'Sam 8393', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:BeachFun.jpg' },
-  jaipur: { w: 1600, h: 1067, alt: 'Hawa Mahal, Jaipur',
-    author: 'Donvikro', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Hawa_Mahal,_Jaipur,_Rajasthan,_India_in_2026.jpg' },
-  amer: { w: 1600, h: 1067, alt: 'Amer Fort above Maota Lake, near Jaipur',
-    author: 'Srshiva2', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Amber_palace,_Jaipur.jpg' },
-  udaipur: { w: 1600, h: 911, alt: 'The City Palace on Lake Pichola, Udaipur',
-    author: 'Jakub Ha&#322;un', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:20191207_City_Palace,_Udaipur_1701_7325.jpg' },
-  kochi: { w: 1600, h: 1092, alt: 'Chinese fishing nets at Kochi',
-    author: 'Gaius Cornelius', license: 'Public domain', licenseUrl: '',
-    source: 'https://commons.wikimedia.org/wiki/File:Chinese_Fishing_Net_(Kochi,_India).jpg' },
-  visakhapatnam: { w: 1600, h: 1200, alt: 'The Visakhapatnam coastline on the Bay of Bengal',
-    author: 'IM3847', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Beautiful_view_of_Visakhapatnam_and_Bay_of_Bengal_from_Tenneti_park_1.jpg' },
-  rishikesh: { w: 1600, h: 900, alt: 'Lakshman Jhula over the Ganges, Rishikesh',
-    author: 'KaustubhNayyar', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Rishikesh-Lakshman_Jhula_by_Kaustubh_Nayyar.jpg' },
-  kolkata: { w: 1600, h: 1067, alt: 'Victoria Memorial, Kolkata',
-    author: 'Samitkumarsinha', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Lakes_of_victoria.jpg' },
-  indore: { w: 1600, h: 1098, alt: 'Rajwada palace, Indore',
-    author: 'DeepakNigam', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Indore_Rajwada01.jpg' },
-  ahmedabad: { w: 1600, h: 1200, alt: 'Atal Bridge over the Sabarmati at night, Ahmedabad',
-    author: 'KartikMistry', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Atal_Pedestrian_Bridge_at_Night.jpg' },
-  lonavala: { w: 1600, h: 1024, alt: 'Lion&rsquo;s Point in the Western Ghats near Lonavala',
-    author: 'Heath Cajandig', license: 'CC BY 2.0', licenseUrl: 'https://creativecommons.org/licenses/by/2.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Lions_Point_-_India.jpg' },
-  coorg: { w: 1600, h: 1067, alt: 'Tadiandamol in the Western Ghats, Kodagu',
-    author: 'Jyotirmoy', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Tadiandamol_Valley,_Western_Ghats.jpg' },
-  dehradun: { w: 1600, h: 838, alt: 'Forest Research Institute, Dehradun',
-    author: 'Sneha G Gupta', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Forest_research_institute_3,_Dehra_dun.jpg' },
-  corbett: { w: 1600, h: 1003, alt: 'A river in Jim Corbett National Park',
-    author: 'Sumatgupta', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Calm_and_Clear.jpg' },
-  kabini: { w: 1600, h: 1067, alt: 'Elephants on the banks of the Kabini',
-    author: 'Gnissah', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Elephant_family.jpg' },
-  kathmandu: { w: 1600, h: 899, alt: 'Boudhanath Stupa, Kathmandu',
-    author: 'Harry Paudyal', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Boudha_Stupa_IMG_7804_2018_42.jpg' }
+  hyderabad: { w: 1600, h: 1676, alt: 'The Charminar, Hyderabad' },
+  bengaluru: { w: 1600, h: 1280, alt: 'The domes of Vidhana Soudha, Bengaluru' },
+  mumbai: { w: 1600, h: 1067, alt: 'The Taj Mahal Palace hotel, Mumbai' },
+  delhi: { w: 1600, h: 1795, alt: 'Safdarjung&rsquo;s Tomb, Delhi' },
+  chennai: { w: 1600, h: 1687, alt: 'The Ripon Building, Greater Chennai Corporation, Chennai' },
+  pune: { w: 1600, h: 1147, alt: 'A modern business park in Pune' },
+  goa: { w: 1600, h: 1200, alt: 'A palm-lined coastline in Goa' },
+  jaipur: { w: 1600, h: 1067, alt: 'Hawa Mahal, Jaipur' },
+  udaipur: { w: 1600, h: 1204, alt: 'The City Palace gate, Udaipur' },
+  kochi: { w: 1600, h: 901, alt: 'Chinese fishing nets at Kochi' },
+  visakhapatnam: { w: 1600, h: 1200, alt: 'The Visakhapatnam coastline from Kailasagiri' },
+  rishikesh: { w: 1600, h: 1067, alt: 'Temples along the Ganges at Rishikesh' },
+  kolkata: { w: 1600, h: 1067, alt: 'Victoria Memorial, Kolkata' },
+  indore: { w: 1600, h: 1200, alt: 'A heritage clock tower in Indore' },
+  ahmedabad: { w: 1600, h: 1806, alt: 'Atal Pedestrian Bridge over the Sabarmati, Ahmedabad' },
+  lonavala: { w: 1600, h: 1067, alt: 'The Mumbai&ndash;Pune Expressway through the Western Ghats near Lonavala' },
+  coorg: { w: 1600, h: 1067, alt: 'A plantation homestay in the forests of Coorg' },
+  dehradun: { w: 1600, h: 1067, alt: 'A misty river valley in the hills near Dehradun' },
+  corbett: { w: 1600, h: 1067, alt: 'A safari jeep on a forest trail in Jim Corbett National Park' },
+  kabini: { w: 1600, h: 1067, alt: 'A safari boat on the Kabini backwaters' },
+  kathmandu: { w: 1600, h: 1067, alt: 'Kathmandu Durbar Square, Nepal' }
 };
 
 /* --- Destinations: venue partners by city ------------------------------ */

@@ -61,7 +61,7 @@ function head(o) {
   <link rel="canonical" href="${canonical}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="${site.name}">
-  <meta name="theme-color" content="#0e2036">
+  <meta name="theme-color" content="#152f49">
   <meta name="format-detection" content="telephone=yes">
 
   <meta property="og:type" content="${o.ogType || 'website'}">
@@ -102,7 +102,7 @@ function head(o) {
 function logo(d, variant = 'primary', cls = '') {
   const r = R(d);
   const f = variant === 'inverse' ? 'logo-inverse' : 'logo-primary';
-  return `<img class="logo-img ${cls}" src="${r}assets/img/brand/${f}.webp" srcset="${r}assets/img/brand/${f}-sm.webp 500w, ${r}assets/img/brand/${f}.webp 1000w" sizes="(max-width: 700px) 150px, 190px" width="1000" height="476" alt="${site.name} &ndash; ${site.descriptor}" decoding="async">`;
+  return `<img class="logo-img ${cls}" src="${r}assets/img/brand/${f}.webp" srcset="${r}assets/img/brand/${f}-sm.webp 500w, ${r}assets/img/brand/${f}.webp 1000w" sizes="(max-width: 700px) 150px, 190px" width="1000" height="472" alt="${site.name} &ndash; ${site.descriptor}" decoding="async">`;
 }
 
 /* --------------------------------------------------------------------------
@@ -171,16 +171,10 @@ function wave(cls = '', variant = 'a') {
   <svg viewBox="0 0 1440 260" preserveAspectRatio="none" role="presentation" focusable="false">
     <defs>
       <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#f6b41e"/>
-        <stop offset="14%" stop-color="#f07e2c"/>
-        <stop offset="27%" stop-color="#ee4b3c"/>
-        <stop offset="40%" stop-color="#e5326e"/>
-        <stop offset="53%" stop-color="#a8459e"/>
-        <stop offset="65%" stop-color="#6c4fa3"/>
-        <stop offset="77%" stop-color="#3b72c4"/>
-        <stop offset="88%" stop-color="#1ba0d6"/>
-        <stop offset="96%" stop-color="#14a79c"/>
-        <stop offset="100%" stop-color="#6fbe44"/>
+        <stop offset="0%" stop-color="#ffbf18"/>
+        <stop offset="33%" stop-color="#f04a2f"/>
+        <stop offset="66%" stop-color="#7654a8"/>
+        <stop offset="100%" stop-color="#20afa6"/>
       </linearGradient>
     </defs>
     <path class="wave-glow" d="${paths[variant]}" stroke="url(#${id})" stroke-width="14" fill="none" stroke-linecap="round"/>
@@ -196,9 +190,8 @@ function scriptWave() {
   return `<svg class="script-wave" viewBox="0 0 220 42" fill="none" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#f6b41e"/><stop offset="22%" stop-color="#ee4b3c"/>
-        <stop offset="45%" stop-color="#e5326e"/><stop offset="66%" stop-color="#6c4fa3"/>
-        <stop offset="84%" stop-color="#1ba0d6"/><stop offset="100%" stop-color="#14a79c"/>
+        <stop offset="0%" stop-color="#ffbf18"/><stop offset="33%" stop-color="#f04a2f"/>
+        <stop offset="66%" stop-color="#7654a8"/><stop offset="100%" stop-color="#20afa6"/>
       </linearGradient>
     </defs>
     <path d="M2,28 C34,4 66,4 98,20 C130,36 162,36 194,14 C204,7 212,6 218,9"
@@ -229,9 +222,9 @@ function sectionHead(o) {
 /* --------------------------------------------------------------------------
    Responsive gallery <picture>
    -------------------------------------------------------------------------- */
-function galleryImg(d, id, alt, sizes = '(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 30vw', eager = false) {
+function galleryImg(d, id, alt, sizes = '(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 30vw', eager = false, dims = [1207, 817]) {
   const r = R(d);
-  return `<img class="ph-img" src="${r}assets/img/gallery/${id}.webp" srcset="${r}assets/img/gallery/${id}-t.webp 820w, ${r}assets/img/gallery/${id}.webp 1207w" sizes="${sizes}" width="1207" height="817" alt="${esc(alt)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${eager ? ' fetchpriority="high"' : ''}>`;
+  return `<img class="ph-img" src="${r}assets/img/gallery/${id}.webp" srcset="${r}assets/img/gallery/${id}-t.webp 820w, ${r}assets/img/gallery/${id}.webp 1207w" sizes="${sizes}" width="${dims[0]}" height="${dims[1]}" alt="${esc(alt)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${eager ? ' fetchpriority="high"' : ''}>`;
 }
 
 /* Case study photos: deck crops (D.csPhotos) are served at their native size;
@@ -293,7 +286,7 @@ function placeCredits(keys) {
     if (!key || seen.has(key)) continue;
     seen.add(key);
     const p = placePhotoMeta(key);
-    if (!p) continue;
+    if (!p || !p.source) continue; /* client-owned photos carry no attribution */
     const licence = p.licenseUrl
       ? `<a href="${p.licenseUrl}" rel="noopener nofollow" target="_blank">${p.license}</a>`
       : p.license;
@@ -347,7 +340,6 @@ function footer(d) {
   </div>
   <div class="container footer-bottom">
     <p>&copy; ${new Date().getFullYear()} ${site.name}. All rights reserved.</p>
-    <p class="footer-motto">Ideas &middot; People &middot; Experiences &middot; Together</p>
   </div>
 </footer>`;
 }
@@ -432,7 +424,7 @@ function organizationSchema() {
     name: site.name,
     alternateName: site.legalName,
     url: site.origin + '/',
-    logo: { '@type': 'ImageObject', url: site.origin + '/assets/img/brand/logo-primary.png', width: 1000, height: 476 },
+    logo: { '@type': 'ImageObject', url: site.origin + '/assets/img/brand/logo-primary.png', width: 1000, height: 472 },
     image: site.origin + '/assets/img/gallery/g14.webp',
     description:
       'Shaahi Creations is a PAN India corporate event management company founded in 2018 and headquartered in Hyderabad. We design and deliver conferences, annual days, product launches, brand activations, team offsites and destination corporate events.',
@@ -510,7 +502,7 @@ function breadcrumbs(d, trail) {
 
 module.exports = {
   R, esc, plain, jsonld, head, logo, header, wave, scriptWave, sectionHead, galleryImg, csPhoto, csImg,
-  placeCard, placePhotoMeta, placeCredits, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
+  placeCard, placePhotoMeta, placePhotoImg, placeCredits, ctaBand, footer, foot, videoModal, faqSection, faqSchema,
   organizationSchema, websiteSchema, breadcrumbSchema, breadcrumbs, icons, site, nav,
   orgId, siteId
 };

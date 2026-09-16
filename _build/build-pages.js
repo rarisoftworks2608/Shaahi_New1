@@ -25,10 +25,17 @@ function workTabs(d, active) {
     </nav>`;
 }
 
+/* Two source conventions: gallery ids (assets/img/gallery/<id>.webp + -t.webp
+   thumbnail) via `img`, or scene banners (assets/img/scene/<name>.webp +
+   -lg.webp for the larger srcset entry) via `scene` + explicit `sceneDims`
+   (the base file's own width/height, so the reserved box matches it). */
 function pageHero(d, o) {
+  const media = o.scene
+    ? `<img src="${img(d, 'assets/img/scene/' + o.scene + '.webp')}" srcset="${img(d, 'assets/img/scene/' + o.scene + '.webp')} 1800w, ${img(d, 'assets/img/scene/' + o.scene + '-lg.webp')} 2600w" sizes="100vw" width="${o.sceneDims[0]}" height="${o.sceneDims[1]}" alt="${C.esc(o.alt)}" fetchpriority="high" decoding="async">`
+    : `<img src="${img(d, 'assets/img/gallery/' + o.img + '.webp')}" srcset="${img(d, 'assets/img/gallery/' + o.img + '-t.webp')} 820w, ${img(d, 'assets/img/gallery/' + o.img + '.webp')} 1207w" sizes="100vw" width="1207" height="817" alt="${C.esc(o.alt)}" fetchpriority="high" decoding="async">`;
   return `<section class="phero" aria-labelledby="page-title">
     <div class="phero-media">
-      <img src="${img(d, 'assets/img/gallery/' + o.img + '.webp')}" srcset="${img(d, 'assets/img/gallery/' + o.img + '-t.webp')} 820w, ${img(d, 'assets/img/gallery/' + o.img + '.webp')} 1207w" sizes="100vw" width="1207" height="817" alt="${C.esc(o.alt)}" fetchpriority="high" decoding="async">
+      ${media}
     </div>
     ${C.wave('wave-hero-page', o.waveVariant || 'c')}
     <div class="container phero-inner">
@@ -74,17 +81,13 @@ function buildGallery() {
 
   const items = D.gallery
     .map(
-      (g, i) => `<button class="gal-item work-card reveal" type="button"
+      (g, i) => `<button class="gal-item work-card gal-item-plain reveal" type="button"
           data-cats="${g.cats.join(' ')}"
           data-full="${img(d, 'assets/img/gallery/' + g.img + '.webp')}"
           data-title="${C.esc(g.title)}"
           data-meta="${C.esc(g.meta)}"
           aria-label="View larger: ${C.esc(C.plain(g.title))}">
-          ${C.galleryImg(d, g.img, C.plain(g.title) + ' - ' + C.plain(g.meta), '(max-width: 560px) 92vw, (max-width: 900px) 46vw, 30vw', i < 3)}
-          <span class="work-body">
-            <span class="work-title">${g.title}</span>
-            <span class="work-meta">${g.meta}</span>
-          </span>
+          ${C.galleryImg(d, g.img, C.plain(g.title) + ' - ' + C.plain(g.meta), '(max-width: 560px) 92vw, (max-width: 900px) 46vw, 30vw', i < 3, g.dims || [1207, 817])}
           <span class="work-go" aria-hidden="true">${I.plus}</span>
         </button>`
     )
@@ -106,10 +109,11 @@ ${C.header(d, 'our-work.html')}
 <main id="main">
 
   ${pageHero(d, {
-    img: 'g03',
-    alt: 'A large corporate stage performance produced by Shaahi Creations',
+    scene: 'conference-stage',
+    sceneDims: [1800, 1350],
+    alt: 'A large conference stage set produced by Shaahi Creations',
     eyebrow: 'Our work',
-    title: 'Experiences<br>In <span class="accent">Every</span> Detail.',
+    title: 'Experiences<br>In Every <span class="accent">Detail.</span>',
     lede: 'A glimpse into the moments we have created for brands, teams and ideas that move people.'
   })}
 
@@ -233,8 +237,9 @@ ${C.header(d, 'case-studies.html')}
 <main id="main">
 
   ${pageHero(d, {
-    img: 'g04',
-    alt: 'A corporate leadership conference stage produced by Shaahi Creations',
+    scene: 'arena-scale',
+    sceneDims: [1800, 1201],
+    alt: 'A large-scale corporate arena event produced by Shaahi Creations',
     eyebrow: 'Case studies',
     title: 'Real Objectives.<br>Remarkable <span class="accent">Experiences.</span>',
     lede: 'Ideas, execution and impact for the moments that matter.',
@@ -643,15 +648,41 @@ ${C.foot(d)}`;
 /* ==========================================================================
    Destinations
    ========================================================================== */
-/* Stylised India outline. Coordinates derived from lat/lon on a 400x460
-   viewBox: x = (lon - 68) * 13.33, y = (37 - lat) * 15.33 */
+/* Accurate India outline (country border, incl. J&K and the northeast),
+   simplified from a public-domain 1:110m country-boundary dataset
+   (amcharts4-geodata, feature id "IN") to ~150 points. Projected onto a
+   400x460 viewBox with a simple equirectangular transform matching MAP_DOTS
+   below: x = (lon - 68) * 13.33, y = (37 - lat) * 15.33 */
 const INDIA_PATH =
-  'M107,40 L131,30 L149,33 L162,54 L176,86 L174,106 L196,121 L226,136 L262,158 L270,136 ' +
-  'L292,144 L318,152 L344,131 L381,137 L370,166 L360,197 L341,212 L334,232 L306,227 L281,231 ' +
-  'C275,240 268,249 260,255 C246,266 232,276 224,286 C209,303 196,315 178,326 C173,347 169,368 162,392 ' +
-  'C154,414 141,432 128,446 C120,436 114,424 110,412 C104,392 99,371 90,352 C82,334 74,318 70,302 ' +
-  'C65,286 62,268 60,252 L60,238 L44,240 L27,237 L11,229 L6,214 L9,203 L24,199 L41,193 L36,174 ' +
-  'L28,153 L40,132 L58,119 L81,108 L86,86 L82,60 Z';
+  'M142.9,78.4 L144.6,87.4 L148.1,85.8 L151.1,90.4 L151.6,90.8 L158.8,93.6 L159,93.7 L162.5,98.6 ' +
+  'L169.1,101 L173.4,104.8 L165.3,111.4 L160.9,125.2 L167.8,128 L184.7,140 L186.5,139.3 ' +
+  'L196.4,145.3 L203.8,147.6 L214.5,145.8 L221.4,148.7 L222.4,152.7 L230.5,157.3 L244.8,159.8 ' +
+  'L249.3,162 L253.5,160.1 L257.1,163.1 L267.3,162 L268.8,157.5 L266.4,151.2 L268.1,140 ' +
+  'L274.9,136.6 L277.9,140 L278.5,148.5 L278,153.9 L290.1,157.9 L297.9,155 L303.1,156.8 ' +
+  'L319.9,155.5 L321,148.8 L314.5,144.8 L315,141.7 L319.6,142.1 L328.8,138.8 L329.3,135.7 ' +
+  'L336,128.9 L345.3,125.7 L354.9,117.8 L356.8,119.9 L365.5,121.8 L373.7,115.8 L379,121.9 ' +
+  'L383.6,132.3 L390.9,134.6 L391,138.9 L382.1,148.1 L374.1,150 L361.6,159.5 L361.7,168 ' +
+  'L354.9,177.7 L356,183.2 L350.5,194.4 L348.3,201.2 L337.3,199 L338.8,204.2 L338.1,212.6 ' +
+  'L334.3,218.9 L335.4,224.4 L332.8,229.9 L327.6,230.3 L326.5,219.4 L324.7,215.7 L323.2,204.1 ' +
+  'L319.1,206.9 L314.9,214.9 L310.8,213 L308.7,204.5 L311.5,197.9 L318.3,196.3 L323.3,185.6 ' +
+  'L320.6,181.4 L299.1,181.5 L290.8,179.3 L290.9,169.5 L283.8,168.1 L281.4,165.5 L272.5,163 ' +
+  'L267.7,170.3 L272.6,175.2 L272.7,181.1 L268.5,191.8 L276.4,195.8 L274.2,204.3 L276.5,207.9 ' +
+  'L280.6,228.5 L280.6,235.3 L270,235.7 L265.9,232.6 L254.6,237.6 L251.4,241.6 L252.9,249.9 ' +
+  'L249.9,255.8 L243.7,261.8 L234.3,265.3 L223.6,274 L214.7,286.8 L208.7,290.2 L202.6,297.3 ' +
+  'L191.4,305.1 L190.1,313.3 L183.4,316.9 L176.5,317.9 L173,325.6 L168.6,323.5 L163.9,326.4 ' +
+  'L160.7,336.1 L162.2,343.7 L161.5,349.3 L164.5,362.4 L163,372.7 L158.1,383.4 L156.7,389.8 ' +
+  'L157.9,395.6 L157.8,409 L151.8,409.2 L146.6,418.8 L146.4,425.1 L138.9,427.6 L135.9,430.9 ' +
+  'L134.1,438.7 L126.9,443.4 L119.5,438.3 L114,430.7 L111,422.3 L111.3,415.1 L105.6,401.9 L103,393 ' +
+  'L95.9,382.4 L90.3,366.7 L88.9,357.7 L85.1,345 L79.3,336.1 L79.1,331.2 L73,321.1 L71.2,314.9 ' +
+  'L68.7,297.1 L64.9,280.8 L62.2,263.2 L65.1,252 L64.2,243.5 L60.6,234.6 L61.2,225.7 L57.8,225.8 ' +
+  'L53.8,232.7 L56.7,237.1 L53.5,242.9 L40.3,249.3 L36.2,249.3 L28.4,243.8 L13.4,226.9 L29,221.2 ' +
+  'L30,215.1 L22.2,218.3 L16.5,216.9 L8.5,211.7 L2.2,201.5 L9.7,199.8 L9.7,195.2 L20.8,195.1 ' +
+  'L22.9,196.6 L34,192.9 L40.6,193.2 L40.6,188.7 L35.4,177.5 L30.2,173.1 L27.7,167.5 L28.7,161.4 ' +
+  'L19.6,156.3 L20.9,150.6 L28.6,140.3 L32,137.6 L36.5,142.1 L51.6,138.5 L57.9,126.4 L65.4,122.2 ' +
+  'L71.7,108.3 L77.4,105.9 L78.6,100.6 L88.4,91.5 L86.8,81.1 L97.8,72.4 L88.7,68.7 L79.9,57.6 ' +
+  'L82,53.5 L79.5,36 L84,34.3 L102.8,38.3 L114.6,34.7 L120.6,29 L130.6,23.1 L130.8,23.2 L137.1,36 ' +
+  'L145.8,40.6 L143.3,44.6 L144,53.7 L148.1,57.8 L148.4,58.7 L149.5,68 L149.6,69 L138.5,68.7 ' +
+  'L142.9,78.4 Z';
 
 const MAP_DOTS = [
   ['Ludhiana', 106, 95], ['Chandigarh', 118, 97], ['Delhi NCR', 123, 114], ['Jaipur', 104, 156],
@@ -672,7 +703,10 @@ function buildDestinations() {
   const d = 0;
   const signature = D.destinations.filter((x) => x.kind === 'Signature');
   const offbeat = D.destinations.filter((x) => x.kind === 'Offbeat');
-  const venues = (D.venueCities.find((c) => c.key === 'hyderabad') || { venues: [] }).venues;
+  /* Every card links somewhere real: to its venue-partner showcase when we
+     have one, otherwise to the contact page so interest turns into an enquiry. */
+  const cityHref = (x) => (x.venues ? img(d, 'venue-partners.html') + '#venues-' + x.venues : img(d, 'contact.html'));
+  const destHref = (x) => (x.venues ? img(d, 'destination-venues.html') + '#venues-' + x.venues : img(d, 'contact.html'));
 
   const schema = [
     C.organizationSchema(),
@@ -708,7 +742,7 @@ ${C.header(d, 'destinations.html')}
     img: 'g35',
     alt: 'An elaborate floral venue installation created by Shaahi Creations for a destination event',
     eyebrow: 'Destinations',
-    title: 'Extraordinary Places.<br>Unforgettable <span class="accent">Experiences.</span>',
+    title: 'Extraordinary <span class="accent">Places.</span><br>Unforgettable Experiences.',
     lede: 'From vibrant cities to breathtaking destinations, we create seamless events wherever your business takes you.',
     waveVariant: 'a'
   })}
@@ -719,7 +753,7 @@ ${C.header(d, 'destinations.html')}
     <nav class="tabs" aria-label="Destination sections">
       <a class="tab is-active" href="#india-cities">India Cities</a>
       <a class="tab" href="#destinations">Destinations</a>
-      <a class="tab" href="#venue-partners">Venue Partners</a>
+      <a class="tab" href="${img(d, 'venue-partners.html')}">Venue Partners</a>
       <a class="tab" href="#our-approach">Our Approach</a>
     </nav>
   </div>
@@ -752,7 +786,7 @@ ${C.header(d, 'destinations.html')}
       </div>
 
       <div class="place-grid mt-3">
-        ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue, photo: c.photo })}</div>`).join('\n        ')}
+        ${D.cities.map((c) => `<div class="reveal">${C.placeCard({ name: c.name, tag: c.note, hue: c.hue, photo: c.photo, href: cityHref(c) })}</div>`).join('\n        ')}
       </div>
     </div>
   </section>
@@ -768,70 +802,17 @@ ${C.header(d, 'destinations.html')}
       }).replace('<h2 class="sec-title">Iconic', '<h2 class="sec-title" id="sig-title">Iconic')}
 
       <div class="place-grid">
-        ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo })}</div>`).join('\n        ')}
+        ${signature.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo, href: destHref(x) })}</div>`).join('\n        ')}
       </div>
 
       <div class="mt-4">
         <p class="eyebrow"><span class="eyebrow-rule"></span>Offbeat destinations</p>
         <h3 class="sec-title mb-3" style="font-size:var(--fs-h3)">Somewhere Quieter. Somewhere Different.</h3>
         <div class="place-grid">
-          ${offbeat.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo })}</div>`).join('\n          ')}
+          ${offbeat.map((x) => `<div class="reveal">${C.placeCard({ name: x.name, tag: x.tag, hue: x.hue, photo: x.photo, href: destHref(x) })}</div>`).join('\n          ')}
         </div>
       </div>
       ${C.placeCredits(D.cities.concat(D.destinations).map((x) => x.photo))}
-    </div>
-  </section>
-
-  <!-- ============================ VENUE PARTNERS ============================ -->
-  <section class="section" id="venue-partners" aria-labelledby="venue-title">
-    <div class="container">
-      ${C.sectionHead({
-        eyebrow: 'Venue partners',
-        title: 'The Right Room<br>For the Right Brief.',
-        lede: 'A working shortlist of the Hyderabad venues we use most often, filtered on production capability rather than availability alone. We hold similar relationships in every city we operate in.'
-      }).replace('<h2 class="sec-title">The Right', '<h2 class="sec-title" id="venue-title">The Right')}
-
-      <div class="venue-table-wrap">
-        <table class="venue-table">
-          <caption>Hyderabad venue partners, ordered by how often we work with them.</caption>
-          <thead>
-            <tr><th scope="col">#</th><th scope="col">Venue</th><th scope="col">Why we use it</th><th scope="col">Links</th></tr>
-          </thead>
-          <tbody>
-            ${venues
-              .map(
-                (v) => `<tr>
-              <td>${String(v.rank).padStart(2, '0')}</td>
-              <td><span class="venue-name">${v.name}</span><span class="venue-area">${v.area}</span></td>
-              <td>${v.desc}</td>
-              <td><div class="venue-links">
-                <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
-                <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
-                <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
-              </div></td>
-            </tr>`
-              )
-              .join('\n            ')}
-          </tbody>
-        </table>
-      </div>
-
-      <div class="venue-cards">
-        ${venues
-          .map(
-            (v) => `<article class="venue-card">
-          <span class="venue-name">${v.name}</span>
-          <span class="venue-area">${v.area}</span>
-          <p>${v.desc}</p>
-          <div class="venue-links">
-            <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
-            <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
-            <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
-          </div>
-        </article>`
-          )
-          .join('\n        ')}
-      </div>
     </div>
   </section>
 
@@ -856,6 +837,172 @@ ${C.footer(d)}
 ${C.foot(d)}`;
 
   write('destinations.html', html);
+}
+
+/* ==========================================================================
+   Venue Partners
+   ========================================================================== */
+/* The 12 venueCities entries split the same way the Destinations page splits
+   its cards: business/metro cities vs leisure destination places. Keeping
+   the two on separate pages mirrors that split instead of mixing them. */
+const CITY_VENUE_KEYS = ['hyderabad', 'bengaluru', 'mumbai', 'delhi', 'chennai', 'pune', 'jaipur'];
+const DEST_VENUE_KEYS = ['goa', 'udaipur', 'rishikesh', 'kochi'];
+
+/* Full-width banner image for a city/place, sized for the 16:5.4 hero crop
+   rather than the small grid-card sizes placePhotoImg assumes. */
+function venueHeroImg(d, key) {
+  const m = C.placePhotoMeta(key);
+  if (!m) return '';
+  return `<img src="${img(d, 'assets/img/places/' + key + '.webp')}" srcset="${img(d, 'assets/img/places/' + key + '-sm.webp')} 640w, ${img(d, 'assets/img/places/' + key + '.webp')} 1600w" sizes="100vw" width="${m.w}" height="${m.h}" alt="${C.esc(m.alt)}" loading="lazy" decoding="async">`;
+}
+
+/* Shared tabs + stacked panels markup, used by both venue-listing pages. */
+function venueShowcase(d, cityKeys) {
+  const list = cityKeys.map((k) => D.venueCities.find((c) => c.key === k)).filter(Boolean);
+  return `<nav class="venue-tabs" aria-label="Jump to a city">
+        ${list.map((c) => `<a class="vtab" href="#venues-${c.key}">${c.name} <span class="vtab-count">${c.venues.length}</span></a>`).join('\n        ')}
+      </nav>
+
+      ${list
+        .map(
+          (c) => `<div class="venue-panel" id="venues-${c.key}" tabindex="-1">
+        <div class="venue-hero">
+          ${venueHeroImg(d, c.photo)}
+          <span class="venue-hero-count">${c.venues.length} partner${c.venues.length === 1 ? '' : 's'}</span>
+          <div class="venue-hero-copy">
+            <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>${c.tag}</p>
+            <h2 class="venue-hero-title">${c.name}</h2>
+          </div>
+        </div>
+        <div class="venue-grid">
+          ${c.venues
+            .map(
+              (v) => `<article class="vcard">
+            <div class="vcard-head">
+              <span class="vcard-rank">${String(v.rank).padStart(2, '0')}</span>
+              <span class="vcard-type">${v.type}</span>
+            </div>
+            <h3 class="vcard-name">${v.name}</h3>
+            <p class="vcard-area">${I.pin}${v.area}</p>
+            <p class="vcard-desc">${v.desc}</p>
+            <p class="vcard-facts">${v.facts}</p>
+            <ul class="vcard-tags" aria-label="Suited to">
+              ${v.events.map((e) => `<li>${e}</li>`).join('\n              ')}
+            </ul>
+            <div class="venue-links">
+              <a href="${v.map}" rel="noopener nofollow" target="_blank">${I.pin} Map</a>
+              <a href="${v.web}" rel="noopener nofollow" target="_blank">${I.external} Site</a>
+              <a href="${v.insta}" rel="noopener nofollow" target="_blank">${I.instagram} Instagram</a>
+            </div>
+          </article>`
+            )
+            .join('\n          ')}
+        </div>
+      </div>`
+        )
+        .join('\n      ')}`;
+}
+
+function buildVenuePartners() {
+  const d = 0;
+  const schema = [
+    C.organizationSchema(),
+    C.breadcrumbSchema([
+      { name: 'Home', path: 'index.html' },
+      { name: 'Destinations', path: 'destinations.html' },
+      { name: 'Venue Partners', path: 'venue-partners.html' }
+    ])
+  ];
+
+  const html = `${C.head({
+    depth: d,
+    path: 'venue-partners.html',
+    page: 'venue-partners',
+    title: 'Venue Partners Across India | Luxury Hotels &amp; Palaces | Shaahi Creations',
+    description: 'A curated, city-by-city shortlist of the luxury hotels, palaces and resorts Shaahi Creations works with most often - each matched to the kind of event it is actually built for.',
+    keywords: 'corporate event venues India, luxury hotel venues, wedding venue Hyderabad, MICE venue Mumbai, conference hotel Bengaluru, gala venue Mumbai',
+    ogImage: 'assets/img/gallery/g14.webp',
+    schema
+  })}
+${C.header(d, 'destinations.html')}
+
+<main id="main">
+
+  ${pageHero(d, {
+    img: 'g35',
+    alt: 'An elegant ballroom set for a gala event',
+    eyebrow: 'Venue partners',
+    title: 'Rooms Built<br>For <span class="accent">The Brief.</span>',
+    lede: 'A working shortlist of the business-city venues we return to, again and again - chosen for what they can actually deliver, not just for being available.',
+    waveVariant: 'b'
+  })}
+
+  ${C.breadcrumbs(d, [{ name: 'Home', path: 'index.html' }, { name: 'Destinations', path: 'destinations.html' }, { name: 'Venue Partners' }])}
+
+  <section class="section">
+    <div class="container">
+      ${venueShowcase(d, CITY_VENUE_KEYS)}
+    </div>
+  </section>
+
+</main>
+
+${C.ctaBand(d, { title: 'Don&rsquo;t See Your City?', lede: 'We hold the same production-first relationships everywhere we operate. Tell us where, and we will bring the shortlist.' })}
+${C.footer(d)}
+${C.foot(d)}`;
+
+  write('venue-partners.html', html);
+}
+
+function buildDestinationVenues() {
+  const d = 0;
+  const schema = [
+    C.organizationSchema(),
+    C.breadcrumbSchema([
+      { name: 'Home', path: 'index.html' },
+      { name: 'Destinations', path: 'destinations.html' },
+      { name: 'Destination Venues', path: 'destination-venues.html' }
+    ])
+  ];
+
+  const html = `${C.head({
+    depth: d,
+    path: 'destination-venues.html',
+    page: 'destination-venues',
+    title: 'Destination Venues | Palaces, Beach Resorts &amp; Retreats | Shaahi Creations',
+    description: 'A curated shortlist of the palaces, beach resorts and wellness retreats Shaahi Creations works with for offsites, incentive travel and destination celebrations across Goa, Rajasthan, Uttarakhand and South India.',
+    keywords: 'destination wedding venue India, offsite resort Goa, palace venue Udaipur, wellness retreat Rishikesh, incentive travel Kerala resort',
+    ogImage: 'assets/img/gallery/g35.webp',
+    schema
+  })}
+${C.header(d, 'destinations.html')}
+
+<main id="main">
+
+  ${pageHero(d, {
+    img: 'g08',
+    alt: 'A large-format destination event set against a scenic backdrop',
+    eyebrow: 'Destination venues',
+    title: 'Escapes Built<br>For <span class="accent">The Occasion.</span>',
+    lede: 'Palaces, beach resorts and wellness retreats we return to for offsites, incentive travel and destination celebrations - each chosen for a different kind of moment.',
+    waveVariant: 'c'
+  })}
+
+  ${C.breadcrumbs(d, [{ name: 'Home', path: 'index.html' }, { name: 'Destinations', path: 'destinations.html' }, { name: 'Destination Venues' }])}
+
+  <section class="section">
+    <div class="container">
+      ${venueShowcase(d, DEST_VENUE_KEYS)}
+    </div>
+  </section>
+
+</main>
+
+${C.ctaBand(d, { title: 'Planning Something Further Out?', lede: 'We hold the same relationships in offbeat destinations too. Tell us where, and we will bring the shortlist.' })}
+${C.footer(d)}
+${C.foot(d)}`;
+
+  write('destination-venues.html', html);
 }
 
 /* ==========================================================================
@@ -895,8 +1042,9 @@ ${C.header(d, 'contact.html')}
 <main id="main">
 
   ${pageHero(d, {
-    img: 'g05',
-    alt: 'Guests networking at a corporate event managed by Shaahi Creations',
+    scene: 'audience-gold',
+    sceneDims: [1800, 1200],
+    alt: 'An audience at a corporate event lit in gold, produced by Shaahi Creations',
     eyebrow: 'Contact us',
     title: 'Let&rsquo;s Create<br>What&rsquo;s <span class="accent">Next.</span>',
     lede: 'Have an event in mind? We would love to hear from you. Let us turn your ideas into experiences that move people.',
@@ -1185,6 +1333,8 @@ function buildMeta() {
     ['case-studies.html', '0.9', 'weekly'],
     ['blog.html', '0.8', 'weekly'],
     ['destinations.html', '0.8', 'monthly'],
+    ['venue-partners.html', '0.7', 'monthly'],
+    ['destination-venues.html', '0.7', 'monthly'],
     ['contact.html', '0.9', 'monthly'],
     ['privacy-policy.html', '0.2', 'yearly']
   ]
@@ -1328,7 +1478,7 @@ ${D.faqs.home.concat(D.faqs.about, D.faqs.destinations, D.faqs.contact).map((f) 
         scope: '/',
         display: 'standalone',
         background_color: '#ffffff',
-        theme_color: '#0e2036',
+        theme_color: '#152f49',
         lang: 'en-IN',
         icons: [
           { src: '/assets/img/brand/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
@@ -1349,6 +1499,8 @@ function buildAll() {
   buildBlogIndex();
   buildBlogPages();
   buildDestinations();
+  buildVenuePartners();
+  buildDestinationVenues();
   buildContact();
   buildUtility();
   buildMeta();

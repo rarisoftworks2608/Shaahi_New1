@@ -56,10 +56,9 @@ const site = {
     }
   ],
 
-  /* NOTE: confirm handles with the client before go-live. */
   social: [
-    { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/shaahi-creations/' },
-    { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/shaahicreations/' },
+    { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/shaahicreationsevents/' },
+    { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/shaahicreationsevents' },
     { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@shaahicreations' }
   ],
 

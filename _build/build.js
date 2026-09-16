@@ -64,19 +64,30 @@ function statsRow(cls = '') {
    and a square crest carry the same visual weight. `--lw` is the base width in
    px, capped at 44px tall; the CSS --logo-scale shrinks both per breakpoint. */
 function clientWall(d) {
-  /* The design shows open rows of marks, no boxed grid. */
+  /* Single-line, continuously scrolling logo strip. The track is rendered
+     twice (the second copy hidden from AT) so the CSS animation can shift
+     exactly one copy-width left and loop seamlessly. */
+  const cells = D.clients
+    .map((c) => {
+      const ar = c.w / c.h;
+      const lw = Math.round(Math.min(50 * Math.sqrt(ar), 44 * ar));
+      return `<span class="client-cell"><img src="${img(d, 'assets/img/clients/marks/' + c.file + '.webp')}" width="${c.w}" height="${c.h}" style="--lw:${lw}" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></span>`;
+    })
+    .join('\n        ');
+  const more = `<span class="client-more">&amp; many more</span>`;
+
   return `<div class="clients-head">
       <p class="eyebrow"><span class="eyebrow-rule"></span>Some of our clients</p>
     </div>
-    <div class="client-row reveal">
-      ${D.clients
-        .map((c) => {
-          const ar = c.w / c.h;
-          const lw = Math.round(Math.min(50 * Math.sqrt(ar), 44 * ar));
-          return `<span class="client-cell"><img src="${img(d, 'assets/img/clients/marks/' + c.file + '.webp')}" width="${c.w}" height="${c.h}" style="--lw:${lw}" alt="${C.plain(c.name)} logo" loading="lazy" decoding="async"></span>`;
-        })
-        .join('\n      ')}
-      <span class="client-more">&amp; many more</span>
+    <div class="client-marquee reveal">
+      <div class="client-track">
+        ${cells}
+        ${more}
+      </div>
+      <div class="client-track" aria-hidden="true">
+        ${cells}
+        ${more}
+      </div>
     </div>`;
 }
 
@@ -210,8 +221,8 @@ ${C.header(d, 'index.html')}
         <h1 class="hero-title" id="hero-title">
           <span>Ideas.</span>
           <span>People.</span>
-          <span>Experiences.</span>
-          <span class="accent">Together.</span>
+          <span class="accent">Experiences.</span>
+          <span>Together.</span>
         </h1>
         <p class="hero-lede">We design and deliver corporate events that inspire, engage and create lasting impact.</p>
         <div class="hero-actions">
@@ -221,9 +232,6 @@ ${C.header(d, 'index.html')}
             <span>Watch Our Story</span>
           </button>
         </div>
-      </div>
-      <div class="hero-words" aria-hidden="true">
-        <span>People</span><span>Ideas</span><span>Culture</span><span>Impact</span>
       </div>
     </div>
     <div class="hero-scroll" aria-hidden="true">${I.scroll}<span>Scroll</span></div>
@@ -331,13 +339,13 @@ ${C.header(d, 'index.html')}
     <div class="container">
       ${C.sectionHead({
         eyebrow: 'Destination experiences',
-        title: 'Extraordinary Places.<br>Exceptional Experiences.',
-        lede: 'From beaches to palaces, mountains to cities, we create seamless corporate experiences across India&rsquo;s most inspiring destinations.',
-        link: { href: 'destinations.html', label: 'Explore destinations' }
-      }).replace('<h2 class="sec-title">Extraordinary', '<h2 class="sec-title" id="dest-title">Extraordinary')}
+        title: 'Four Cities.<br>One Standard.',
+        lede: 'From Mumbai to Delhi NCR, we lead events in India&rsquo;s biggest business hubs &mdash; then take you further, to exceptional and offbeat destinations across the country.',
+        link: { href: 'destinations.html', label: 'Explore More Destinations' }
+      }).replace('<h2 class="sec-title">Four Cities', '<h2 class="sec-title" id="dest-title">Four Cities')}
       <div class="grid g-4">
         ${D.destHighlights
-          .map((p) => `<div class="reveal">${C.placeCard({ ...p, href: 'destinations.html#destinations' })}</div>`)
+          .map((p) => `<div class="reveal">${C.placeCard({ ...p, href: 'venue-partners.html#venues-' + p.venues })}</div>`)
           .join('\n        ')}
       </div>
       ${C.placeCredits(D.destHighlights.map((p) => p.photo))}
@@ -408,13 +416,13 @@ ${C.header(d, 'about.html')}
 
   <section class="phero" aria-labelledby="about-title">
     <div class="phero-media">
-      <img src="${img(d, 'assets/img/gallery/g08.webp')}" srcset="${img(d, 'assets/img/gallery/g08-t.webp')} 820w, ${img(d, 'assets/img/gallery/g08.webp')} 1207w" sizes="100vw" width="1207" height="817" alt="A large-format corporate event hall produced by Shaahi Creations" fetchpriority="high" decoding="async">
+      <img src="${img(d, 'assets/img/scene/celebration-arena.webp')}" srcset="${img(d, 'assets/img/scene/celebration-arena.webp')} 1800w, ${img(d, 'assets/img/scene/celebration-arena-lg.webp')} 2600w" sizes="100vw" width="1800" height="1200" alt="A large-scale celebration produced by Shaahi Creations" fetchpriority="high" decoding="async">
     </div>
     ${C.wave('wave-hero-page', 'c')}
     <div class="container phero-inner">
       <div class="phero-copy">
         <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>Corporate Events &amp; Experiences</p>
-        <h1 class="phero-title" id="about-title">We Create Experiences<br>That <span class="accent">Move People.</span></h1>
+        <h1 class="phero-title" id="about-title">We Create Experiences<br>That Move <span class="accent">People.</span></h1>
         <p class="phero-lede">Strategic event partners. Hospitality professionals. Experience creators.</p>
         <div class="phero-actions">
           <button class="play-btn" type="button" data-video>
@@ -441,7 +449,7 @@ ${C.header(d, 'about.html')}
           <p class="lede">Founded in 2018, Shaahi Creations began with a simple belief: every event should do more than happen. It should inspire people, create meaningful connections and leave a lasting impact.</p>
           <p class="lede">What started as a Hyderabad-based event management company has grown into a trusted corporate event partner, delivering experiences for organisations across India. Today we bring together strategic thinking, creative design, hospitality excellence and meticulous execution to create events that align with business objectives and inspire people.</p>
           <div class="split-actions">
-            <a class="btn btn-outline" href="#how-we-think">Our Journey ${I.arrow}</a>
+            <a class="btn btn-outline" href="#team">Meet Our Team ${I.arrow}</a>
           </div>
         </div>
 
@@ -526,7 +534,7 @@ ${C.header(d, 'about.html')}
         <h2 class="sec-title" id="think-title">From Insight to Impact.</h2>
         <p class="lede on-dark">Every event starts with a business objective. We take the time to understand your audience, purpose and desired outcome before crafting an experience that delivers real impact.</p>
         <div class="split-actions">
-          <a class="btn btn-ghost-light" href="${img(d, 'case-studies.html')}">Our Approach ${I.arrow}</a>
+          <a class="btn btn-ghost-light" href="${img(d, 'our-work.html')}">See It In Action ${I.arrow}</a>
         </div>
       </div>
 
