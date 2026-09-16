@@ -739,8 +739,9 @@ ${C.header(d, 'destinations.html')}
 <main id="main">
 
   ${pageHero(d, {
-    img: 'g35',
-    alt: 'An elaborate floral venue installation created by Shaahi Creations for a destination event',
+    scene: 'destination-sunset',
+    sceneDims: [1800, 1236],
+    alt: 'A beachfront stage at sunset, produced by Shaahi Creations for a destination event',
     eyebrow: 'Destinations',
     title: 'Extraordinary <span class="accent">Places.</span><br>Unforgettable Experiences.',
     lede: 'From vibrant cities to breathtaking destinations, we create seamless events wherever your business takes you.',
