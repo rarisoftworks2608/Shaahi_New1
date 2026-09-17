@@ -1365,7 +1365,11 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   width: 100%;
 }
 .sec-head-quotes .carousel-nav { margin-top: 0; flex: 0 0 auto; }
-.carousel-quotes .carousel-track { padding-bottom: 0; }
+/* overflow-x:auto makes the browser compute overflow-y as auto too, which left
+   these cards a few pixels vertically scrollable - enough for the wheel to
+   nudge the quotes out of view instead of scrolling the page. Quote cards have
+   no hover lift or shadow to clip, so pin the vertical axis. */
+.carousel-quotes .carousel-track { padding-bottom: 0; overflow-y: hidden; }
 
 @media (max-width: 860px) {
   .sec-head-quotes .sec-head-right { flex-wrap: wrap; }
