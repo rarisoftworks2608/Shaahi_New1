@@ -33,13 +33,13 @@ const services = [
     icon: 'activation',
     title: 'Experiential Brand Activations',
     blurb: 'Immersive activations, expos and showcases that let audiences experience a brand rather than watch it.',
-    tone: 'blue'
+    tone: 'coral'
   },
   {
     icon: 'destination',
     title: 'Destination Corporate Events',
     blurb: 'Beach, palace and mountain destinations across India, with travel, stay and on-ground teams handled.',
-    tone: 'pink'
+    tone: 'gold'
   }
 ];
 
@@ -131,10 +131,10 @@ const destHighlights = [
 
 /* --- About: what we believe ---------------------------------------------- */
 const beliefs = [
-  { icon: 'bulb', title: 'Ideas First', text: 'We start with the objective, not the template. Every event begins with a question, not a checklist.' },
-  { icon: 'pen', title: 'Design Matters', text: 'Every touchpoint should serve a purpose, from the stage to the smallest detail on the table.' },
-  { icon: 'handshake', title: 'People Come First', text: 'We create experiences designed around how people feel, connect and participate.' },
-  { icon: 'gearcheck', title: 'Execution Makes the Difference', text: 'Great ideas mean little without disciplined planning and flawless delivery.' }
+  { icon: 'bulb', tone: 'gold', title: 'Ideas First', text: 'We start with the objective, not the template. Every event begins with a question, not a checklist.' },
+  { icon: 'pen', tone: 'coral', title: 'Design Matters', text: 'Every touchpoint should serve a purpose, from the stage to the smallest detail on the table.' },
+  { icon: 'handshake', tone: 'purple', title: 'People Come First', text: 'We create experiences designed around how people feel, connect and participate.' },
+  { icon: 'gearcheck', tone: 'teal', title: 'Execution Makes the Difference', text: 'Great ideas mean little without disciplined planning and flawless delivery.' }
 ];
 
 /* --- About: how we think (capability deck, page 5) ----------------------- */
@@ -228,10 +228,15 @@ const CAT = {
 };
 
 const gallery = [
+{ img: 'g86', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1207, 804] },
+{ img: 'g16', title: 'Dance Showcase', meta: 'IT | 700+ Guests', cats: ['annual'], overlay: 'Sparks Fly' },
+{ img: 'g46', title: 'ZEST Annual Day Mandala Stage', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Designed To Be Seen', dims: [1600, 1067] },
+{ img: 'g07', title: 'Annual Family Day', meta: 'IT | 2000+ Guests', cats: ['family', 'annual'], overlay: 'A Day To Belong' },
+{ img: 'g31', title: 'Heritage Theme Stage', meta: 'Government | 800+ Guests', cats: ['annual'], overlay: 'Sunrise Sequence' },
+{ img: 'g65', title: 'Grand Entrance With Cold Pyro', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'Make An Entrance', dims: [1067, 1600] },
   { img: 'g14', title: 'Annual Employee Event', meta: 'Technology | 600+ Guests', cats: ['annual', 'conf'], overlay: 'People. Ideas. Together.' },
   { img: 'g40', title: 'Destination Partner Connect', meta: 'Goa | 300+ Guests', cats: ['dest', 'brand'], overlay: 'Under The Lights' },
   { img: 'g20', title: 'On-Stage Brand Reveal', meta: 'Automobile | 500+ Guests', cats: ['launch'], overlay: 'Driven By A Brighter Tomorrow' },
-  { img: 'g07', title: 'Annual Family Day', meta: 'IT | 2000+ Guests', cats: ['family', 'annual'], overlay: 'A Day To Belong' },
   { img: 'g38', title: 'Leadership Conference', meta: 'Pharma | 600+ Guests', cats: ['conf'], overlay: 'Knowledge. Collaboration. Action.' },
   { img: 'g11', title: 'Team Offsite', meta: 'Udaipur | 150+ Guests', cats: ['team', 'dest'], overlay: 'Breathe. Connect. Grow.' },
   { img: 'g34', title: 'Shaadi by Marriott Showcase', meta: 'Hospitality | Pan India', cats: ['brand'], overlay: 'Moments That Matter' },
@@ -243,27 +248,17 @@ const gallery = [
   { img: 'g03', title: 'Annual Celebration Showcase', meta: 'IT | 900+ Guests', cats: ['annual'], overlay: 'Lights. Motion. Applause.' },
   { img: 'g04', title: 'Leadership Summit', meta: 'Technology | 800+ Guests', cats: ['conf'], overlay: 'Lead. Collaborate. Innovate.' },
   { img: 'g09', title: 'Corporate Conference Setup', meta: 'GCC | 400+ Guests', cats: ['conf'], overlay: 'Every Detail, Considered' },
-  { img: 'g23', title: 'Rewards &amp; Recognition Night', meta: 'Manufacturing | 500+ Guests', cats: ['conf', 'annual'], overlay: 'Recognised. Celebrated.' },
   { img: 'g36', title: '10th Anniversary Special Event', meta: 'Aviation | 200+ Guests', cats: ['conf', 'other'], overlay: 'A Decade In Hyderabad' },
   { img: 'g01', title: 'Dealer Meet &amp; Brand Launch', meta: 'Hospitality | 800+ Dealers', cats: ['launch', 'brand'], overlay: 'A Night With The Tiger' },
   { img: 'g13', title: 'Outdoor Launch Night', meta: 'FMCG | Pan India', cats: ['launch', 'brand'], overlay: 'Out In The Open' },
   { img: 'g05', title: 'Networking Evening', meta: 'Consulting | 150+ Guests', cats: ['team', 'conf'], overlay: 'Conversations That Count' },
-  { img: 'g21', title: 'Employee Performance Night', meta: 'IT | 700+ Guests', cats: ['team', 'annual'], overlay: 'Their Stage' },
-  { img: 'g22', title: 'Engagement Act', meta: 'BFSI | 400+ Guests', cats: ['team'], overlay: 'All In' },
   { img: 'g32', title: 'Team Showcase', meta: 'GCC | 600+ Guests', cats: ['team', 'annual'], overlay: 'Together On Stage' },
-  { img: 'g24', title: 'Global Teams Family Day', meta: 'Technology | 2000+ Guests', cats: ['family', 'team'], overlay: 'Surfs Up' },
-  { img: 'g28', title: 'Beach Theme Family Day', meta: 'Healthcare Tech | 3000+ Guests', cats: ['family', 'annual'], overlay: 'Sun. Sand. Celebration.' },
   { img: 'g33', title: 'Finale Showcase', meta: 'IT | 1500+ Guests', cats: ['annual', 'family'], overlay: 'The Big Finish' },
   { img: 'g12', title: 'Cultural Night', meta: 'Pharma | 800+ Guests', cats: ['annual'], overlay: 'Roots On Stage' },
-  { img: 'g16', title: 'Dance Showcase', meta: 'IT | 700+ Guests', cats: ['annual'], overlay: 'Sparks Fly' },
   { img: 'g17', title: 'Fire &amp; Rhythm Act', meta: 'Manufacturing | 600+ Guests', cats: ['annual'], overlay: 'Turn Up The Heat' },
   { img: 'g18', title: 'LED Stage Performance', meta: 'Telecom | 900+ Guests', cats: ['annual'], overlay: 'Pixel Perfect' },
   { img: 'g19', title: 'Skyline Theme Showcase', meta: 'BFSI | 800+ Guests', cats: ['annual'], overlay: 'City Lights' },
-  { img: 'g25', title: 'Classical Solo Performance', meta: 'Education | 500+ Guests', cats: ['annual', 'other'], overlay: 'Tradition, Reimagined' },
-  { img: 'g26', title: 'Folk Ensemble', meta: 'Government | 700+ Guests', cats: ['annual'], overlay: 'Colour And Craft' },
-  { img: 'g27', title: 'Mandala Stage Design', meta: 'Pharma | 900+ Guests', cats: ['annual'], overlay: 'Designed To Be Seen' },
   { img: 'g30', title: 'Festive Stage Design', meta: 'Retail | 600+ Guests', cats: ['annual', 'other'], overlay: 'Festival Mode' },
-  { img: 'g31', title: 'Heritage Theme Stage', meta: 'Government | 800+ Guests', cats: ['annual'], overlay: 'Sunrise Sequence' },
   { img: 'g35', title: 'Bridal Couture Runway', meta: 'Hospitality | 400+ Guests', cats: ['brand'], overlay: 'Shaadi by Marriott' },
   { img: 'g10', title: 'Ceremonial D&eacute;cor', meta: 'Special Event | 500+ Guests', cats: ['other', 'dest'], overlay: 'Craft In Every Corner' },
   { img: 'g15', title: 'Holiday Party Red Carpet', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other', 'family'], overlay: 'Holiday Party' },
@@ -272,9 +267,66 @@ const gallery = [
   { img: 'g43', title: 'ZEST Annual Day Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'On Beat', dims: [1067, 1600] },
   { img: 'g44', title: 'ZEST Annual Day Classical Feature', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Ten Arms, One Story', dims: [1600, 1067] },
   { img: 'g45', title: 'ZEST Annual Day Ensemble', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Full Company On Stage', dims: [1600, 1067] },
-  { img: 'g46', title: 'ZEST Annual Day Mandala Stage', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Designed To Be Seen', dims: [1600, 1067] },
   { img: 'g47', title: 'ZEST 26 Stage Design', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Wave After Wave', dims: [1600, 1067] },
-  { img: 'g48', title: 'ZEST 26 Finale', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Sun, Sand, Celebration', dims: [820, 547] }
+  { img: 'g48', title: 'ZEST 26 Finale', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Sun, Sand, Celebration', dims: [820, 547] },
+  /* Annual day photography by Team Tangulwar, used with rights confirmed by the client.
+     Screened out: any frame with readable LED text, client branding or personal data. */
+  { img: 'g49', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g50', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g51', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g52', title: 'Grand Entrance With Cold Pyro', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'Make An Entrance', dims: [1067, 1600] },
+  { img: 'g53', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g54', title: 'Grand Entrance With Cold Pyro', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'Make An Entrance', dims: [1067, 1600] },
+  { img: 'g55', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g56', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g57', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g58', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g59', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g60', title: 'Pre-Function And Live Catering', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'other'], overlay: 'Before The Show', dims: [1207, 804] },
+  { img: 'g61', title: 'Pre-Function And Live Catering', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'other'], overlay: 'Before The Show', dims: [1207, 804] },
+  { img: 'g62', title: 'Party Props Styling', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other'], overlay: 'Details That Play', dims: [1207, 804] },
+  { img: 'g63', title: 'Party Props Styling', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other'], overlay: 'Details That Play', dims: [1207, 804] },
+  { img: 'g64', title: 'Party Props Styling', meta: 'Healthcare Tech | 1000+ Guests', cats: ['other'], overlay: 'Details That Play', dims: [1207, 804] },
+  { img: 'g66', title: 'Grand Entrance With Cold Pyro', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'Make An Entrance', dims: [1207, 804] },
+  { img: 'g67', title: 'Grand Entrance With Cold Pyro', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'Make An Entrance', dims: [1067, 1600] },
+  { img: 'g68', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g69', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1066, 1600] },
+  { img: 'g70', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g72', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g73', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g74', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g75', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g76', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g77', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g78', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g79', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g81', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g82', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g83', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g84', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1067, 1600] },
+  { img: 'g85', title: 'Year-End Celebration Performance', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual'], overlay: 'On Stage', dims: [1207, 804] },
+  { img: 'g88', title: 'Year-End Celebration Dance Floor', meta: 'Healthcare Tech | 1000+ Guests', cats: ['annual', 'team'], overlay: 'The Floor Comes Alive', dims: [1207, 804] },
+  { img: 'g89', title: 'ZEST 2025 Garden Dining Setup', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Set Under The Sky', dims: [1207, 804] },
+  { img: 'g90', title: 'ZEST 2025 Garden Dining Setup', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Set Under The Sky', dims: [1207, 804] },
+  { img: 'g91', title: 'ZEST 2025 Theme Props', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Vegas Nights', dims: [1207, 804] },
+  { img: 'g92', title: 'ZEST 2025 Table Styling', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Set For The Night', dims: [1207, 804] },
+  { img: 'g93', title: 'ZEST 2025 Table Styling', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Set For The Night', dims: [1207, 804] },
+  { img: 'g94', title: 'ZEST 2025 Theme Props', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Vegas Nights', dims: [1207, 804] },
+  { img: 'g95', title: 'ZEST 2025 Theme Props', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Vegas Nights', dims: [1207, 804] },
+  { img: 'g97', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g100', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g101', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g102', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g103', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g105', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g106', title: 'ZEST 26 Cultural Performance', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Centre Stage', dims: [1207, 804] },
+  { img: 'g107', title: 'ZEST 26 Venue Setup', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Before The Doors Open', dims: [1207, 804] },
+  { img: 'g109', title: 'ZEST 26 Beach Theme Styling', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Sun, Sand, Celebration', dims: [1067, 1600] },
+  { img: 'g110', title: 'ZEST 26 Venue Setup', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'Before The Doors Open', dims: [1207, 804] },
+  { img: 'g111', title: 'ZEST 26 Beach Theme Styling', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual', 'other'], overlay: 'Sun, Sand, Celebration', dims: [1207, 804] },
+  { img: 'g113', title: 'ZEST 26 Dance Finale With Cold Pyro', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'The Big Finish', dims: [1207, 804] },
+  { img: 'g114', title: 'ZEST 26 Dance Finale With Cold Pyro', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'The Big Finish', dims: [1207, 804] },
+  { img: 'g115', title: 'ZEST 26 Dance Finale With Cold Pyro', meta: 'Healthcare Tech | 1500+ Guests', cats: ['annual'], overlay: 'The Big Finish', dims: [1207, 804] }
 ];
 
 /* --- Case study photography ---------------------------------------------- */
@@ -1635,7 +1687,7 @@ const posts = [
     date: '2026-06-05',
     readTime: '7 min read',
     cat: 'Measurement',
-    img: 'g23',
+    img: 'g07',
     body: [
       ['p', 'Corporate events get measured with two numbers: how many people came, and how they rated it. Both are easy to collect and neither tells you whether the event was worth doing.'],
       ['h2', 'Why satisfaction scores mislead'],
@@ -1688,26 +1740,26 @@ const posts = [
 const faqs = {
   home: [
     { q: 'What does Shaahi Creations do?', a: 'Shaahi Creations is a corporate event management company founded in 2018, headquartered in Hyderabad with offices in Pune and Mumbai. We design and deliver conferences, leadership summits, annual days, family days, product launches, dealer meets, brand activations, team offsites and destination corporate events across India.' },
-    { q: 'Where does Shaahi Creations operate?', a: 'We operate PAN India and have executed more than 1500 events across 25+ cities, including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata, Chennai, Ahmedabad, Jaipur and Indore, as well as destination locations such as Goa, Udaipur, Rishikesh, Coorg, Jim Corbett and Kabini.' },
-    { q: 'What size of events can Shaahi Creations manage?', a: 'We have delivered events from intimate leadership retreats of 100 guests to large-format celebrations for audiences of 4000. Our largest single event managed to date hosted 4000 attendees.' },
+    { q: 'Where does Shaahi Creations operate?', a: 'We operate PAN India and have executed more than 600 events, including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata, Chennai, Ahmedabad, Jaipur and Indore, as well as destination locations such as Goa, Udaipur, Rishikesh, Coorg, Jim Corbett and Kabini.' },
+    { q: 'What size of events can Shaahi Creations manage?', a: 'We have delivered events from intimate leadership retreats of 100 guests to large-format celebrations for audiences of 4,000. Our largest single event managed to date hosted 4,000+ attendees.' },
     { q: 'Which industries does Shaahi Creations work with?', a: 'We work across IT and technology, GCCs, healthcare, pharma, retail, hospitality, government, manufacturing, automobile, education, telecom and BFSI. Clients include Microsoft, NVIDIA, Amazon, Marriott, Porsche, Capgemini, Dr. Reddy’s Laboratories, Welspun and the World Health Organization.' },
     { q: 'How do I request a proposal?', a: 'Share your event objective, approximate audience size, preferred dates and city through the contact form, or write to events@shaahicreations.com. We typically respond within 24 hours during business hours, Monday to Saturday.' }
   ],
   about: [
-    { q: 'When was Shaahi Creations founded?', a: 'Shaahi Creations was founded in 2018 and has delivered more than 1500 events across 25+ cities in India since then.' },
+    { q: 'When was Shaahi Creations founded?', a: 'Shaahi Creations was founded in 2018 and has delivered more than 600 events across India since then, with a PAN India execution network.' },
     { q: 'Who leads Shaahi Creations?', a: 'The company was founded by Snehal Deshpande, who leads business development, together with co-founder Rupesh Patil, who leads client servicing and operations. The leadership team also includes heads of client servicing, operations and creative direction.' },
     { q: 'What services does Shaahi Creations provide?', a: 'Event consulting, creative concept and design, planning and project management, venue sourcing and management, production and technology, décor and experience design, travel and hospitality management, talent and entertainment management, and measurement and reporting.' },
     { q: 'Does Shaahi Creations handle event technology?', a: 'Yes. We deliver attendee registration, custom event apps, RFID for cashless and contactless access, AI-driven personalisation, AR and VR activations, and LED production with live streaming.' }
   ],
   destinations: [
-    { q: 'Which cities does Shaahi Creations cover in India?', a: 'We work across 25+ cities including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata, Chennai, Ahmedabad, Jaipur, Indore, Chandigarh and Ludhiana, with local vendor networks and on-ground teams in each.' },
+    { q: 'Which cities does Shaahi Creations cover in India?', a: 'We work across India including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata, Chennai, Ahmedabad, Jaipur, Indore, Chandigarh and Ludhiana, with local vendor networks and on-ground teams in each.' },
     { q: 'What destination locations do you recommend for corporate offsites?', a: 'Signature destinations include Goa, Udaipur, Jaipur and Rishikesh. For smaller, more private leadership programmes we also work in Coorg, Dehradun, Jim Corbett, Kabini and Kerala, and we have delivered international dealer meets in Kathmandu.' },
     { q: 'Do you handle travel and accommodation for destination events?', a: 'Yes. Destination events are delivered end to end, including travel, stay, airport transfers, rooming lists, on-ground hospitality and local licensing.' },
     { q: 'Which venues do you work with in Hyderabad?', a: 'We work across the Hyderabad venue market including Taj Falaknuma Palace, ITC Kohenur, Hyderabad Marriott Hotel and Convention Centre, The Westin Hyderabad Mindspace, Park Hyatt Hyderabad, Novotel Hyderabad Convention Centre, Taj Krishna and ITC Kakatiya.' }
   ],
   contact: [
     { q: 'How quickly does Shaahi Creations respond to enquiries?', a: 'We typically respond to enquiries within 24 hours during business hours, Monday to Saturday, 10:00 AM to 6:30 PM IST.' },
-    { q: 'Where are Shaahi Creations offices located?', a: 'Our head office is in Hyderabad, Telangana. We also hold client meetings in Pune and Mumbai, and work PAN India across 25+ cities.' },
+    { q: 'Where are Shaahi Creations offices located?', a: 'Our head office is in Hyderabad, Telangana. We also hold client meetings in Pune and Mumbai, and operate a PAN India execution network.' },
     { q: 'How far in advance should I plan a corporate event?', a: 'For large annual days and conferences we recommend starting three to four months ahead. Destination events benefit from four to six months because of travel and room-block lead times. Smaller meetings and launches can be delivered in shorter timelines.' },
     { q: 'Do you work with organisations outside Hyderabad?', a: 'Yes. We deliver events across India from our Hyderabad, Pune and Mumbai bases, with local execution networks in every major city we operate in.' }
   ],

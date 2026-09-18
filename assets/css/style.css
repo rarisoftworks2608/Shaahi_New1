@@ -86,8 +86,14 @@
   --ink-500:    #2a5379;
   --coral:      #f04a2f; /* Coral Red */
   --coral-600:  #d43d24;
+  /* Coral for small text. #f04a2f is 3.67:1 on white, which is fine for the
+     big hero accents but under AA at label and link sizes. */
+  --coral-text: #c5351d;
   --gold:       #ffbf18; /* Saffron Yellow */
   --purple:     #7654a8; /* Royal Purple */
+  /* Royal Purple lifted for dark grounds: #7654a8 on the navy section
+     background is only 2.35:1, far too dim to read as an icon. */
+  --purple-300: #ad98cb;
   --teal:       #20afa6; /* Teal */
 
   /* surfaces */
@@ -100,7 +106,11 @@
   /* text */
   --fg:         #152f49;
   --body:       #56637a;
-  --muted:      #8b96a8;
+  /* #8b96a8 measured 2.99:1 on white - under the 4.5:1 AA floor, and every
+     use of this token is small text (0.7-0.78rem), where it showed most.
+     #626f86 clears AA on white and on --paper-2 while staying a visible
+     step lighter than --body. */
+  --muted:      #626f86;
   --on-dark:    #ffffff;
   --on-dark-2:  rgba(255, 255, 255, 0.74);
   --on-dark-3:  rgba(255, 255, 255, 0.5);
@@ -236,6 +246,8 @@ h3 { font-size: var(--fs-h3); line-height: 1.22; }
 h4 { font-size: var(--fs-h4); line-height: 1.32; letter-spacing: -0.012em; }
 
 .accent { color: var(--coral); }
+/* Inline links carrying .accent are body-sized, so they take the darker coral. */
+a.accent { color: var(--coral-text); }
 /* Per the brand guidelines, headline emphasis on a navy hero uses Saffron
    Yellow (as every section-divider slide in the deck does), not Coral Red -
    coral stays the .accent default for on-paper use (links, small copy). */
@@ -948,14 +960,12 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 }
 .svc-blurb { font-size: var(--fs-xs); line-height: 1.6; color: var(--muted); margin: 0; }
 
-/* Only the five official brand hues; icon rows with more than five items
-   simply repeat the cycle rather than introducing off-brand colors. */
+/* The four official brand hues. Saffron is darkened slightly because #FFBF18
+   as a hairline glyph on a light panel is close to invisible. */
 .tone-coral { color: var(--coral); }
 .tone-gold { color: #e0a30f; }
 .tone-teal { color: var(--teal); }
 .tone-purple { color: var(--purple); }
-.tone-blue { color: var(--coral); }
-.tone-pink { color: #e0a30f; }
 
 @media (max-width: 1080px) {
   .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1113,12 +1123,25 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 4rem);
-  align-items: center;
+  /* Top-aligned, like every other section head on the site: the eyebrow and
+     the first row of figures share one top edge. Centering drifted them out
+     of line because the 2x2 stat block is taller than the heading. */
+  align-items: start;
 }
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+/* Only while the row sits beside the heading: there it gets ~112px per cell,
+   too narrow for a word value ("PAN India") or a thousands separator
+   ("4,000+"). Two by two doubles the cell width. Once .impact-grid stacks at
+   960px the row spans the full container and goes back to four across. */
+@media (min-width: 961px) {
+  .impact-grid .stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.6vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  }
 }
 .stat { text-align: left; }
 .stat-value {
@@ -1133,7 +1156,10 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 }
 .stat-label {
   font-size: var(--fs-xs);
-  color: var(--muted);
+  /* A figure is only as useful as the label under it, so these get the full
+     body tone rather than the muted one. */
+  color: var(--body);
+  font-weight: 500;
   line-height: 1.4;
   display: block;
 }
@@ -1161,7 +1187,7 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
    the second pick up exactly where the first left off, so the loop is
    seamless regardless of how many logos there are or the viewport width. */
 .client-marquee {
-  --logo-scale: 0.75;
+  --logo-scale: 0.88;
   display: flex;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -1181,7 +1207,7 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   to { transform: translateX(-100%); }
 }
 
-.client-cell { display: grid; place-items: center; height: 40px; flex: 0 0 auto; }
+.client-cell { display: grid; place-items: center; height: 46px; flex: 0 0 auto; }
 
 .client-cell img {
   width: calc(var(--lw) * 1px * var(--logo-scale));
@@ -1191,9 +1217,9 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
 }
 .client-cell:hover img { opacity: 1; transform: scale(1.05); }
-.client-more { display: grid; place-items: center; height: 40px; flex: 0 0 auto; text-align: center; font-size: var(--fs-xs); color: var(--muted); font-style: italic; white-space: nowrap; }
+.client-more { display: grid; place-items: center; height: 46px; flex: 0 0 auto; text-align: center; font-size: var(--fs-xs); color: var(--muted); font-style: italic; white-space: nowrap; }
 
-@media (max-width: 560px) { .client-marquee { --logo-scale: 0.62; } }
+@media (max-width: 560px) { .client-marquee { --logo-scale: 0.72; } }
 
 @media (prefers-reduced-motion: reduce) {
   .client-track { animation: none; }
@@ -1503,11 +1529,13 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 .place-kabini     { background: linear-gradient(150deg, #1ba0d6, #14a79c 50%, #6fbe44); }
 .place-kerala     { background: linear-gradient(150deg, #14a79c, #6fbe44 52%, #f6b41e); }
 .place-kathmandu  { background: linear-gradient(150deg, #a8459e, #6c4fa3 50%, #3b72c4); }
-.place-hyderabad  { background: linear-gradient(150deg, #ee4b3c, #f07e2c 52%, #f6b41e); }
-.place-mumbai     { background: linear-gradient(150deg, #3b72c4, #1ba0d6 50%, #14a79c); }
+/* The three office plates carry the full brand gradient - the same four logo
+   hues, in the same order, as --grad-brand uses everywhere else on the site. */
+.place-hyderabad,
+.place-pune,
+.place-mumbai     { background: var(--grad-brand); }
 .place-delhi      { background: linear-gradient(150deg, #e5326e, #ee4b3c 52%, #f07e2c); }
 .place-bangalore  { background: linear-gradient(150deg, #14a79c, #3b72c4 55%, #6c4fa3); }
-.place-pune       { background: linear-gradient(150deg, #6c4fa3, #3b72c4 52%, #1ba0d6); }
 .place-kolkata    { background: linear-gradient(150deg, #f07e2c, #e5326e 54%, #a8459e); }
 .place-chennai    { background: linear-gradient(150deg, #1ba0d6, #6c4fa3 55%, #e5326e); }
 .place-ahmedabad  { background: linear-gradient(150deg, #f6b41e, #ee4b3c 55%, #a8459e); }
@@ -1892,7 +1920,7 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 .post-card:hover .post-thumb .ph-img { transform: scale(1.05); }
 .post-meta { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; font-weight: 600; }
 .post-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--line-2); }
-.post-cat { color: var(--coral); }
+.post-cat { color: var(--coral-text); }
 .post-title { font-size: 1.15rem; margin: 0 0 0.5rem; letter-spacing: -0.018em; line-height: 1.28; }
 .post-card:hover .post-title { color: var(--coral); }
 .post-excerpt { font-size: var(--fs-sm); line-height: 1.65; margin: 0 0 1rem; flex: 1; }
@@ -2040,7 +2068,10 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   z-index: 1;
   padding: 0.4rem 0.75rem;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.14);
+  /* A white-on-white pill vanished over bright skies, which several of these
+     hero photos have. Tint it with the brand navy instead of the photo. */
+  background: rgba(21, 47, 73, 0.55);
+  backdrop-filter: blur(6px);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
   color: #fff;
   font-size: var(--fs-xs);
@@ -2137,7 +2168,9 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   display: grid;
   grid-template-columns: minmax(0, 1fr) repeat(4, minmax(0, 1fr));
   gap: clamp(1.25rem, 2.4vw, 2.25rem);
-  align-items: center;
+  /* start, not center: item labels wrap to one or two lines, and centering
+     each cell independently pushed the shorter ones' icons off the row. */
+  align-items: start;
 }
 .approach-label .sec-title { font-size: clamp(1.15rem, 1.7vw, 1.5rem); margin: 0; }
 .approach-item {
@@ -2250,7 +2283,7 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 }
 .offices-map .sec-lede { font-size: var(--fs-sm); }
 .office-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.85rem, 1.6vw, 1.25rem); }
-.office-card .quote-rule { margin-bottom: 0.7rem; }
+.office-card .quote-rule { margin-bottom: 0.7rem; background: var(--grad-brand); width: 38px; }
 @media (max-width: 1040px) { .offices-panel { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .office-grid { grid-template-columns: 1fr; } }
 .office-card {
@@ -2267,7 +2300,7 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 .office-plate .place-mark { width: 44%; max-width: 120px; }
 .office-body { padding: 1.15rem 1.25rem 1.35rem; }
 .office-city { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--ink); margin: 0 0 0.15rem; }
-.office-role { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); margin: 0 0 0.6rem; }
+.office-role { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin: 0 0 0.6rem; }
 .office-addr { font-style: normal; font-size: var(--fs-sm); color: var(--body); line-height: 1.6; margin-bottom: 0.85rem; }
 
 /* ==========================================================================
@@ -2277,7 +2310,13 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 @media (max-width: 900px) { .belief-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .belief-grid { grid-template-columns: 1fr; } }
 .belief { display: grid; gap: 0.75rem; align-content: start; }
-.belief .ico { width: 30px; height: 30px; color: var(--coral); stroke-width: 1.3; }
+/* One brand hue per belief. The tone is carried on the article as a custom
+   property so it colours only the icon, not the heading and body under it. */
+.belief .ico { width: 30px; height: 30px; color: var(--belief-ico, var(--coral)); stroke-width: 1.3; }
+.belief-gold   { --belief-ico: var(--gold); }
+.belief-coral  { --belief-ico: var(--coral); }
+.belief-purple { --belief-ico: var(--purple-300); }
+.belief-teal   { --belief-ico: var(--teal); }
 .belief h3 { font-size: var(--fs-h4); margin: 0; }
 .belief p { font-size: var(--fs-sm); margin: 0; }
 
@@ -2367,13 +2406,15 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 .think-band { background: var(--paper-2); overflow: hidden; padding-block: var(--sec-y); }
 .think-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.35fr);
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.28fr);
   align-items: stretch;
 }
 .think-panel {
   background: var(--ink);
   color: var(--on-dark-2);
-  padding: clamp(2.75rem, 5vw, 4.5rem) clamp(1.75rem, 3.2vw, 3rem) clamp(2.75rem, 5vw, 4.5rem)
+  /* Roomier text column and tighter block padding than before: the steps beside
+     it are now one line each, so a 500px-tall panel left the right half empty. */
+  padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 2.8vw, 2.5rem) clamp(2.5rem, 4vw, 3.5rem)
            max(var(--gutter), calc((100vw - var(--container)) / 2));
   display: flex;
   flex-direction: column;
@@ -2385,42 +2426,83 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: clamp(0.85rem, 1.6vw, 1.5rem);
   align-content: center;
-  padding: clamp(2.5rem, 4.5vw, 4rem) max(var(--gutter), calc((100vw - var(--container)) / 2))
-           clamp(2.5rem, 4.5vw, 4rem) clamp(1.75rem, 3.2vw, 3rem);
+  padding: clamp(2.5rem, 4vw, 3.5rem) max(var(--gutter), calc((100vw - var(--container)) / 2))
+           clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 2.8vw, 2.5rem);
 }
-.think-step { display: grid; gap: 0.6rem; justify-items: center; text-align: center; align-content: start; }
+.think-step {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+  text-align: center;
+  align-content: start;
+  padding-inline: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+/* Hairline between steps, as in the reference layout. Each breakpoint owns its
+   own rule rather than overriding a base one: a `border-left: 0` reset would be
+   less specific than the :not(:nth-child()) selector and lose to it. */
+@media (min-width: 1081px) {
+  .think-step:not(:nth-child(6n + 1)) { border-left: 1px solid var(--line-2); }
+}
+@media (min-width: 561px) and (max-width: 1080px) {
+  .think-step:not(:nth-child(3n + 1)) { border-left: 1px solid var(--line-2); }
+}
+@media (max-width: 560px) {
+  .think-step:not(:nth-child(2n + 1)) { border-left: 1px solid var(--line-2); }
+}
+.think-num {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-top: 0.3rem;
+}
 .think-step h3 {
   font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--ink);
+  line-height: 1.4;
   margin: 0;
 }
-.think-step p { font-size: 0.7rem; line-height: 1.55; margin: 0; color: var(--muted); }
 
-.think-icon, .exp-icon {
+/* Plain outline glyphs on the About page rows - the tinted disc belongs only
+   to the destinations "why choose" row, which is scoped separately below. */
+.think-icon, .exp-icon { display: grid; place-items: center; }
+.think-icon .ico, .exp-icon .ico { width: 30px; height: 30px; stroke-width: 1.4; }
+.think-icon .ico { width: 40px; height: 40px; stroke-width: 1.35; }
+
+.approach-item .exp-icon {
   width: 52px; height: 52px;
-  display: grid; place-items: center;
   border-radius: 50%;
   position: relative;
 }
-.think-icon::before, .exp-icon::before {
+.approach-item .exp-icon::before {
   content: '';
   position: absolute; inset: 0;
   border-radius: 50%;
   background: currentColor;
-  opacity: 0.14;
+  opacity: 0.12;
 }
-.think-icon .ico, .exp-icon .ico { width: 23px; height: 23px; position: relative; z-index: 1; stroke-width: 1.5; }
+/* Hairline ring in the same hue, so the four discs read as a deliberate set
+   rather than as four soft blurs. */
+.approach-item .exp-icon::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.28;
+}
+.approach-item .exp-icon .ico { width: 24px; height: 24px; position: relative; z-index: 1; stroke-width: 1.6; }
 
 @media (max-width: 1080px) {
   .think-grid { grid-template-columns: 1fr; }
   .think-panel { padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2)); }
-  .think-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2)); }
+  .think-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: clamp(1.75rem, 3.5vw, 2.5rem); padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2)); }
 }
-@media (max-width: 560px) { .think-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  .think-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(1.75rem, 3.5vw, 2.5rem); }
+}
 .step { display: grid; gap: 0.6rem; text-align: center; justify-items: center; }
 .step-num {
   width: 46px; height: 46px;
@@ -2452,21 +2534,40 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 .exp-row {
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+  gap: clamp(0.4rem, 0.9vw, 0.85rem);
 }
-.exp-item { display: grid; gap: 0.7rem; justify-items: center; text-align: center; align-content: start; }
+.exp-item {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+  text-align: center;
+  align-content: start;
+  padding-inline: clamp(0.25rem, 0.55vw, 0.55rem);
+}
+/* Hairline partitions, matching the How We Think row. One rule per breakpoint,
+   bounded so the first item in each row never picks up a left border. */
+@media (min-width: 1181px) {
+  .exp-item:not(:nth-child(9n + 1)) { border-left: 1px solid var(--line-2); }
+}
+@media (min-width: 701px) and (max-width: 1180px) {
+  .exp-item:not(:nth-child(5n + 1)) { border-left: 1px solid var(--line-2); }
+}
+@media (min-width: 421px) and (max-width: 700px) {
+  .exp-item:not(:nth-child(3n + 1)) { border-left: 1px solid var(--line-2); }
+}
+@media (max-width: 420px) {
+  .exp-item:not(:nth-child(2n + 1)) { border-left: 1px solid var(--line-2); }
+}
 .exp-item h3 {
   font-family: var(--font-body);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.76rem;
+  font-weight: 600;
   color: var(--ink);
   line-height: 1.45;
   margin: 0;
 }
 @media (max-width: 1180px) { .exp-row { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: clamp(1.5rem, 3vw, 2.25rem); } }
-@media (max-width: 700px)  { .exp-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .exp-row { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: clamp(1.5rem, 3vw, 2.25rem); } }
 @media (max-width: 420px)  { .exp-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .tech-list { display: grid; gap: 0.7rem; margin-top: 1.6rem; }
@@ -2506,7 +2607,9 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
   overflow: hidden;
 }
 /* Photo only, no gradient or text on top of it. */
-.story-media img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+/* Square crop off a 2:3 portrait frame, so the crop is vertical. Bias down:
+   centred, the top half is mostly empty ceiling and the stage falls low. */
+.story-media img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 62%; }
 .story-stats { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); align-content: center; }
 .story-stats .stat-value { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
 
@@ -2802,12 +2905,12 @@ body[data-page="destinations"] .phero-title .accent { color: var(--coral); }
 
 /* --- Client logos: smaller marks on narrow screens ------------------------ */
 @media (max-width: 560px) {
-  .client-marquee { --logo-scale: 0.6; }
-  .client-cell { height: 36px; }
+  .client-marquee { --logo-scale: 0.7; }
+  .client-cell { height: 42px; }
   .client-more { font-size: 0.7rem; }
 }
 @media (max-width: 380px) {
-  .client-marquee { --logo-scale: 0.52; }
+  .client-marquee { --logo-scale: 0.6; }
   .client-track { gap: 1.5rem; }
 }
 

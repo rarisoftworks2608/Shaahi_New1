@@ -58,15 +58,17 @@ const site = {
 
   social: [
     { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/shaahicreationsevents/' },
-    { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/shaahicreationsevents' },
-    { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@shaahicreations' }
+    { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/shaahicreationscorporateevents/' },
+    { name: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/Shaahicreationscorporateevents' },
+    { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@shaahicreationscorporateevents' }
   ],
 
+  /* Client-confirmed figures. Do not round these up in copy elsewhere. */
   stats: [
-    { value: '1500+', label: 'Events Executed' },
-    { value: '1000+', label: 'Corporate Events' },
-    { value: '25+', label: 'Cities Across India' },
-    { value: '4000', label: 'Largest Audience' }
+    { value: '7+', label: 'Years of Excellence' },
+    { value: '600+', label: 'Events Delivered' },
+    { value: 'PAN India', label: 'Execution Network' },
+    { value: '4,000+', label: 'Largest Event Managed' }
   ],
 
   eventTypes: [

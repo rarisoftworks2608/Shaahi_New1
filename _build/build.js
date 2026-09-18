@@ -148,9 +148,9 @@ const glanceRows = [
   ['Founded', '2018'],
   ['Head office', 'Hyderabad, Telangana, India'],
   ['Other offices', 'Pune and Mumbai'],
-  ['Coverage', 'PAN India, 25+ cities'],
-  ['Events delivered', '1500+ events, 1000+ corporate events'],
-  ['Largest audience', '4000 attendees'],
+  ['Coverage', 'PAN India execution network'],
+  ['Events delivered', '600+ events'],
+  ['Largest event managed', '4,000+ attendees'],
   ['Specialisms', 'Conferences, annual days, family days, product launches, dealer meets, brand activations, offsites, destination events'],
   ['Contact', `<a href="${site.emails[0].href}">${site.emails[0].label}</a> &middot; <a href="${site.phones[0].href}">${site.phones[0].label}</a>`]
 ];
@@ -197,7 +197,7 @@ function buildHome() {
     page: 'home',
     title: 'Shaahi Creations | Corporate Event Management Company in Hyderabad, India',
     description:
-      'Shaahi Creations is a PAN India corporate event management company founded in 2018 and headquartered in Hyderabad. We design and deliver conferences, annual days, product launches, brand activations, team offsites and destination corporate events. 1500+ events across 25+ cities.',
+      'Shaahi Creations is a PAN India corporate event management company founded in 2018 and headquartered in Hyderabad. We design and deliver conferences, annual days, product launches, brand activations, team offsites and destination corporate events. 600+ events delivered across India since 2018.',
     keywords:
       'corporate event management company, corporate events Hyderabad, conference organisers India, annual day event company, product launch events, MICE company India, destination corporate events, event management Pune, event management Mumbai',
     ogImage: 'assets/img/gallery/g14.webp',
@@ -394,9 +394,9 @@ function buildAbout() {
 
   const storyStats = [
     ['2018', 'Year We Began'],
-    ['1500+', 'Events Executed'],
-    ['1000+', 'Corporate Events'],
-    ['25+', 'Cities Across India']
+    ['600+', 'Events Delivered'],
+    ['4,000+', 'Largest Event Managed'],
+    ['PAN India', 'Execution Network']
   ];
 
   const html = `${C.head({
@@ -454,7 +454,7 @@ ${C.header(d, 'about.html')}
         </div>
 
         <div class="story-media reveal reveal-d1">
-          <img src="${img(d, 'assets/img/our-story.webp')}" srcset="${img(d, 'assets/img/our-story.webp')} 760w, ${img(d, 'assets/img/our-story-lg.webp')} 1159w" sizes="(max-width: 780px) 92vw, (max-width: 1080px) 40vw, 28vw" width="1159" height="1159" alt="The Shaahi Creations welcome wall at a corporate event, reading Good Ideas, People, Extraordinary Experiences, with guests networking beyond it" loading="lazy" decoding="async">
+          <img src="${img(d, 'assets/img/scene/concert-vertical.webp')}" srcset="${img(d, 'assets/img/scene/concert-vertical.webp')} 1800w, ${img(d, 'assets/img/scene/concert-vertical-lg.webp')} 2600w" sizes="(max-width: 780px) 92vw, (max-width: 1080px) 40vw, 28vw" width="1800" height="2700" alt="Lighting rigs and beams filling a darkened venue above a large stage screen and a standing audience" loading="lazy" decoding="async">
         </div>
 
         <div class="story-stats reveal reveal-d2">
@@ -475,7 +475,7 @@ ${C.header(d, 'about.html')}
       <div class="belief-grid">
         ${D.beliefs
           .map(
-            (b, i) => `<article class="belief reveal reveal-d${Math.min(i, 3)}">
+            (b, i) => `<article class="belief belief-${b.tone} reveal reveal-d${Math.min(i, 3)}">
           ${I[b.icon]}
           <h3>${b.title}</h3>
           <p>${b.text}</p>
@@ -542,9 +542,9 @@ ${C.header(d, 'about.html')}
         ${D.process
           .map(
             (p, i) => `<article class="think-step">
-          <span class="think-icon tone-${['coral','gold','teal','purple','blue','pink'][i % ['coral','gold','teal','purple','blue','pink'].length]}">${I[p.icon]}</span>
+          <span class="think-icon tone-${['gold','coral','purple','teal','gold','coral'][i % 6]}">${I[p.icon]}</span>
+          <span class="think-num">${String(i + 1).padStart(2, '0')}</span>
           <h3>${p.title}</h3>
-          <p>${p.text}</p>
         </article>`
           )
           .join('\n        ')}
@@ -565,7 +565,7 @@ ${C.header(d, 'about.html')}
         ${D.expertise
           .map(
             (e, i) => `<article class="exp-item reveal">
-          <span class="exp-icon tone-${['coral','pink','purple','blue','teal','gold','coral','pink','purple'][i % ['coral','pink','purple','blue','teal','gold','coral','pink','purple'].length]}">${I[e.icon]}</span>
+          <span class="exp-icon tone-${['gold','coral','purple','teal','gold','coral','purple','teal','gold'][i % 9]}">${I[e.icon]}</span>
           <h3>${e.title}</h3>
         </article>`
           )

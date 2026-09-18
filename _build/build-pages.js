@@ -1,6 +1,8 @@
 /* ==========================================================================
    Shaahi Creations - page builders (work, destinations, contact, utility)
    ========================================================================== */
+const fs = require('fs');
+const path = require('path');
 const C = require('./components.js');
 const D = require('./data.js');
 const { site } = require('./site.js');
@@ -79,7 +81,10 @@ function buildGallery() {
     }
   ];
 
+  /* Skip any entry whose photo is not on disk yet (g20 awaits the client's Porsche
+     shot) so the grid never renders a broken tile. */
   const items = D.gallery
+    .filter((g) => fs.existsSync(path.join(B.ROOT, 'assets/img/gallery', g.img + '.webp')))
     .map(
       (g, i) => `<button class="gal-item work-card gal-item-plain reveal" type="button"
           data-cats="${g.cats.join(' ')}"
@@ -488,7 +493,7 @@ ${C.header(d, 'blog.html')}
     alt: 'A corporate conference room set up by Shaahi Creations',
     eyebrow: 'Journal',
     title: 'Notes From<br>The <span class="accent">Ground.</span>',
-    lede: 'What we have learned producing more than 1500 corporate events across India, written for the teams who commission them.'
+    lede: 'What we have learned producing more than 600 corporate events across India, written for the teams who commission them.'
   })}
 
   ${C.breadcrumbs(d, [{ name: 'Home', path: 'index.html' }, { name: 'Our Work', path: 'our-work.html' }, { name: 'Blogs' }])}
@@ -748,7 +753,7 @@ function buildDestinations() {
     page: 'destinations',
     title: 'Destination Corporate Events Across India | Shaahi Creations',
     description:
-      'Shaahi Creations delivers corporate events in 25+ Indian cities including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata and Chennai, plus destination locations such as Goa, Udaipur, Jaipur, Rishikesh, Coorg, Jim Corbett and Kabini.',
+      'Shaahi Creations delivers corporate events across India including Hyderabad, Mumbai, Delhi NCR, Bangalore, Pune, Kolkata and Chennai, plus destination locations such as Goa, Udaipur, Jaipur, Rishikesh, Coorg, Jim Corbett and Kabini.',
     keywords: 'destination corporate events India, corporate offsite destinations, Goa corporate event, Udaipur offsite, Rishikesh leadership retreat, event management Hyderabad venues, MICE destinations India',
     ogImage: 'assets/img/gallery/g40.webp',
     schema
@@ -787,8 +792,8 @@ ${C.header(d, 'destinations.html')}
           <h2 class="sec-title" id="cities-title">In Every Major City.<br>With the Same Commitment.</h2>
           <p class="sec-lede">From metros to emerging hubs, we bring local expertise, strong vendor networks and seamless execution across India&rsquo;s key business cities.</p>
           <div class="map-stats">
-            <div class="stat"><span class="stat-value">25+</span><span class="stat-label">Cities Across India</span></div>
-            <div class="stat"><span class="stat-value">1500+</span><span class="stat-label">Events Executed</span></div>
+            <div class="stat"><span class="stat-value">7+</span><span class="stat-label">Years of Excellence</span></div>
+            <div class="stat"><span class="stat-value">600+</span><span class="stat-label">Events Delivered</span></div>
             <div class="stat"><span class="stat-value">One</span><span class="stat-label">Consistent Standard</span></div>
           </div>
         </div>
@@ -843,10 +848,11 @@ ${C.header(d, 'destinations.html')}
         <p class="eyebrow"><span class="eyebrow-rule"></span>Why choose Shaahi</p>
         <h2 class="sec-title" id="why-title">For your<br>destination event?</h2>
       </div>
-      <article class="approach-item reveal"><span class="exp-icon tone-blue">${I.route}</span><h3>End-to-end planning and execution</h3></article>
-      <article class="approach-item reveal reveal-d1"><span class="exp-icon tone-coral">${I.handshake}</span><h3>Trusted local partnerships</h3></article>
-      <article class="approach-item reveal reveal-d2"><span class="exp-icon tone-pink">${I.plane}</span><h3>Travel, stay and hospitality management</h3></article>
-      <article class="approach-item reveal reveal-d3"><span class="exp-icon tone-gold">${I.shield}</span><h3>Seamless experiences, anywhere in India</h3></article>
+      <!-- One brand colour per item, in gradient order: saffron, coral, purple, teal. -->
+      <article class="approach-item reveal"><span class="exp-icon tone-gold">${I.planning}</span><h3>End-to-end planning and execution</h3></article>
+      <article class="approach-item reveal reveal-d1"><span class="exp-icon tone-coral">${I.verified}</span><h3>Trusted local partnerships</h3></article>
+      <article class="approach-item reveal reveal-d2"><span class="exp-icon tone-purple">${I.plane}</span><h3>Travel, stay and hospitality management</h3></article>
+      <article class="approach-item reveal reveal-d3"><span class="exp-icon tone-teal">${I.globe}</span><h3>Seamless experiences, anywhere in India</h3></article>
     </div>
   </section>
 
@@ -1426,9 +1432,9 @@ Sitemap: ${site.origin}/sitemap.xml
 - Founded: 2018
 - Head office: Hyderabad, Telangana, India
 - Additional offices: Pune and Mumbai
-- Coverage: PAN India, 25+ cities
-- Events delivered: 1500+ total, 1000+ corporate events
-- Largest single event audience: 4000 attendees
+- Coverage: PAN India execution network
+- Events delivered: 600+
+- Largest single event managed: 4,000+ attendees
 - Phone: +91 91000 37360, +91 70758 37070
 - Email: events@shaahicreations.com, sales@shaahicreations.com
 - Business hours: Monday to Saturday, 10:00-18:30 IST
